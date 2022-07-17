@@ -1,0 +1,91 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    New Library
+{% endblock %}
+
+{% block main %}
+
+<div class="w-50 container-fluid">
+    <form class="text-end">
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="libTitle">Library</label>
+            <div class="col">
+                <div class="input-group">
+                    <input class="form-control id="libTitle" name="libTitle" type="text">
+                    <button class="col-sm-3 btn btn-outline-dark" type="button" id="libSave">Save 💾</button>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="calShort">Shortcut</label>
+            <div class="col">
+                <div class="input-group">
+                    <input class="form-control" id="calShort" name="calShort" type="text">
+                    <span id="calShortInfo" class="input-group-text text-end">
+                        use this shortcut for reference
+                    </span>
+                    <button class="col-sm-3 btn btn-dark" type="button" id="libAdd">Add 📥</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="calSub">Subject</label>
+            <div class="col">
+                <input class="form-control" id="calSub" name="calSub" type="text">
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="calLocal">Location</label>
+            <div class="col">
+                <input class="form-control" id="calLocal" name="calLocal" type="text">
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="calStart">Time</label>
+            <div class="col">
+                <div class="input-group">
+                    <div class="input-group-text">Start</div>
+                    <input class="form-control" id="calStart" name="calStart" type="text" placeholder="12:00">
+                </div>
+            </div>
+            <div class="col">
+                <div class="input-group">
+                    <div class="input-group-text">End</div>
+                    <input class="form-control" id="calEnd" name="calEnd" type="text" placeholder="13:00">
+                </div>
+            </div>
+            <div class="col">
+                <div class="input-group">
+                    <div class="input-group-text">Duration</div>
+                    <input class="form-control" id="calDur" name="calDur" type="text" placeholder="1h">
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="calDesc">Description</label>
+            <div class="col">
+                <textarea class="form-control" id="calDesc" name="calDesc" type="text"></textarea>
+            </div>
+        </div>
+<!-- 
+        <div class="row mb-3 end-0">
+            <div class="col-sm-2"></div>
+            <div class="col">
+                <input class="btn btn-outline-dark w-100" type="button" value="Reset">
+            </div>
+            <div class="col">
+                <input class="btn btn-dark w-100" type="button" value="Add to Library">
+            </div>
+        </div> -->
+
+    </form>
+</div>
+{% endblock %}
