@@ -1,7 +1,9 @@
-.newLibForm {
+form.new-lib {
     max-width: 700px;
 }
 
-#calShortInfo {
-    max-width: 200px;
+@media (min-width: 576px) {
+    form.new-lib {
+       text-align: right!important;
+    }
 }
