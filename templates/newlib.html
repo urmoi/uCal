@@ -6,8 +6,7 @@
 
 {% block main %}
 
-<div class="w-50 container-fluid">
-    <form class="text-end">
+    <form class="text-end newLibForm container-sm">
         <div class="row mb-3">
             <label class="col-sm-2 col-form-label" for="libTitle">Library</label>
             <div class="col">
@@ -25,9 +24,6 @@
             <div class="col">
                 <div class="input-group">
                     <input class="form-control" id="calShort" name="calShort" type="text">
-                    <span id="calShortInfo" class="input-group-text text-end">
-                        use this shortcut for reference
-                    </span>
                     <button class="col-sm-3 btn btn-dark" type="button" id="libAdd">Add 📥</button>
                 </div>
             </div>
@@ -61,12 +57,6 @@
                     <input class="form-control" id="calEnd" name="calEnd" type="text" placeholder="13:00">
                 </div>
             </div>
-            <div class="col">
-                <div class="input-group">
-                    <div class="input-group-text">Duration</div>
-                    <input class="form-control" id="calDur" name="calDur" type="text" placeholder="1h">
-                </div>
-            </div>
         </div>
 
         <div class="row mb-3">
@@ -75,17 +65,5 @@
                 <textarea class="form-control" id="calDesc" name="calDesc" type="text"></textarea>
             </div>
         </div>
-<!-- 
-        <div class="row mb-3 end-0">
-            <div class="col-sm-2"></div>
-            <div class="col">
-                <input class="btn btn-outline-dark w-100" type="button" value="Reset">
-            </div>
-            <div class="col">
-                <input class="btn btn-dark w-100" type="button" value="Add to Library">
-            </div>
-        </div> -->
-
     </form>
-</div>
 {% endblock %}
