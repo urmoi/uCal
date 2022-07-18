@@ -5,65 +5,66 @@
 {% endblock %}
 
 {% block main %}
-
-    <form class="text-start container-sm new-lib">
-        <div class="row mb-3">
-            <label class="col-sm-2 col-form-label" for="libTitle">Library</label>
-            <div class="col">
-                <div class="input-group">
-                    <input class="form-control id="libTitle" name="libTitle" type="text">
-                    <button class="col-sm-3 btn btn-outline-dark" type="button" id="libSave">Save 💾</button>
+    <div class="w-700px container-sm">
+        <form class="text-start new-lib">
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label" for="libTitle">Library</label>
+                <div class="col">
+                    <div class="input-group">
+                        <input class="form-control id="libTitle" name="libTitle" type="text">
+                        <button class="col-sm-3 btn btn-outline-dark" type="button" id="libSave">Save 💾</button>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <hr>
+            <hr>
 
-        <div class="row mb-3">
-            <label class="col-sm-2 col-form-label" for="calShort">Shortcut</label>
-            <div class="col">
-                <div class="input-group">
-                    <input class="form-control" id="calShort" name="calShort" type="text">
-                    <button class="col-sm-3 btn btn-dark" type="button" id="libAdd">Add 📥</button>
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label" for="calShort">Shortcut</label>
+                <div class="col">
+                    <div class="input-group">
+                        <input class="form-control" id="calShort" name="calShort" type="text">
+                        <button class="col-sm-3 btn btn-dark" type="button" id="libAdd">Add 📥</button>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="row mb-3">
-            <label class="col-sm-2 col-form-label" for="calSub">Subject</label>
-            <div class="col">
-                <input class="form-control" id="calSub" name="calSub" type="text">
-            </div>
-        </div>
-
-        <div class="row mb-3">
-            <label class="col-sm-2 col-form-label" for="calLocal">Location</label>
-            <div class="col">
-                <input class="form-control" id="calLocal" name="calLocal" type="text">
-            </div>
-        </div>
-
-        <div class="row mb-3">
-            <label class="col-sm-2 col-form-label" for="calStart">Time</label>
-            <div class="col">
-                <div class="input-group">
-                    <div class="input-group-text">Start</div>
-                    <input class="form-control" id="calStart" name="calStart" type="text" placeholder="12:00">
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label" for="calSub">Subject</label>
+                <div class="col">
+                    <input class="form-control" id="calSub" name="calSub" type="text">
                 </div>
             </div>
-            <div class="col">
-                <div class="input-group">
-                    <div class="input-group-text">End</div>
-                    <input class="form-control" id="calEnd" name="calEnd" type="text" placeholder="13:00">
+
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label" for="calLocal">Location</label>
+                <div class="col">
+                    <input class="form-control" id="calLocal" name="calLocal" type="text">
                 </div>
             </div>
-        </div>
 
-        <div class="row mb-3">
-            <label class="col-sm-2 col-form-label" for="calDesc">Notes</label>
-            <div class="col">
-                <textarea class="form-control" id="calDesc" name="calDesc" type="text"></textarea>
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label" for="calStart">Time</label>
+                <div class="col">
+                    <div class="input-group">
+                        <div class="input-group-text">Start</div>
+                        <input class="form-control" id="calStart" name="calStart" type="text" placeholder="12:00">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="input-group">
+                        <div class="input-group-text">End</div>
+                        <input class="form-control" id="calEnd" name="calEnd" type="text" placeholder="13:00">
+                    </div>
+                </div>
             </div>
-        </div>
-    </form>
+
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label" for="calDesc">Notes</label>
+                <div class="col">
+                    <textarea class="form-control" id="calDesc" name="calDesc" type="text"></textarea>
+                </div>
+            </div>
+        </form>
+    </div>
 {% endblock %}
