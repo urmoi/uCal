@@ -19,10 +19,31 @@
     min-width: 65px!important;
 }
 
+.input-time:disabled {
+    background-color: #fff;
+}
+
 .input-group-time {
     min-width: 135px;
 }
 
 .input-group-text.input-time {
     min-width: 67px;
+}
+
+input.is-used {
+    border-color: var(--bs-warning)!important;
+}
+
+input.is-used:focus {
+    box-shadow: 0 0 0 .25rem rgba(255, 193, 7, .25)!important;
+}
+
+.used-tooltip {
+    display: none!important;
+    background-color: var(--bs-warning)!important;
+}
+
+input.is-used:focus~.used-tooltip {
+    display: block!important;
 }

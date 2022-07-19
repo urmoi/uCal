@@ -6,7 +6,7 @@
 
 {% block main %}
     <div class="w-700px container-sm">
-        <form class="text-start text-sm-end new-lib" onsubmit="addItem()">
+        <form class="text-start text-sm-end" id="new-lib" novalidate>
             <div class="row mb-3">
                 <label class="col-sm-2 col-form-label" for="libTitle">Library</label>
                 <div class="col">
@@ -16,33 +16,45 @@
                     </div>
                 </div>
             </div>
-
+        </form>
             <hr>
-
+        <form class="text-start text-sm-end needs-validation" id="new-item" novalidate>
             <div class="row mb-3">
                 <label class="col-sm-2 col-form-label" for="calShort">Shortcut</label>
-                <div class="col">
-                    <div class="input-group">
+                <div class="col position-relative">
+                    <div class="input-group has-validation">
                         <input class="form-control" id="calShort" name="calShort" type="text" autofocus autocomplete="off" required>
-                        <button class="col-sm-3 btn btn-dark" type="submit" id="libAdd">Add 📥</button>
+                        <button class="col-sm-3 btn btn-dark" type="button" id="calAdd">Add 📥</button>
+                        <div class="invalid-tooltip">
+                            Please choose a unique shortcut key.
+                        </div>
+                        <div class="invalid-tooltip used-tooltip">
+                            Shortcut already used, you will overwrite it.
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="row mb-3">
                 <label class="col-sm-2 col-form-label" for="calSub">Subject</label>
-                <div class="col">
-                    <input class="form-control" id="calSub" name="calSub" type="text" autocomplete="off" required>
+                <div class="col position-relative">
+                    <input class="form-control has-validation" id="calSub" name="calSub" type="text" autocomplete="off" required>
+                    <div class="invalid-tooltip">
+                        Please give a subject.
+                    </div>
                 </div>
             </div>
 
             <div class="row">
-                <label class="col-sm-2 col-form-label" for="calStart">Time</label>
-                <div class="col flex-nowrap input-group mb-3">
-                    <input class="form-control input-time text-end" id="calStarts" name="calStart" type="text" placeholder="12:00">
+                <label class="col-sm-2 col-form-label position-relative" for="calStart">Time</label>
+                <div class="col flex-nowrap input-group mb-3 has-validation">
+                    <input class="form-control input-time text-end" id="calStarts" name="calStart" type="text" placeholder="12:00" required>
                     <input type="radio" class="btn-check" name="timeOption" id="calTime" autocomplete="off" checked>
                     <label class="btn btn-light toggle-all-day" for="calTime">&#x2500;</label>
-                    <input class="form-control input-time" id="calEnds" name="calEnds" type="text" placeholder="13:00">
+                    <input class="form-control input-time" id="calEnds" name="calEnds" type="text" placeholder="13:00" required>
+                    <div class="invalid-tooltip">
+                        Please give a valid time [i.e. 12 | 1200 | 12:00].
+                    </div>
                 </div>
                 <div class="col-auto">
                     <input type="radio" class="btn-check" name="timeOption" id="calAllday" autocomplete="off">
@@ -65,4 +77,19 @@
             </div>
         </form>
     </div>
+
+    <script>
+        const addButton = document.getElementById("calAdd");
+        addButton.addEventListener("click", () => addItem());
+
+        document.getElementById("calShort").addEventListener("input", e => { checkShort(e.srcElement) });
+
+        document.getElementById("calTime").addEventListener("click", e => { disableTime(false) });
+        document.getElementById("calAllday").addEventListener("click", e => { disableTime(true) });
+
+        document.getElementById("calStarts").addEventListener("input", e => { checkTime(e.srcElement) });
+        document.getElementById("calEnds").addEventListener("input", e => { checkTime(e.srcElement) });
+
+        
+    </script>
 {% endblock %}
