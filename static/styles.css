@@ -23,6 +23,6 @@
     min-width: 135px;
 }
 
-.input-time .input-group-text {
+.input-group-text.input-time {
     min-width: 67px;
 }

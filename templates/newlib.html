@@ -6,13 +6,13 @@
 
 {% block main %}
     <div class="w-700px container-sm">
-        <form class="text-start text-sm-end new-lib">
+        <form class="text-start text-sm-end new-lib" onsubmit="addItem()">
             <div class="row mb-3">
                 <label class="col-sm-2 col-form-label" for="libTitle">Library</label>
                 <div class="col">
                     <div class="input-group">
-                        <input class="form-control id="libTitle" name="libTitle" type="text">
-                        <button class="col-sm-3 btn btn-outline-dark" type="button" id="libSave">Save 💾</button>
+                        <input class="form-control" id="libTitle" name="libTitle" type="text">
+                        <button class="col-sm-3 btn btn-outline-dark" type="button" id="libSave" onclick="saveLibrary()">Save 💾</button>
                     </div>
                 </div>
             </div>
@@ -23,8 +23,8 @@
                 <label class="col-sm-2 col-form-label" for="calShort">Shortcut</label>
                 <div class="col">
                     <div class="input-group">
-                        <input class="form-control" id="calShort" name="calShort" type="text">
-                        <button class="col-sm-3 btn btn-dark" type="button" id="libAdd">Add 📥</button>
+                        <input class="form-control" id="calShort" name="calShort" type="text" autofocus autocomplete="off" required>
+                        <button class="col-sm-3 btn btn-dark" type="submit" id="libAdd">Add 📥</button>
                     </div>
                 </div>
             </div>
@@ -32,55 +32,35 @@
             <div class="row mb-3">
                 <label class="col-sm-2 col-form-label" for="calSub">Subject</label>
                 <div class="col">
-                    <input class="form-control" id="calSub" name="calSub" type="text">
+                    <input class="form-control" id="calSub" name="calSub" type="text" autocomplete="off" required>
                 </div>
             </div>
 
             <div class="row">
                 <label class="col-sm-2 col-form-label" for="calStart">Time</label>
                 <div class="col flex-nowrap input-group mb-3">
-                    <input class="form-control inputTime text-end" id="calStarts" name="calStart" type="text" placeholder="12:00">
-                    <input type="radio" class="btn-check" name="options-outlined" id="calTime" autocomplete="off" checked>
+                    <input class="form-control input-time text-end" id="calStarts" name="calStart" type="text" placeholder="12:00">
+                    <input type="radio" class="btn-check" name="timeOption" id="calTime" autocomplete="off" checked>
                     <label class="btn btn-light toggle-all-day" for="calTime">&#x2500;</label>
-                    <input class="form-control inputTime" id="calEnds" name="calEnds" type="text" placeholder="13:00">
+                    <input class="form-control input-time" id="calEnds" name="calEnds" type="text" placeholder="13:00">
                 </div>
                 <div class="col-auto">
-                    <input type="radio" class="btn-check" name="options-outlined" id="danger-outlined" autocomplete="off">
-                    <label class="btn btn-light toggle-all-day" for="danger-outlined">all-day</label>
-                </div>
-            </div>
-
-            <!-- <div class="row">
-                <label class="col-sm-2 col-form-label" for="calStart">Time</label>
-                <div class="col flex-column mb-3">
-                    <div class="input-group input-group-time">
-                        <div class="input-group-text input-time">"starts</div>
-                        <input class="form-control" id="calStarts" name="calStart" type="text" placeholder="12:00">
-                    </div>
-                </div>
-                <div class="col flex-column mb-3">
-                    <div class="input-group input-group-time">
-                        <div class="input-group-text input-time">ends</div>
-                        <input class="form-control" id="calEnds" name="calEnd" type="text" placeholder="13:00">
-                    </div>
-                </div>
-                <div class="col-auto flex-column mb-3">
-                    <input type="checkbox" class="btn-check" id="toggle-all-day" autocomplete="off">
-                    <label class="btn btn-light toggle-all-day" for="toggle-all-day">all-day</label>
+                    <input type="radio" class="btn-check" name="timeOption" id="calAllday" autocomplete="off">
+                    <label class="btn btn-light toggle-all-day" for="calAllday">all-day</label>
                 </div>
             </div>
 
             <div class="row mb-3">
                 <label class="col-sm-2 col-form-label" for="calLocal">Location</label>
                 <div class="col">
-                    <input class="form-control" id="calLocal" name="calLocal" type="text">
+                    <input class="form-control" id="calLocal" name="calLocal" type="text" autocomplete="off">
                 </div>
-            </div> -->
+            </div>
 
             <div class="row mb-3">
-                <label class="col-sm-2 col-form-label" for="calDesc">Notes</label>
+                <label class="col-sm-2 col-form-label" for="calNotes">Notes</label>
                 <div class="col">
-                    <textarea class="form-control" id="calDesc" name="calDesc" type="text"></textarea>
+                    <textarea class="form-control" id="calNotes" name="calNotes" type="text"></textarea>
                 </div>
             </div>
         </form>
