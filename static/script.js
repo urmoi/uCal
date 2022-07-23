@@ -43,6 +43,7 @@ function checkForm(form) {
 
 function resetForm(form) {
     form.classList.remove('was-validated');
+    disableTime(false);
     document.getElementById("calShort").classList.remove('is-used');
     form.reset();
 }
@@ -67,6 +68,24 @@ function checkTime(input) {
 function disableTime(disable) {
     document.getElementById("calStarts").disabled = disable;
     document.getElementById("calEnds").disabled = disable;
+}
 
+function updateTable() {
+    document.querySelector("table").classList.remove("visually-hidden");
+    const old_tbody = document.querySelector("tbody");
+    const new_tbody = document.createElement('tbody');
 
+    for (let short in libData) {
+        let data = libData[short];
+        let row = new_tbody.insertRow();
+
+        for (key in data) {
+            let cell = document.createElement(key === "short" ? "th" : "td");
+            let text = document.createTextNode(data[key]);
+            cell.appendChild(text);
+            row.appendChild(cell);
+        }
+    }
+
+    old_tbody.parentNode.replaceChild(new_tbody, old_tbody)
 }
