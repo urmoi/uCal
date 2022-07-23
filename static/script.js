@@ -86,6 +86,8 @@ function disableTime(disable) {
 }
 
 function updateTable() {
+    if (Object.keys(libData).length === 0) { return };
+
     document.getElementById("new-lib-container").classList.remove("visually-hidden");
 
     const old_tbody = document.querySelector("tbody");
