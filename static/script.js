@@ -1,19 +1,35 @@
 var libData = {};
 
 function saveLibrary () {
-    console.log(libData);
-    for (let short in libData) {
-        console.log(libData[short]);
-        // for (let key in libData[short]) { console.log(key, libData[short][key]); }
+    let form = document.getElementById("new-lib");
+    if (!checkForm(form)) { return };
+    if (Object.keys(libData).length === 0) { return };
+
+    const filename = document.getElementById("libTitle").value + ".txt";
+
+    var element = document.createElement('a');
+    element.setAttribute('href','data:text/plain;charset=utf-8,' + JSON.stringify(libData));
+    element.setAttribute('download', filename);
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+
+    form.classList.remove('was-validated');
+}
+
+function checkTitle(input) {
+    if (/^[^\\ \/ : * ? " < > |]+$/.test(input.value)) {
+        input.setCustomValidity("");
+    } else {
+        input.setCustomValidity("invalid title")
     }
 }
 
 function addItem () {
-    
-    var itemData = {};
-
     let form = document.getElementById("new-item");
     if (!checkForm(form)) { return }
+
+    var itemData = {};
 
     itemData["short"] = document.getElementById("calShort").value;
 
@@ -30,7 +46,7 @@ function addItem () {
     itemData["notes"] = document.getElementById("calNotes").value;
 
 
-    libData[document.getElementById("calShort").value] = itemData;
+    libData[itemData["short"]] = itemData;
 
     resetForm(form);
 }
@@ -70,7 +86,8 @@ function disableTime(disable) {
 }
 
 function updateTable() {
-    document.querySelector("table").classList.remove("visually-hidden");
+    document.getElementById("new-lib-container").classList.remove("visually-hidden");
+
     const old_tbody = document.querySelector("tbody");
     const new_tbody = document.createElement('tbody');
 

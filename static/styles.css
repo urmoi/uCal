@@ -4,9 +4,8 @@
 }
 
 .toggle-all-day {
-    color: #212529;
+    color: #ced4da;
     border-color: #ced4da;
-    background-color: #fff;
 }
 
 .btn-check:checked+.toggle-all-day {
@@ -19,7 +18,8 @@
     min-width: 65px!important;
 }
 
-.input-time:disabled {
+.input-time:disabled, .input-time:disabled::placeholder {
+    color: #ced4da;
     background-color: #fff;
 }
 
@@ -41,6 +41,7 @@ input.is-used:focus {
 
 .used-tooltip {
     display: none!important;
+    color: black!important;
     background-color: var(--bs-warning)!important;
 }
 

@@ -6,31 +6,19 @@
 
 {% block main %}
     <div class="w-700px container-sm">
-        <form class="text-start text-sm-end" id="new-lib" novalidate>
-            <div class="row mb-3">
-                <label class="col-sm-2 col-form-label" for="libTitle">Library</label>
-                <div class="col">
-                    <div class="input-group">
-                        <input class="form-control" id="libTitle" name="libTitle" type="text">
-                        <button class="col-sm-3 btn btn-outline-dark" type="button" id="libSave" onclick="saveLibrary()">Save 💾</button>
-                    </div>
-                </div>
-            </div>
-        </form>
-            <hr>
         <form class="text-start text-sm-end needs-validation" id="new-item" novalidate>
             <div class="row mb-3">
                 <label class="col-sm-2 col-form-label" for="calShort">Shortcut</label>
                 <div class="col position-relative">
                     <div class="input-group has-validation">
                         <input class="form-control" id="calShort" name="calShort" type="text" autofocus autocomplete="off" required>
-                        <button class="col-sm-3 btn btn-dark" type="button" id="calAdd">Add 📥</button>
                         <div class="invalid-tooltip">
                             Please choose a unique shortcut key.
                         </div>
                         <div class="invalid-tooltip used-tooltip">
                             Shortcut already used, you will overwrite it.
                         </div>
+                        <button class="col-sm-3 btn btn-dark" type="button" id="calAdd">Add 📥</button>
                     </div>
                 </div>
             </div>
@@ -76,10 +64,31 @@
                 </div>
             </div>
         </form>
+    </div>
+
+    <div class="w-700px container-sm " id="new-lib-container">
 
         <hr>
 
-        <table class="table table-striped visually-hidden">
+        <form class="text-start text-sm-end needs-validation" id="new-lib" novalidate>
+            <div class="row">
+                <label class="col-sm-2 col-form-label" for="libTitle">Library</label>
+                <div class="col flex-nowrap input-group has-validation mb-3 mb-sm-0">
+                    <input class="form-control text-end" id="libTitle" name="libTitle" type="text" autocomplete="off" placeholder="filename" required>
+                    <div class="invalid-tooltip">
+                        Please choose a name for this Library.
+                    </div>
+                    <span class="input-group-text">.txt</span>
+                </div>
+                <div class="col-sm-3">
+                    <button class="btn btn-outline-dark w-100" type="button" id="libSave">Save 💾</button>
+                </div>
+            </div>
+        </form>
+
+        <hr>
+
+        <table class="table table-striped">
             <thead>
               <tr>
                 <th scope="col">Shortcut</th>
@@ -98,6 +107,9 @@
 
     <script>
         const saveButton = document.getElementById("libSave");
+        saveButton.addEventListener("click", () => saveLibrary());
+
+        document.getElementById("libTitle").addEventListener("input", e => { checkTitle(e.srcElement) });
 
         const addButton = document.getElementById("calAdd");
         addButton.addEventListener("click", () => addItem());
