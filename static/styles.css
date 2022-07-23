@@ -36,7 +36,7 @@ input.is-used {
 }
 
 input.is-used:focus {
-    box-shadow: 0 0 0 .25rem rgba(255, 193, 7, .25)!important;
+    box-shadow: 0 0 0 .25rem rgba(var(--bs-warning-rgb), .25)!important;
 }
 
 .used-tooltip {
@@ -47,4 +47,28 @@ input.is-used:focus {
 
 input.is-used:focus~.used-tooltip {
     display: block!important;
+}
+
+.calender-container * {
+    border-radius: 0;
+}
+
+.calender-container :focus {
+    z-index: 1;
+}
+
+.calender-container :nth-child(2) :first-child {
+    border-top-left-radius: .375rem;
+}
+
+.calender-container :nth-child(2) :last-child  {
+    border-top-right-radius: .375rem;
+}
+
+.calender-container :last-child :first-child  {
+    border-bottom-left-radius: .375rem;
+}
+
+.calender-container :last-child :last-child  {
+    border-bottom-right-radius: .375rem;
 }

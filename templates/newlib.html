@@ -66,10 +66,9 @@
         </form>
     </div>
 
+    <hr class="visually-hidden" id="new-lib-hr">
+
     <div class="w-700px container-sm visually-hidden" id="new-lib-container">
-
-        <hr>
-
         <form class="text-start text-sm-end needs-validation" id="new-lib" novalidate>
             <div class="row">
                 <label class="col-sm-2 col-form-label" for="libTitle">Library</label>
@@ -110,6 +109,7 @@
         saveButton.addEventListener("click", () => saveLibrary());
 
         document.getElementById("libTitle").addEventListener("input", e => { checkTitle(e.srcElement) });
+
 
         const addButton = document.getElementById("calAdd");
         addButton.addEventListener("click", () => addItem());

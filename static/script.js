@@ -38,7 +38,7 @@ function addItem () {
     if (document.getElementById("calTime").checked) {
         itemData["time"] = document.getElementById("calStarts").value+"-"+document.getElementById("calEnds").value;
     } else {
-        itemData["time"] = "allday";
+        itemData["time"] = "all-day";
     }
 
     itemData["location"] = document.getElementById("calLocal").value;
@@ -89,9 +89,10 @@ function updateTable() {
     if (Object.keys(libData).length === 0) { return };
 
     document.getElementById("new-lib-container").classList.remove("visually-hidden");
+    document.getElementById("new-lib-hr").classList.remove("visually-hidden");
 
     const old_tbody = document.querySelector("tbody");
-    const new_tbody = document.createElement('tbody');
+    const new_tbody = document.createElement("tbody");
 
     for (let short in libData) {
         let data = libData[short];
