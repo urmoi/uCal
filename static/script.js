@@ -49,7 +49,6 @@ function resetForm(form) {
 }
 
 function checkShort(input) {
-    console.log(!libData.hasOwnProperty(input.value))
     if (libData.hasOwnProperty(input.value)) {
         input.classList.add('is-used');
     } else {

@@ -98,10 +98,10 @@
 
     <script>
         const saveButton = document.getElementById("libSave");
-        saveButton.addEventListener("click", () => updateTable());
 
         const addButton = document.getElementById("calAdd");
         addButton.addEventListener("click", () => addItem());
+        addButton.addEventListener("click", () => updateTable());
 
         document.getElementById("calShort").addEventListener("input", e => { checkShort(e.srcElement) });
 
