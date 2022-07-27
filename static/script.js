@@ -7,14 +7,14 @@ function saveLibrary () {
 
     const filename = document.getElementById("libTitle").value + ".txt";
 
-    var element = document.createElement('a');
-    element.setAttribute('href','data:text/plain;charset=utf-8,' + JSON.stringify(libData));
-    element.setAttribute('download', filename);
+    var element = document.createElement("a");
+    element.setAttribute("href","data:text/plain;charset=utf-8," + JSON.stringify(libData));
+    element.setAttribute("download", filename);
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);
 
-    form.classList.remove('was-validated');
+    form.classList.remove("was-validated");
 }
 
 function checkTitle(input) {
@@ -53,22 +53,22 @@ function addItem () {
 
 function checkForm(form) {
     form.checkValidity();
-    form.classList.add('was-validated');
+    form.classList.add("was-validated");
     return form.checkValidity();
 }
 
 function resetForm(form) {
-    form.classList.remove('was-validated');
+    form.classList.remove("was-validated");
     disableTime(false);
-    document.getElementById("calShort").classList.remove('is-used');
+    document.getElementById("calShort").classList.remove("is-used");
     form.reset();
 }
 
 function checkShort(input) {
     if (libData.hasOwnProperty(input.value)) {
-        input.classList.add('is-used');
+        input.classList.add("is-used");
     } else {
-        input.classList.remove('is-used');
+        input.classList.remove("is-used");
     }
 }
 

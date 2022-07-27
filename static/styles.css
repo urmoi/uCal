@@ -49,26 +49,28 @@ input.is-used:focus~.used-tooltip {
     display: block!important;
 }
 
-.calender-container * {
+#container-calender {
+    margin-right: calc(-.5 * var(--bs-gutter-x));
+    margin-left: calc(-.5 * var(--bs-gutter-x));
+    border-radius: .375rem;
+}
+
+#container-calender * {
     border-radius: 0;
 }
 
-.calender-container :focus {
-    z-index: 1;
-}
-
-.calender-container :nth-child(2) :first-child {
+#container-calender>:first-child>:first-child>input {
     border-top-left-radius: .375rem;
 }
 
-.calender-container :nth-child(2) :last-child  {
+#container-calender>:first-child>:last-child>input  {
     border-top-right-radius: .375rem;
 }
 
-.calender-container :last-child :first-child  {
+#container-calender>:last-child>:first-child>input  {
     border-bottom-left-radius: .375rem;
 }
 
-.calender-container :last-child :last-child  {
+#container-calender>:last-child>:last-child>input  {
     border-bottom-right-radius: .375rem;
 }
