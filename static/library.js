@@ -38,7 +38,7 @@ function addItem () {
     itemData["subject"] = document.getElementById("calSub").value;
 
     if (document.getElementById("calTime").checked) {
-        itemData["time"] = document.getElementById("calStarts").value+"-"+document.getElementById("calEnds").value;
+        itemData["time"] = correctTime(document.getElementById("calStarts").value) + "-" + correctTime(document.getElementById("calEnds").value);
     } else {
         itemData["time"] = "all-day";
     }
@@ -79,6 +79,27 @@ function checkTime(input) {
         input.setCustomValidity("");
     } else {
         input.setCustomValidity("invalid time")
+    }
+}
+
+function correctTime(input) {
+    if (input.includes(":")) {
+        time = input.split(":");
+        if (input.length === 2) {
+            return input;
+        } else {
+            return time[0] + ":00";
+        }
+    } else {
+        if (input.length === 1) {
+            return "0" + input + ":00";
+        } else if (input.length === 2) {
+            return input + ":00";
+        } else if (input.length === 3) {
+            return "0" + input[0] + ":" + input[1] + input[2];
+        } else {
+            return input[0] + input[1] + ":" + input[2] + input[3];
+        }
     }
 }
 
