@@ -79,7 +79,7 @@ input.is-used:focus~.used-tooltip {
     border-color: #e9ecef;
 }
 
-#container-calendar label {
+#container-calendar div:not(#weekDaysLabel) label {
     background-color: #e9ecef;
 }
 
