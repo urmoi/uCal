@@ -1,3 +1,48 @@
+var libData = {};
+
+function loadLibrary () {
+    let libFile = new Blob(document.getElementById("libFile").files, {type:"application/json"});
+
+    const reader = new FileReader();
+    reader.addEventListener('load', (event) => {
+        let libText = event.target.result;
+        libData = JSON.parse(libText)
+        console.log(libData);
+
+        resetForm();
+    });
+    reader.readAsText(libFile);
+}
+
+function resetForm() {
+    let form = document.getElementById("calendar-selection");
+    let calendarMonth = form.elements["calMonth"].value;
+    let calendarYear = form.elements["calYear"].value;
+    form.reset();
+    setMonth(calendarMonth, calendarYear);
+    updateShortcutSelection();
+    disableShortcut(false);
+    activateCalendar();
+}
+
+function updateShortcutSelection() {
+    let shortcutSelection = document.getElementById("shortcutSelection");
+    let options = shortcutSelection.getElementsByTagName('option');
+
+    while (options.length > 1) {
+        shortcutSelection.removeChild(options[1]);
+    }
+
+    shortcutSelection.selectedIndex = 0;
+
+    for (let short in libData) {
+        var opt = document.createElement('option');
+        opt.value = short;
+        opt.innerHTML = short + " - " + libData[short]["subject"];
+        shortcutSelection.appendChild(opt);
+    }
+}
+
 function makeCalendar () {
     let form = document.getElementById("calendar-selection");
     let calendarMonth = form.elements["calMonth"].value;
@@ -6,9 +51,9 @@ function makeCalendar () {
     var cellTemp = document.getElementById("cellTemp");
     var emptyTemp = document.getElementById("emptyTemp");
 
-    var old_container = document.getElementById("container-calendar");
+    var container = document.getElementById("container-calendar");
+
     var new_container = document.createElement("div");
-    new_container.id = old_container.id;
 
     let daysPerWeek = 7;
     let daysPerMonth = daysInMonth(calendarMonth, calendarYear);
@@ -24,7 +69,7 @@ function makeCalendar () {
             let node = isDay ?  cellTemp: emptyTemp;
             let cell = document.importNode(node.content, true);
             if (isDay) {
-                cell.querySelectorAll("button")[0].addEventListener("click", function() { addShort(this) });
+                cell.querySelectorAll("button")[0].addEventListener("click", function() { dayClick(this) });
                 cell.querySelectorAll("label")[0].innerHTML = (dayCount - startIndex) + "." + calendarMonth + ".";
             }
 
@@ -34,17 +79,40 @@ function makeCalendar () {
         new_container.appendChild(row);
     }
 
-    old_container.parentNode.replaceChild(new_container, old_container)
+    container.replaceChild(new_container, container.childNodes[0]);
 }
 
-function addShort (btn) {
+function activateCalendar () {
+    let activate = document.getElementById("shortcutSelection").value;
+    console.log(activate);
+    let container = document.getElementById("container-calendar");
+    container.style.pointerEvents = activate ? "all" : "none";
+    container.style.opacity = activate ? 1 : .5;
+    container.style.filter = activate ? "initial" : "blur(1px)";
+
+}
+
+function dayClick (btn) {
     console.log("You clicked me!");
-    let text = "FA";
-    if (btn.querySelectorAll("textarea")[0].value) {
-        text = "\n" + text;
+    let textarea = btn.querySelectorAll("textarea")[0];
+    let insertMode = document.getElementById("dayInsert").checked;
+
+    if (insertMode) {
+
+        let form = document.getElementById("calendar-selection");
+        let shortcut = form.elements["shortcutSelection"].value;
+
+        if (!shortcut) { return }
+
+        console.log(textarea.value.split("\n"));
+
+        if (textarea.value.split("\n").includes(shortcut)) { return }
+
+        if (textarea.value) { textarea.value += "\n" }
+        textarea.value += shortcut;
+    } else {
+        textarea.value = "";
     }
-    btn.querySelectorAll("textarea")[0].value += text;
-    // this.style.backgroundColor = "#ff0";
 }
 
 function daysInMonth (month, year) {
@@ -55,8 +123,12 @@ function weekdayOfMonth (month, year) {
     return new Date(year, month - 1, 1).getDay() - 1;
 }
 
-function setMonth () {
+function setMonth (month, year) {
     let form = document.getElementById("calendar-selection");
-    form.elements["calMonth"].value = new Date().getMonth() + 1;
-    form.elements["calYear"].value = new Date().getFullYear();
+    form.elements["calMonth"].value = month ? month : new Date().getMonth() + 1;
+    form.elements["calYear"].value = year ? year : new Date().getFullYear();
+}
+
+function disableShortcut(disable) {
+    document.getElementById("shortcutSelection").disabled = disable;
 }

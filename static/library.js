@@ -7,6 +7,8 @@ function saveLibrary () {
 
     const filename = document.getElementById("libTitle").value + ".txt";
 
+    console.log(libData);
+
     var element = document.createElement("a");
     element.setAttribute("href","data:text/plain;charset=utf-8," + JSON.stringify(libData));
     element.setAttribute("download", filename);

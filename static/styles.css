@@ -53,6 +53,7 @@ input.is-used:focus~.used-tooltip {
     margin-right: calc(-.5 * var(--bs-gutter-x));
     margin-left: calc(-.5 * var(--bs-gutter-x));
     border-radius: .375rem;
+    /* filter: blur(2px) */
 }
 
 #container-calendar * {
@@ -61,12 +62,16 @@ input.is-used:focus~.used-tooltip {
 
 #container-calendar button {
     border-color: #e9ecef;
-    aspect-ratio: 1;
+    /* aspect-ratio: 1; */
     min-height: 100px;
 }
 
-#container-calendar button:hover label {
-    color: var(--bs-btn-hover-bg);
+#container-calendar button * {
+    cursor: inherit;
+}
+
+#container-calendar button:hover>label {
+    background-color: transparent;
 }
 
 #container-calendar button:disabled {
@@ -81,8 +86,6 @@ input.is-used:focus~.used-tooltip {
 #container-calendar textarea {
     height: calc(100% - 24px);
     resize: none;
-    border: none;
-    outline: none;
 }
 
 #container-calendar .row:first-child button:first-child {
