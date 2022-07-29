@@ -65,6 +65,10 @@ input.is-used:focus~.used-tooltip {
     min-height: 100px;
 }
 
+#container-calendar button:hover label {
+    color: var(--bs-btn-hover-bg);
+}
+
 #container-calendar button:disabled {
     background-color: #e9ecef;
     border-color: #e9ecef;

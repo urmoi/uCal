@@ -1,110 +1,62 @@
-var libData = {};
+function makeCalendar () {
+    let form = document.getElementById("calendar-selection");
+    let calendarMonth = form.elements["calMonth"].value;
+    let calendarYear = form.elements["calYear"].value;
 
-function saveLibrary () {
-    let form = document.getElementById("new-lib");
-    if (!checkForm(form)) { return };
-    if (Object.keys(libData).length === 0) { return };
+    var cellTemp = document.getElementById("cellTemp");
+    var emptyTemp = document.getElementById("emptyTemp");
 
-    const filename = document.getElementById("libTitle").value + ".txt";
+    var old_container = document.getElementById("container-calendar");
+    var new_container = document.createElement("div");
+    new_container.id = old_container.id;
 
-    var element = document.createElement("a");
-    element.setAttribute("href","data:text/plain;charset=utf-8," + JSON.stringify(libData));
-    element.setAttribute("download", filename);
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
+    let daysPerWeek = 7;
+    let daysPerMonth = daysInMonth(calendarMonth, calendarYear);
+    let startIndex = weekdayOfMonth(calendarMonth, calendarYear);
+    let weeksPerMonth = (startIndex + daysPerMonth) / daysPerWeek;
 
-    form.classList.remove("was-validated");
-}
+    for (let i = 0; i < weeksPerMonth; i++) {
+        let row = document.createElement("div");
+        row.classList.add("row", "mx-0");
+        for (let j = 0; j < daysPerWeek; j++) {
+            let dayCount = i * daysPerWeek + j + 1;
+            let isDay = dayCount > startIndex && dayCount <= (startIndex + daysPerMonth);
+            let node = isDay ?  cellTemp: emptyTemp;
+            let cell = document.importNode(node.content, true);
+            if (isDay) {
+                cell.querySelectorAll("button")[0].addEventListener("click", function() { addShort(this) });
+                cell.querySelectorAll("label")[0].innerHTML = (dayCount - startIndex) + "." + calendarMonth + ".";
+            }
 
-function checkTitle(input) {
-    if (/^[^\\ \/ : * ? " < > |]+$/.test(input.value)) {
-        input.setCustomValidity("");
-    } else {
-        input.setCustomValidity("invalid title")
-    }
-}
-
-function addItem () {
-    let form = document.getElementById("new-item");
-    if (!checkForm(form)) { return }
-
-    var itemData = {};
-
-    itemData["short"] = document.getElementById("calShort").value;
-
-    itemData["subject"] = document.getElementById("calSub").value;
-
-    if (document.getElementById("calTime").checked) {
-        itemData["time"] = document.getElementById("calStarts").value+"-"+document.getElementById("calEnds").value;
-    } else {
-        itemData["time"] = "all-day";
-    }
-
-    itemData["location"] = document.getElementById("calLocal").value;
-
-    itemData["notes"] = document.getElementById("calNotes").value;
-
-
-    libData[itemData["short"]] = itemData;
-
-    resetForm(form);
-}
-
-function checkForm(form) {
-    form.checkValidity();
-    form.classList.add("was-validated");
-    return form.checkValidity();
-}
-
-function resetForm(form) {
-    form.classList.remove("was-validated");
-    disableTime(false);
-    document.getElementById("calShort").classList.remove("is-used");
-    form.reset();
-}
-
-function checkShort(input) {
-    if (libData.hasOwnProperty(input.value)) {
-        input.classList.add("is-used");
-    } else {
-        input.classList.remove("is-used");
-    }
-}
-
-function checkTime(input) {
-    if (/^(2[0-3]|[01]?[0-9]):?([0-5][0-9])?$/.test(input.value)) {
-        input.setCustomValidity("");
-    } else {
-        input.setCustomValidity("invalid time")
-    }
-}
-
-function disableTime(disable) {
-    document.getElementById("calStarts").disabled = disable;
-    document.getElementById("calEnds").disabled = disable;
-}
-
-function updateTable() {
-    if (Object.keys(libData).length === 0) { return };
-
-    document.getElementById("new-lib-container").classList.remove("visually-hidden");
-    document.getElementById("new-lib-hr").classList.remove("visually-hidden");
-
-    const old_tbody = document.querySelector("tbody");
-    const new_tbody = document.createElement("tbody");
-
-    for (let short in libData) {
-        let data = libData[short];
-        let row = new_tbody.insertRow();
-
-        for (key in data) {
-            let cell = document.createElement(key === "short" ? "th" : "td");
-            let text = document.createTextNode(data[key]);
-            cell.appendChild(text);
+            // cell.querySelectorAll("input")[0].disabled = true;
             row.appendChild(cell);
         }
+        new_container.appendChild(row);
     }
 
-    old_tbody.parentNode.replaceChild(new_tbody, old_tbody)
+    old_container.parentNode.replaceChild(new_container, old_container)
+}
+
+function addShort (btn) {
+    console.log("You clicked me!");
+    let text = "FA";
+    if (btn.querySelectorAll("textarea")[0].value) {
+        text = "\n" + text;
+    }
+    btn.querySelectorAll("textarea")[0].value += text;
+    // this.style.backgroundColor = "#ff0";
+}
+
+function daysInMonth (month, year) {
+    return new Date(year, month, 0).getDate();
+}
+
+function weekdayOfMonth (month, year) {
+    return new Date(year, month - 1, 1).getDay() - 1;
+}
+
+function setMonth () {
+    let form = document.getElementById("calendar-selection");
+    form.elements["calMonth"].value = new Date().getMonth() + 1;
+    form.elements["calYear"].value = new Date().getFullYear();
 }

@@ -23,14 +23,13 @@
             <div class="row">
                 <div class="col-md mb-3 mb-md-0">
                     <select class="form-select" id="calMonth">
-                        <option disabled value="0">Month</option>
-                        <option value="1">January</option>
+                        <option selected value="1">January</option>
                         <option value="2">February</option>
                         <option value="3">March</option>
                         <option value="4">April</option>
                         <option value="5">May</option>
                         <option value="6">June</option>
-                        <option selected value="7">July</option>
+                        <option value="7">July</option>
                         <option value="8">August</option>
                         <option value="9">September</option>
                         <option value="10">October</option>
@@ -40,13 +39,12 @@
                 </div>
                 <div class="col-md mb-3 mb-md-0">
                     <select class="form-select" id="calYear">
-                        <option selected disabled>Year</option>
-                        <option value="2022">2022</option>
+                        <option selected value="2022">2022</option>
                         <option value="2023">2023</option>
                     </select>
                 </div>
                 <div class="col-md">
-                    <button class="btn btn-dark w-100" type="button" id="libSave">Get 🗓</button>
+                    <button class="btn btn-dark w-100" type="button" id="getCal">Get 🗓</button>
                 </div>
             </div>
         </form>
@@ -79,14 +77,13 @@
                 <label class="col col-form-label" for="calShort">Sun</label>
             </div>
 
-            <div class="overflow-hidden" id="container-calendar"></div>
+            <div id="container-calendar"></div>
 
         </div>
     </div>
 
     <template id="cellTemp">
         <button class="col btn btn-light p-0 shadow-none calBtn" type="button">
-            <!-- <input class="form-control w-100 h-100 text-center" id="calShort" name="calShort" type="text" autocomplete="off"> -->
             <label class="form-label w-100 p-0 m-0"></label>
             <textarea class="text-center w-100 p-0 bg-transparent shadow-none" id="calShort" name="calShort" autocomplete="off"></textarea>
         </button>
@@ -97,51 +94,16 @@
     </template>
 
     <script>
-        let form = document.getElementById("calendar-selection");
-        let calendarMonth = form.elements["calMonth"].value;
+        setMonth();
+        makeCalendar();
 
-        var cellTemp = document.getElementById("cellTemp");
-        var emptyTemp = document.getElementById("emptyTemp");
+        const calButton = document.getElementById("getCal");
+        calButton.addEventListener("click", () => makeCalendar());
 
-        var container = document.getElementById("container-calendar");
+        const monthButton = document.getElementById("calMonth");
+        monthButton.addEventListener("input", () => makeCalendar());
 
-        let daysPerWeek = 7;
-        let daysPerMonth = 30;
-        let startIndex = 3;
-        let weeksPerMonth = (startIndex - 1 + daysPerMonth) / daysPerWeek;
-
-        for (let i = 0; i < weeksPerMonth; i++) {
-            let row = document.createElement("div");
-            row.classList.add("row", "mx-0");
-            for (let j = 0; j < daysPerWeek; j++) {
-                let dayCount = i * daysPerWeek + j + 1;
-                let isDay = dayCount > startIndex && dayCount <= (startIndex + daysPerMonth);
-                let node = isDay ?  cellTemp: emptyTemp;
-                let cell = document.importNode(node.content, true);
-                if (isDay) {
-                    cell.querySelectorAll("label")[0].innerHTML = (dayCount - startIndex) + "." + calendarMonth + ".";
-                }
-
-                // cell.querySelectorAll("input")[0].disabled = true;
-                row.appendChild(cell);
-            }
-            container.appendChild(row);
-        }
-    </script>
-
-    <script>
-        const shortBtn = document.querySelectorAll(".calBtn");
-        let shortBtnsArray = Array.prototype.slice.call(shortBtn);
-        shortBtnsArray.forEach(function(elem){
-            elem.addEventListener("click", function() {
-                console.log("You clicked me!");
-                let text = "FA";
-                if (this.querySelectorAll("textarea")[0].value) {
-                    text = "\n" + text;
-                }
-                this.querySelectorAll("textarea")[0].value += text;
-                // this.style.backgroundColor = "#ff0";
-            });
-        });
+        const yearButton = document.getElementById("calYear");
+        yearButton.addEventListener("input", () => makeCalendar());
     </script>
 {% endblock %}
