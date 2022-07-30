@@ -31,11 +31,12 @@
         <main class="container py-5 text-center">
             <div class="w-700px container-md">
                 <div class="row">
-                    <div class="col-md mb-3 mb-md-0">
-                        <input class="form-control btn-light btn-outline-dark" type="file" accept=".ucal" id="libFile" name="libFile" value="Upload Library">
+                    <div class="col input-group mb-3 mb-md-0">
+                        <label class="input-group-text" for="libFile">Upload .ucal</label>
+                        <input class="form-control btn-light" type="file" accept=".ucal" id="libFile" name="libFile" value="Upload Library">
                     </div>
-                    <div class="col-md">
-                        <a class="w-100 btn btn-light btn-outline-dark" href="/library.html" role="button">Make Library</a>
+                    <div class="col-sm-auto">
+                        <a class="w-100 btn btn-light btn-outline-light" href="/library.html" role="button" id="libMake">Make .ucal Library</a>
                     </div>
                 </div>
             </div>

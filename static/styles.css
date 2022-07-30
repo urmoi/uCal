@@ -3,6 +3,16 @@
     min-width: 250px;
 }
 
+a#libMake {
+    background-color: #e9ecef;
+    border-color: #ced4da;
+    color: #212529;
+}
+
+a#libMake:hover {
+    background-color: var(--bs-btn-bg);
+}
+
 label.toggle {
     color: #ced4da;
     border-color: #ced4da;
@@ -73,7 +83,6 @@ select.toggle {
 
 #container-calendar button {
     border-color: #e9ecef;
-    /* aspect-ratio: 1; */
     min-height: 100px;
 }
 
