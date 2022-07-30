@@ -5,7 +5,7 @@ function saveLibrary () {
     if (!checkForm(form)) { return };
     if (Object.keys(libData).length === 0) { return };
 
-    const filename = document.getElementById("libTitle").value + ".txt";
+    const filename = document.getElementById("libTitle").value + ".ucal";
 
     console.log(libData);
 
