@@ -15,7 +15,6 @@
         <link href="/static/favicon.ico" rel="icon">
         <link href="/static/styles.css" rel="stylesheet">
 
-        <script src="/static/library.js"></script>
         <script src="/static/calendar.js"></script>
 
         <title>uCal: Calendar</title>
@@ -46,7 +45,7 @@
             <div class="w-700px container-md">
                 <form class="needs-validation" id="calendar-selection" novalidate>
                     <div class="row">
-                        <div class="col mb-3 mb-md-0">
+                        <div class="col">
                             <select class="form-select" id="calMonth">
                                 <option selected value="1">January</option>
                                 <option value="2">February</option>
@@ -62,53 +61,59 @@
                                 <option value="12">December</option>
                             </select>
                         </div>
-                        <div class="col mb-3 mb-md-0">
+                        <div class="col">
                             <select class="form-select" id="calYear">
                                 <option selected value="2022">2022</option>
                                 <option value="2023">2023</option>
                             </select>
-                        </div>
-
-                        <div class="col-auto">
-                            <div class="input-group has-validation">
-                                <input class="form-control text-end" id="calTitle" name="calTitle" type="text" autocomplete="off" placeholder="filename" required>
-                                <!-- <div class="invalid-tooltip">
-                                    Please choose a name for this Library.
-                                </div> -->
-                                <span class="input-group-text">.cls</span>
-                            </div>
-                            <button class="btn btn-dark" type="button" id="saveCal">Get 🗓</button>
                         </div>
                     </div>
 
                     <hr> 
                     
                     <div class="row mb-3">
-                        <div class="col input-group">
-                            <select class="form-select" id="shortcutSelection" aria-label="Example select with button addon">
+                        <div class="col input-group flex-nowrap mb-3 w-100">
+                            <select class="form-select toggle" id="shortcutSelection" aria-label="Example select with button addon">
                                 <option value="" disabled selected>Choose Shortcut...</option>
                             </select>
                             <input type="radio" class="btn-check form-check-input" name="dayOption" id="dayInsert" autocomplete="off" checked>
-                            <label class="btn btn-light" for="dayInsert">Insert ➕</label>
+                            <label class="btn btn-light btn-outline-light toggle" for="dayInsert">Insert ➕</label>
                         </div>
                         <div class="col-auto">
                             <input type="radio" class="btn-check" name="dayOption" id="dayDelete" autocomplete="off">
-                            <label class="btn btn-light" for="dayDelete">Delete 🗑 </label>
+                            <label class="btn btn-light btn-outline-light toggle w-100" for="dayDelete">Delete 🗑 </label>
                         </div>
                     </div>
 
-                    <div class="row text-center" id="container-calendar">
-                        <div class="row" id="weekDaysLabel">
-                            <label class="col col-form-label" for="calShort">Mon</label>
-                            <label class="col col-form-label" for="calShort">Tue</label>
-                            <label class="col col-form-label" for="calShort">Wed</label>
-                            <label class="col col-form-label" for="calShort">Thu</label>
-                            <label class="col col-form-label" for="calShort">Fri</label>
-                            <label class="col col-form-label" for="calShort">Sat</label>
-                            <label class="col col-form-label" for="calShort">Sun</label>
+                    <div class="row mb-3 text-center" id="container-calendar">
+                        <div class="row mx-auto font-monospace" id="weekDaysLabel">
+                            <label class="col col-form-label overflow-hidden px-0" for="calShort">Mon</label>
+                            <label class="col col-form-label overflow-hidden px-0" for="calShort">Tue</label>
+                            <label class="col col-form-label overflow-hidden px-0" for="calShort">Wed</label>
+                            <label class="col col-form-label overflow-hidden px-0" for="calShort">Thu</label>
+                            <label class="col col-form-label overflow-hidden px-0" for="calShort">Fri</label>
+                            <label class="col col-form-label overflow-hidden px-0" for="calShort">Sat</label>
+                            <label class="col col-form-label overflow-hidden px-0" for="calShort">Sun</label>
                         </div>
                         
                         <div></div>
+                    </div>
+                </form>
+
+                <form class="needs-validation" id="calendar-file" novalidate>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <div class="input-group mb-3 mb-sm-0">
+                                <input class="form-control has-validation text-end pe-1" id="calTitle" name="calTitle" type="text" autocomplete="off" placeholder="filename" required>
+                                <div class="invalid-tooltip">
+                                    Please choose a name for this Library.
+                                </div>
+                                <span class="input-group-text ps-1">.cls</span>
+                            </div>
+                        </div>                            
+                        <div class="col-sm-5">
+                            <button class="btn btn-dark w-100" type="button" id="saveCal">Get 🗓</button>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -143,7 +148,7 @@
 
     setMonth();
     makeCalendar();
-    activateCalendar();
+    // activateCalendar();
 
     const monthButton = document.getElementById("calMonth");
     monthButton.addEventListener("input", () => makeCalendar());

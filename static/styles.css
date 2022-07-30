@@ -3,12 +3,12 @@
     min-width: 250px;
 }
 
-.toggle-all-day {
+label.toggle {
     color: #ced4da;
     border-color: #ced4da;
 }
 
-.btn-check:checked+.toggle-all-day {
+.btn-check:checked+.toggle {
     color: #212529;
     border-color: #ced4da;
     background-color: #e9ecef;
@@ -18,7 +18,7 @@
     min-width: 65px!important;
 }
 
-.input-time:disabled, .input-time:disabled::placeholder {
+.toggle:disabled, .toggle:disabled::placeholder {
     color: #ced4da;
     background-color: #fff;
 }
@@ -47,6 +47,17 @@ input.is-used:focus {
 
 input.is-used:focus~.used-tooltip {
     display: block!important;
+}
+
+.text-end.form-control.is-invalid,
+.text-end.form-control.is-valid,
+.was-validated .text-end.form-control:invalid,
+.was-validated .text-end.form-control:valid {
+    background-position: left calc(.375em + .1875rem) center;
+}
+
+select.toggle {
+    min-width: 140px!important;
 }
 
 #container-calendar {

@@ -16,7 +16,6 @@
         <link href="/static/styles.css" rel="stylesheet">
 
         <script src="/static/library.js"></script>
-        <script src="/static/calendar.js"></script>
 
         <title>uCal: Library</title>
 
@@ -61,17 +60,17 @@
                     <div class="row">
                         <label class="col-sm-2 col-form-label position-relative" for="calStart">Time</label>
                         <div class="col flex-nowrap input-group mb-3 has-validation">
-                            <input class="form-control input-time text-end" id="calStarts" name="calStart" type="text" placeholder="12:00" required>
+                            <input class="form-control input-time toggle text-end" id="calStarts" name="calStart" type="text" placeholder="12:00" required>
                             <input type="radio" class="btn-check" name="timeOption" id="calTime" autocomplete="off" checked>
-                            <label class="btn btn-light toggle-all-day" for="calTime">&#x2500;</label>
-                            <input class="form-control input-time" id="calEnds" name="calEnds" type="text" placeholder="13:00" required>
+                            <label class="btn btn-light btn-outline-light toggle" for="calTime">&#x2500;</label>
+                            <input class="form-control input-time toggle" id="calEnds" name="calEnds" type="text" placeholder="13:00" required>
                             <div class="invalid-tooltip">
                                 Please give a valid time [i.e. 12 | 1200 | 12:00].
                             </div>
                         </div>
                         <div class="col-auto">
                             <input type="radio" class="btn-check" name="timeOption" id="calAllday" autocomplete="off">
-                            <label class="btn btn-light toggle-all-day" for="calAllday">all-day</label>
+                            <label class="btn btn-light btn-outline-light toggle" for="calAllday">all-day</label>
                         </div>
                     </div>
 
@@ -98,11 +97,11 @@
                     <div class="row">
                         <label class="col-sm-2 col-form-label" for="libTitle">Library</label>
                         <div class="col flex-nowrap input-group has-validation mb-3 mb-sm-0">
-                            <input class="form-control text-end" id="libTitle" name="libTitle" type="text" autocomplete="off" placeholder="filename" required>
+                            <input class="form-control text-end pe-1" id="libTitle" name="libTitle" type="text" autocomplete="off" placeholder="filename" required>
                             <div class="invalid-tooltip">
                                 Please choose a name for this Library.
                             </div>
-                            <span class="input-group-text">.txt</span>
+                            <span class="input-group-text ps-1">.txt</span>
                         </div>
                         <div class="col-sm-3">
                             <button class="btn btn-outline-dark w-100" type="button" id="libSave">Save 💾</button>
