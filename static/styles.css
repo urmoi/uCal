@@ -70,56 +70,56 @@ select.toggle {
     min-width: 140px!important;
 }
 
-#container-calendar {
+#calendar-calendar {
     margin-right: calc(-.5 * var(--bs-gutter-x));
     margin-left: calc(-.5 * var(--bs-gutter-x));
     border-radius: .375rem;
     /* filter: blur(2px) */
 }
 
-#container-calendar * {
+#calendar-calendar * {
     border-radius: 0;
 }
 
-#container-calendar button {
+#calendar-calendar button {
     border-color: #e9ecef;
     min-height: 100px;
 }
 
-#container-calendar button * {
+#calendar-calendar button * {
     cursor: inherit;
 }
 
-#container-calendar button:hover>label {
+#calendar-calendar button:hover>label {
     background-color: transparent;
 }
 
-#container-calendar button:disabled {
+#calendar-calendar button:disabled {
     background-color: #e9ecef;
     border-color: #e9ecef;
 }
 
-#container-calendar div:not(#weekDaysLabel) label {
+#calendar-calendar div:not(#weekDaysLabel) label {
     background-color: #e9ecef;
 }
 
-#container-calendar textarea {
+#calendar-calendar textarea {
     height: calc(100% - 24px);
     resize: none;
 }
 
-#container-calendar .row:first-child button:first-child {
+#calendar-calendar .row:first-child button:first-child {
     border-top-left-radius: .375rem;
 }
 
-#container-calendar .row:first-child button:last-child {
+#calendar-calendar .row:first-child button:last-child {
     border-top-right-radius: .375rem;
 }
 
-#container-calendar .row:last-child button:first-child {
+#calendar-calendar .row:last-child button:first-child {
     border-bottom-left-radius: .375rem;
 }
 
-#container-calendar .row:last-child button:last-child {
+#calendar-calendar .row:last-child button:last-child {
     border-bottom-right-radius: .375rem;
 }
