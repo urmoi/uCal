@@ -35,13 +35,13 @@
         <div class="w-700px container-md">
             <div class="row">
                 <div class="col input-group mb-3 mb-md-0">
-                    <label class="input-group-text" for="libFile">Upload .ucal</label>
+                    <label class="input-group-text" for="libFile">.ucal Library</label>
                     <input class="form-control btn-light" type="file" accept=".ucal" id="libFile" name="libFile"
                         value="Upload Library">
                 </div>
                 <div class="col-sm-auto">
                     <a class="btn btn-light btn-outline-light w-100" href="/library.html" role="button"
-                        id="libMake">Make .ucal Library</a>
+                        id="libMake">Make new .ucal Library</a>
                 </div>
             </div>
         </div>
@@ -78,7 +78,7 @@
                 <hr>
 
                 <div class="row mb-3">
-                    <div class="col input-group flex-nowrap mb-3 w-100">
+                    <div class="col input-group flex-nowrap mb-3 mb-md-0 w-100">
                         <select class="form-select toggle" id="shortcutSelection"
                             aria-label="Example select with button addon">
                             <option value="" disabled selected>Choose Shortcut...</option>
@@ -87,42 +87,33 @@
                             autocomplete="off" checked>
                         <label class="btn btn-light btn-outline-light toggle" for="dayInsert">Insert</label>
                     </div>
-                    <div class="col-auto">
+                    <div class="col-sm-auto">
                         <input type="radio" class="btn-check" name="dayOption" id="dayDelete" autocomplete="off">
                         <label class="btn btn-light btn-outline-light toggle w-100" for="dayDelete">Delete</label>
                     </div>
                 </div>
 
-                <div class="row mb-3 text-center" id="calendar-calendar">
-                    <div class="row mx-auto font-monospace" id="weekDaysLabel">
-                        <label class="col col-form-label overflow-hidden px-0" for="calShort">Mon</label>
-                        <label class="col col-form-label overflow-hidden px-0" for="calShort">Tue</label>
-                        <label class="col col-form-label overflow-hidden px-0" for="calShort">Wed</label>
-                        <label class="col col-form-label overflow-hidden px-0" for="calShort">Thu</label>
-                        <label class="col col-form-label overflow-hidden px-0" for="calShort">Fri</label>
-                        <label class="col col-form-label overflow-hidden px-0" for="calShort">Sat</label>
-                        <label class="col col-form-label overflow-hidden px-0" for="calShort">Sun</label>
-                    </div>
-
-                    <div></div>
+                <div class="mb-3 text-center" id="calendar-calendar">
+                    
                 </div>
             </form>
+
+            <hr>
 
             <form class="needs-validation" id="calendar-file" novalidate>
                 <div class="row mb-3">
                     <div class="col">
-                        <div class="input-group mb-3 mb-sm-0">
-                            <input class="form-control has-validation text-end pe-1" id="calTitle" name="calTitle"
+                        <div class="input-group mb-3 mb-sm-0 has-validation">
+                            <input class="form-control text-end pe-1" id="calTitle" name="calTitle"
                                 type="text" autocomplete="off" placeholder="filename" required>
-                            <div class="invalid-tooltip">
-                                Please choose a name for this Library.
-                            </div>
                             <span class="input-group-text ps-1">.cls</span>
+                            <div class="invalid-tooltip">
+                                Please choose a name for the Calender file.
+                            </div>
                         </div>
                     </div>
-                    <div class="col-sm-5">
-                        <button class="btn btn-dark w-100" type="button" id="saveCal">Get .ics file for
-                            Calendar</button>
+                    <div class="col-sm-6">
+                    <button class="btn btn-dark w-100" type="button" id="saveCal">Download .ics Calendar</button>
                     </div>
                 </div>
             </form>
@@ -137,16 +128,28 @@
 
 </html>
 
+<template id="calender-header">
+    <div class="row mx-auto" id="calendar-header">
+        <label class="col col-form-label overflow-hidden px-0">Mon</label>
+        <label class="col col-form-label overflow-hidden px-0">Tue</label>
+        <label class="col col-form-label overflow-hidden px-0">Wed</label>
+        <label class="col col-form-label overflow-hidden px-0">Thu</label>
+        <label class="col col-form-label overflow-hidden px-0">Fri</label>
+        <label class="col col-form-label overflow-hidden px-0">Sat</label>
+        <label class="col col-form-label overflow-hidden px-0">Sun</label>
+    </div>
+</template>
+
 <template class="day" id="is-day">
-    <button class="col btn btn-light p-0 shadow-none calBtn" type="button">
-        <label class="form-label w-100 p-0 m-0 disabled"></label>
-        <textarea class="text-center w-100 p-0 bg-transparent shadow-none border-0" disabled id="calShort"
+    <button class="col btn btn-light p-0 border-0 calBtn" type="button">
+        <label class="w-100" role="button"></label>
+        <textarea class="text-center w-100 bg-transparent border-0" role="button" disabled id="calShort"
             name="calShort" autocomplete="off"></textarea>
     </button>
 </template>
 
 <template class="day" id="is-not-day">
-    <button class="col btn btn-light p-0 shadow-none" disabled type="button"></button>
+    <button class="col btn btn-light p-0 bg-transparent border-0" disabled type="button"></button>
 </template>
 
 

@@ -97,12 +97,19 @@ function makeCalendar () {
     let calendarMonth = form.elements["calMonth"].value;
     let calendarYear = form.elements["calYear"].value;
 
+    var headerTemp = document.querySelector("template#calender-header");
     var dayTemp = document.querySelector("template.day#is-day");
     var notdayTemp = document.querySelector("template.day#is-not-day");
 
     var container = document.getElementById("calendar-calendar");
 
     var new_container = document.createElement("div");
+    let header = document.importNode(headerTemp.content, true);
+    new_container.appendChild(header);
+    
+    var content = document.createElement("div");
+    content.id = "calendar-content";
+    new_container.appendChild(content);
 
     let daysPerWeek = 7;
     let daysPerMonth = daysInMonth(calendarMonth, calendarYear);
@@ -111,7 +118,7 @@ function makeCalendar () {
 
     for (let i = 0; i < weeksPerMonth; i++) {
         let week = document.createElement("div");
-        week.classList.add("row", "mx-0");
+        week.classList.add("row", "mx-auto");
         for (let j = 0; j < daysPerWeek; j++) {
             let dayCount = i * daysPerWeek + j + 1;
             let calendarDay = dayCount - startIndex;
@@ -126,10 +133,9 @@ function makeCalendar () {
             }
             week.appendChild(day);
         }
-        new_container.appendChild(week);
+        content.appendChild(week);
     }
-
-    container.replaceChild(new_container, container.querySelectorAll("div")[1]);
+    container.replaceChildren(...new_container.children, ...container.children);
 }
 
 function activateCalendar () {

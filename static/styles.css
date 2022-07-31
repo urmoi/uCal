@@ -1,10 +1,10 @@
 .w-700px {
     max-width: 700px;
-    min-width: 250px;
+    min-width: 300px;
 }
 
 a#libMake {
-    background-color: #e9ecef;
+    background-color: var(--bs-gray-200);
     border-color: #ced4da;
     color: #212529;
 }
@@ -21,7 +21,7 @@ label.toggle {
 .btn-check:checked+.toggle {
     color: #212529;
     border-color: #ced4da;
-    background-color: #e9ecef;
+    background-color: var(--bs-gray-200);
 }
 
 .input-time {
@@ -46,7 +46,7 @@ input.is-used {
 }
 
 input.is-used:focus {
-    box-shadow: 0 0 0 .25rem rgba(var(--bs-warning-rgb), .25)!important;
+    box-shadow: 0 0 0 var(--bs-border-radius-sm) rgba(var(--bs-warning-rgb), .25)!important;
 }
 
 .used-tooltip {
@@ -70,56 +70,34 @@ select.toggle {
     min-width: 140px!important;
 }
 
-#calendar-calendar {
-    margin-right: calc(-.5 * var(--bs-gutter-x));
-    margin-left: calc(-.5 * var(--bs-gutter-x));
-    border-radius: .375rem;
-    /* filter: blur(2px) */
+#calendar-content {
+    padding: .5px;
+    border-radius: var(--bs-border-radius);
+    background-color: var(--bs-gray-200);
 }
 
-#calendar-calendar * {
-    border-radius: 0;
+#calendar-content button {
+    margin: 1px;
+    border-radius: var(--bs-border-radius);
+    min-height: calc(3 * var(--bs-body-font-size) * var(--bs-btn-line-height));
+    aspect-ratio: 1;
 }
 
-#calendar-calendar button {
-    border-color: #e9ecef;
-    min-height: 100px;
+#calendar-content button:hover {
+    background-color: var(--bs-gray-200);
 }
 
-#calendar-calendar button * {
-    cursor: inherit;
+#calendar-content button:active {
+    background-color: var(--bs-gray-300);
 }
 
-#calendar-calendar button:hover>label {
-    background-color: transparent;
+#calendar-content label {
+    background-color: var(--bs-gray-300);
 }
 
-#calendar-calendar button:disabled {
-    background-color: #e9ecef;
-    border-color: #e9ecef;
-}
-
-#calendar-calendar div:not(#weekDaysLabel) label {
-    background-color: #e9ecef;
-}
-
-#calendar-calendar textarea {
-    height: calc(100% - 24px);
+#calendar-content textarea {
+    height: calc(100% - calc(var(--bs-body-font-size) * var(--bs-btn-line-height)));
     resize: none;
 }
 
-#calendar-calendar .row:first-child button:first-child {
-    border-top-left-radius: .375rem;
-}
 
-#calendar-calendar .row:first-child button:last-child {
-    border-top-right-radius: .375rem;
-}
-
-#calendar-calendar .row:last-child button:first-child {
-    border-bottom-left-radius: .375rem;
-}
-
-#calendar-calendar .row:last-child button:last-child {
-    border-bottom-right-radius: .375rem;
-}

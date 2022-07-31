@@ -36,13 +36,13 @@
                         <div class="col position-relative">
                             <div class="input-group has-validation">
                                 <input class="form-control" id="calShort" name="calShort" type="text" autofocus autocomplete="off" required>
-                                <div class="invalid-tooltip">
+                                <div class="invalid-tooltip rounded">
                                     Please choose a unique shortcut key.
                                 </div>
-                                <div class="invalid-tooltip used-tooltip">
+                                <div class="invalid-tooltip used-tooltip rounded">
                                     Shortcut already used, you will overwrite it.
                                 </div>
-                                <button class="col-sm-3 btn btn-dark" type="button" id="calAdd">Add to Library</button>
+                                <button class="col-sm-3 btn btn-dark w-auto" type="button" id="calAdd">Add to Library</button>
                             </div>
                         </div>
                     </div>
@@ -98,10 +98,10 @@
                         <label class="col-sm-2 col-form-label" for="libTitle">Library</label>
                         <div class="col flex-nowrap input-group has-validation mb-3 mb-sm-0">
                             <input class="form-control text-end pe-1" id="libTitle" name="libTitle" type="text" autocomplete="off" placeholder="filename" required>
+                            <span class="input-group-text ps-1">.ucal</span>
                             <div class="invalid-tooltip">
                                 Please choose a name for this Library.
                             </div>
-                            <span class="input-group-text ps-1">.ucal</span>
                         </div>
                         <div class="col-sm-5">
                             <button class="btn btn-dark w-100" type="button" id="libSave">Save .ucal Library</button>
