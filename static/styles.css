@@ -78,17 +78,22 @@ select.toggle {
 
 #calendar-content button {
     margin: 1px;
+    background-color: var(--bs-gray-100);
     border-radius: var(--bs-border-radius);
     min-height: calc(3 * var(--bs-body-font-size) * var(--bs-btn-line-height));
     aspect-ratio: 1;
 }
 
 #calendar-content button:hover {
-    background-color: var(--bs-gray-200);
+    background-color: var(--bs-gray-300);
 }
 
 #calendar-content button:active {
-    background-color: var(--bs-gray-300);
+    background-color: var(--bs-gray-200);
+}
+
+#calendar-content button:disabled {
+    background-color: transparent;
 }
 
 #calendar-content label {

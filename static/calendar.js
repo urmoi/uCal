@@ -123,19 +123,19 @@ function makeCalendar () {
             let dayCount = i * daysPerWeek + j + 1;
             let calendarDay = dayCount - startIndex;
             let isDay = dayCount > startIndex && dayCount <= (startIndex + daysPerMonth);
-            let node = isDay ? dayTemp : notdayTemp;
-            let day = document.importNode(node.content, true);
+            let node = document.importNode(dayTemp.content, true);
             if (isDay) {
-                day.querySelector("button").addEventListener("click", function() { dayClick(this) });
-                day.querySelector("label").innerHTML = calendarDay + "." + calendarMonth + ".";
+                node.querySelector("button").addEventListener("click", function() { dayClick(this) });
+                node.querySelector("label").innerHTML = calendarDay + "." + calendarMonth + ".";
             } else {
-                
+                node.children[0].disabled = true;
+                node.children[0].innerHTML = "";
             }
-            week.appendChild(day);
+            week.appendChild(node);
         }
         content.appendChild(week);
     }
-    container.replaceChildren(...new_container.children, ...container.children);
+    container.replaceChildren(...new_container, ...container.childNodes);
 }
 
 function activateCalendar () {
