@@ -119,9 +119,9 @@ function makeCalendar () {
         let week = document.createElement("div");
         week.classList.add("row", "mx-auto");
         for (let j = 0; j < daysPerWeek; j++) {
-            let dayCount = i * daysPerWeek + j + 1;
-            let calendarDay = dayCount - startIndex;
-            let isDay = dayCount > startIndex && dayCount <= (startIndex + daysPerMonth);
+            let indexDay = i * daysPerWeek + j + 1;
+            let calendarDay = indexDay - startIndex;
+            let isDay = calendarDay >= 1 && calendarDay <= daysPerMonth;
             let node = document.importNode(dayTemp.content, true);
             if (isDay) {
                 node.querySelector("button").addEventListener("click", function() { dayClick(this) });
