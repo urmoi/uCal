@@ -97,9 +97,8 @@ function makeCalendar () {
     let calendarMonth = form.elements["calMonth"].value;
     let calendarYear = form.elements["calYear"].value;
 
-    var headerTemp = document.querySelector("template#calender-header");
-    var dayTemp = document.querySelector("template.day#is-day");
-    var notdayTemp = document.querySelector("template.day#is-not-day");
+    var headerTemp = document.querySelector("template#calendar-header");
+    var dayTemp = document.querySelector("template#calendar-day");
 
     var container = document.getElementById("calendar-calendar");
 
@@ -135,7 +134,7 @@ function makeCalendar () {
         }
         content.appendChild(week);
     }
-    container.replaceChildren(...new_container, ...container.childNodes);
+    container.replaceChildren(new_container);
 }
 
 function activateCalendar () {
