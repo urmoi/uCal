@@ -10,7 +10,7 @@ a#libMake {
 }
 
 a#libMake:hover {
-    background-color: var(--bs-btn-bg);
+    background-color: var(--bs-gray-300);
 }
 
 label.toggle {
@@ -70,16 +70,38 @@ select.toggle {
     min-width: 140px!important;
 }
 
+
+#calendar-date button {
+    aspect-ratio: 1;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: var(--bs-btn-font-size);
+    background-color: var(--bs-gray-100);
+    border-color: var(--bs-gray-400);
+}
+
+#calendar-date button:hover {
+    background-color: var(--bs-gray-200);
+}
+
+#calendar-date-before {
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="%236c757d" class="bi bi-caret-left-fill" viewBox="0 0 16 16"><path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z"/></svg>');
+}
+
+#calendar-date-after {
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="%236c757d" class="bi bi-caret-right-fill" viewBox="0 0 16 16"><path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/></svg>');
+}
+
 #calendar-content {
     padding: .5px;
-    border-radius: var(--bs-border-radius);
+    border-radius: calc(var(--bs-border-radius) + 1px);
     background-color: var(--bs-gray-200);
 }
 
 #calendar-content button {
     margin: 1px;
     background-color: var(--bs-gray-100);
-    border-radius: var(--bs-border-radius);
+    border-radius: var(--bs-btn-border-radius);
     min-height: calc(3 * var(--bs-body-font-size) * var(--bs-btn-line-height));
     aspect-ratio: 1;
 }
@@ -98,11 +120,12 @@ select.toggle {
 
 #calendar-content label {
     background-color: var(--bs-gray-300);
+    border-bottom-left-radius: var(--bs-border-radius-sm);
+    border-bottom-right-radius: var(--bs-border-radius-sm);
 }
 
 #calendar-content textarea {
     height: calc(100% - calc(var(--bs-body-font-size) * var(--bs-btn-line-height)));
     resize: none;
 }
-
 

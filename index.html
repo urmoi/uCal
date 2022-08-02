@@ -35,9 +35,9 @@
         <div class="w-700px container-md">
             <div class="row">
                 <div class="col input-group mb-3 mb-md-0">
-                    <label class="input-group-text" for="libFile">.ucal Library</label>
                     <input class="form-control btn-light" type="file" accept=".ucal" id="libFile" name="libFile"
                         value="Upload Library">
+                    <label class="input-group-text" for="libFile">.ucal Library</label>
                 </div>
                 <div class="col-sm-auto">
                     <a class="btn btn-light btn-outline-light w-100" href="/library.html" role="button"
@@ -51,36 +51,29 @@
         <div class="w-700px container-md" id="container-calendar">
             <form class="needs-validation" id="calendar-selection" novalidate>
                 <div class="row">
-                    <div class="col">
-                        <select class="form-select" id="calMonth">
-                            <option selected value="1">January</option>
-                            <option value="2">February</option>
-                            <option value="3">March</option>
-                            <option value="4">April</option>
-                            <option value="5">May</option>
-                            <option value="6">June</option>
-                            <option value="7">July</option>
-                            <option value="8">August</option>
-                            <option value="9">September</option>
-                            <option value="10">October</option>
-                            <option value="11">November</option>
-                            <option value="12">December</option>
-                        </select>
+                    <div class="input-group has-validation justify-content-center" id="calendar-date">
+                        <button class="btn btn-outline-secondary" id="calendar-date-before" type="button"></button>
+                        <input class="form-control text-center" id="calendar-date-input" value="" type="text">
+                        <div class="valid-tooltip rounded" id="calendar-date-tooltip">
+                            Looks good!
+                        </div>
+                        <div class="invalid-tooltip rounded">
+                            invalid [MM / YYYY]
+                        </div>
+                        <button class="btn btn-outline-secondary" id="calendar-date-after" type="button"></button>
                     </div>
-                    <div class="col">
-                        <select class="form-select" id="calYear">
-                            <option selected value="2022">2022</option>
-                            <option value="2023">2023</option>
-                        </select>
-                    </div>
+                    <input class="visually-hidden" id="calendar-date-month" value="" type="number">
+                    <input class="visually-hidden" id="calendar-date-year" value="" type="number">
                 </div>
 
-                <hr>
+            </form>
 
+            <hr>
+            
+            <form class="needs-validation" id="calendar-input" novalidate>
                 <div class="row mb-3">
                     <div class="col input-group flex-nowrap mb-3 mb-md-0 w-100">
-                        <select class="form-select toggle" id="shortcutSelection"
-                            aria-label="Example select with button addon">
+                        <select class="form-select toggle" id="shortcutSelection" aria-label="Example select with button addon">
                             <option value="" disabled selected>Choose Shortcut...</option>
                         </select>
                         <input type="radio" class="btn-check form-check-input" name="dayOption" id="dayInsert"
@@ -154,25 +147,20 @@
 
 
 <script>
-    const libButton = document.getElementById("libFile");
-    libButton.addEventListener("input", () => loadLibrary());
+    window.addEventListener("load", setCalendarDate() );
+    
+    document.getElementById("libFile").addEventListener("input", () => loadLibrary() );
+    document.getElementById("saveCal").addEventListener("click", () => saveCalendar() );
 
-    const saveButton = document.getElementById("saveCal");
-    saveButton.addEventListener("click", () => saveCalendar());
+    document.getElementById("calendar-date-input").addEventListener("focus", (e) => editCalenderDate(e.srcElement) );
+    document.getElementById("calendar-date-input").addEventListener("input", (e) => checkCalenderDate(e.srcElement) );
+    document.getElementById("calendar-date-input").addEventListener("focusout", (e) => acceptCalenderDate(e.srcElement) );
 
-    setMonth();
-    makeCalendar();
-    // activateCalendar();
+    document.getElementById("calendar-date-before").addEventListener("click", () => changeCalendarDate(-1) );
+    document.getElementById("calendar-date-after").addEventListener("click", () => changeCalendarDate(+1) );
 
-    const monthButton = document.getElementById("calMonth");
-    monthButton.addEventListener("input", () => makeCalendar());
+    document.getElementById("shortcutSelection").addEventListener("change", () => activateCalendar() );
 
-    const yearButton = document.getElementById("calYear");
-    yearButton.addEventListener("input", () => makeCalendar());
-
-    const shortButton = document.getElementById("shortcutSelection");
-    shortButton.addEventListener("change", () => activateCalendar());
-
-    document.getElementById("dayInsert").addEventListener("click", () => disableShortcut(false));
-    document.getElementById("dayDelete").addEventListener("click", () => disableShortcut(true));
+    document.getElementById("dayInsert").addEventListener("click", () => disableShortcut(false) );
+    document.getElementById("dayDelete").addEventListener("click", () => disableShortcut(true) );
 </script>

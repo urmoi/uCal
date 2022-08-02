@@ -141,20 +141,20 @@
     const saveButton = document.getElementById("libSave");
     saveButton.addEventListener("click", () => saveLibrary());
 
-    document.getElementById("libTitle").addEventListener("input", e => { checkTitle(e.srcElement) });
+    document.getElementById("libTitle").addEventListener("input", e => checkTitle(e.srcElement) );
 
 
     const addButton = document.getElementById("calAdd");
-    addButton.addEventListener("click", () => addItem());
-    addButton.addEventListener("click", () => updateTable());
+    addButton.addEventListener("click", () => addItem() );
+    addButton.addEventListener("click", () => updateTable() );
 
-    document.getElementById("calShort").addEventListener("input", e => { checkShort(e.srcElement) });
+    document.getElementById("calShort").addEventListener("input", (e) => checkShort(e.srcElement) );
 
-    document.getElementById("calTime").addEventListener("click", e => { disableTime(false) });
-    document.getElementById("calAllday").addEventListener("click", e => { disableTime(true) });
+    document.getElementById("calTime").addEventListener("click", () => disableTime(false) );
+    document.getElementById("calAllday").addEventListener("click", () => disableTime(true) );
 
-    document.getElementById("calStarts").addEventListener("input", e => { checkTime(e.srcElement) });
-    document.getElementById("calEnds").addEventListener("input", e => { checkTime(e.srcElement) });
+    document.getElementById("calStarts").addEventListener("input", (e) => checkTime(e.srcElement) );
+    document.getElementById("calEnds").addEventListener("input", (e) => checkTime(e.srcElement) );
 
     
 </script>

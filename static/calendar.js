@@ -11,7 +11,7 @@ function saveCalendar () {
     fileForm.classList.remove("was-validated");
     let filename = fileForm.querySelector("input").value;
     
-    let form = document.getElementById("calendar-selection");
+    let form = document.getElementById("calendar-input");
     let buttons = form.querySelectorAll("button.calBtn");
 
     var cal = ics();
@@ -64,11 +64,9 @@ function loadLibrary () {
 }
 
 function resetCalendar() {
-    let form = document.getElementById("calendar-selection");
-    let calendarMonth = form.elements["calMonth"].value;
-    let calendarYear = form.elements["calYear"].value;
+    let form = document.getElementById("calendar-input");
     form.reset();
-    setMonth(calendarMonth, calendarYear);
+
     updateShortcutSelection();
     disableShortcut(false);
     activateCalendar();
@@ -93,9 +91,7 @@ function updateShortcutSelection() {
 }
 
 function makeCalendar () {
-    let form = document.getElementById("calendar-selection");
-    let calendarMonth = form.elements["calMonth"].value;
-    let calendarYear = form.elements["calYear"].value;
+    let [month, year] = getCalendarDate();
 
     var headerTemp = document.querySelector("template#calendar-header");
     var dayTemp = document.querySelector("template#calendar-day");
@@ -111,21 +107,21 @@ function makeCalendar () {
     new_container.appendChild(content);
 
     let daysPerWeek = 7;
-    let daysPerMonth = daysInMonth(calendarMonth, calendarYear);
-    let startIndex = weekdayOfMonth(calendarMonth, calendarYear);
-    let weeksPerMonth = (startIndex + daysPerMonth) / daysPerWeek;
+    let daysPerMonth = new Date(year, month+1, 0).getDate();
+    let startDay = new Date(year, month, 1).getDay() || 7;
+    let weeksPerMonth = (startDay + daysPerMonth - 1) / daysPerWeek;
 
     for (let i = 0; i < weeksPerMonth; i++) {
         let week = document.createElement("div");
         week.classList.add("row", "mx-auto");
-        for (let j = 0; j < daysPerWeek; j++) {
-            let indexDay = i * daysPerWeek + j + 1;
-            let calendarDay = indexDay - startIndex;
+        for (let j = 1; j <= daysPerWeek; j++) {
+            let numberDay = i * daysPerWeek + j;
+            let calendarDay = numberDay - startDay + 1;
             let isDay = calendarDay >= 1 && calendarDay <= daysPerMonth;
             let node = document.importNode(dayTemp.content, true);
             if (isDay) {
                 node.querySelector("button").addEventListener("click", function() { dayClick(this) });
-                node.querySelector("label").innerHTML = calendarDay + "." + calendarMonth + ".";
+                node.querySelector("label").innerHTML = (calendarDay) + "." + (month+1) + ".";
             } else {
                 node.children[0].disabled = true;
                 node.children[0].innerHTML = "";
@@ -151,7 +147,7 @@ function dayClick (btn) {
     let insertMode = document.getElementById("dayInsert").checked;
 
     if (insertMode) {
-        let form = document.getElementById("calendar-selection");
+        let form = document.getElementById("calendar-input");
         let shortcut = form.elements["shortcutSelection"].value;
 
         if (!shortcut) { return }
@@ -163,18 +159,77 @@ function dayClick (btn) {
     }
 }
 
-function daysInMonth (month, year) {
-    return new Date(year, month, 0).getDate();
+function getCalendarDate() {
+    let month = parseInt(document.getElementById("calendar-date-month").value);
+    let year = parseInt(document.getElementById("calendar-date-year").value);
+    return [month, year];
 }
 
-function weekdayOfMonth (month, year) {
-    return new Date(year, month - 1, 1).getDay() - 1;
+function setCalendarDate () {
+    let month = new Date().getMonth();
+    let year = new Date().getFullYear();
+    updateCalendarDate(month, year);
 }
 
-function setMonth (month, year) {
-    let form = document.getElementById("calendar-selection");
-    form.elements["calMonth"].value = month ? month : new Date().getMonth() + 1;
-    form.elements["calYear"].value = year ? year : new Date().getFullYear();
+function changeCalendarDate (direction) {
+    let [month, year] = getCalendarDate();
+    updateCalendarDate(month + direction, year);
+}
+
+function updateCalendarDate (month, year, update=true) {
+    let date = getDateFromMonthAndYear(month, year);
+
+    document.getElementById("calendar-date-month").value = date.getMonth();
+    document.getElementById("calendar-date-year").value = date.getFullYear();
+    document.getElementById("calendar-date-input").value = getStringFromDate(date);
+
+    if (update) { makeCalendar() };
+}
+
+function editCalenderDate (input) {
+    input.form.classList.add("was-validated");
+    input.setCustomValidity("");
+
+    let [month, year] = getCalendarDate();
+    updateCalendarTooltip (month, year);
+    input.value = (month+1) + " / " + year;
+}
+
+function checkCalenderDate (input) {
+    if (/^(1[0-2]|0?[1-9]) ?\/ ?([2-9]\d[1-9]\d|[1-9]\d)$/.test(input.value)) {
+        input.setCustomValidity("");
+        let [month, year] = input.value.split("/");
+        updateCalendarTooltip (month-1, year);
+    } else {
+        input.setCustomValidity("invalid date")
+    }
+}
+
+function acceptCalenderDate (input) {
+    input.form.classList.remove("was-validated");
+
+    let [month, year] = input.value.split("/");
+    month -= 1;
+
+    let [savedMonth, savedYear] = getCalendarDate();
+
+    if (!input.form.checkValidity()) { [month, year] = [savedMonth, savedYear] }
+
+    updateCalendarDate(month, year, month != savedMonth || year != savedYear);
+}
+
+function updateCalendarTooltip (month, year) {
+    document.getElementById("calendar-date-tooltip").innerHTML = getStringFromDate(getDateFromMonthAndYear(month, year));
+}
+
+function getDateFromMonthAndYear (month, year) {
+    let date = new Date(year, month);
+    if (date.getFullYear() < 1970) { date.setFullYear(date.getFullYear() + 100) };
+    return date;
+}
+
+function getStringFromDate (date) {
+    return date.toLocaleString("en-US", { month: "long", year: "numeric" });
 }
 
 function disableShortcut(disable) {
