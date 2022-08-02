@@ -13,9 +13,11 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
         crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
 
     <!-- https://favicon.io/emoji-favicons/spiral-calendar -->
     <link href="/static/favicon.ico" rel="icon">
+
     <link href="/static/styles.css" rel="stylesheet">
 
     <script src="/static/calendar.js"></script>
@@ -52,7 +54,9 @@
             <form class="needs-validation" id="calendar-selection" novalidate>
                 <div class="row">
                     <div class="input-group has-validation justify-content-center" id="calendar-date">
-                        <button class="btn btn-outline-secondary" id="calendar-date-before" type="button"></button>
+                        <button class="btn btn-outline-secondary" id="calendar-date-before" type="button">
+                            <i class="bi bi-caret-left-fill"></i>
+                        </button>
                         <input class="form-control text-center" id="calendar-date-input" value="" type="text">
                         <div class="valid-tooltip rounded" id="calendar-date-tooltip">
                             Looks good!
@@ -60,7 +64,9 @@
                         <div class="invalid-tooltip rounded">
                             invalid [MM / YYYY]
                         </div>
-                        <button class="btn btn-outline-secondary" id="calendar-date-after" type="button"></button>
+                        <button class="btn btn-outline-secondary" id="calendar-date-after" type="button">
+                            <i class="bi bi-caret-right-fill"></i>
+                        </button>
                     </div>
                     <input class="visually-hidden" id="calendar-date-month" value="" type="number">
                     <input class="visually-hidden" id="calendar-date-year" value="" type="number">
@@ -73,16 +79,16 @@
             <form class="needs-validation" id="calendar-input" novalidate>
                 <div class="row mb-3">
                     <div class="col input-group flex-nowrap mb-3 mb-md-0 w-100">
-                        <select class="form-select toggle" id="shortcutSelection" aria-label="Example select with button addon">
+                        <select class="form-select toggle" id="calendar-shortcut-selection" aria-label="Example select with button addon">
                             <option value="" disabled selected>Choose Shortcut...</option>
                         </select>
-                        <input type="radio" class="btn-check form-check-input" name="dayOption" id="dayInsert"
+                        <input type="radio" class="btn-check form-check-input" name="dayOption" id="dayAdd"
                             autocomplete="off" checked>
-                        <label class="btn btn-light btn-outline-light toggle" for="dayInsert">Insert</label>
+                        <label class="btn btn-light btn-outline-light toggle" id="calendar-shortcut-add" for="dayAdd">Add <i class="bi bi-plus-square"></i></label>
                     </div>
                     <div class="col-sm-auto">
-                        <input type="radio" class="btn-check" name="dayOption" id="dayDelete" autocomplete="off">
-                        <label class="btn btn-light btn-outline-light toggle w-100" for="dayDelete">Delete</label>
+                        <input type="radio" class="btn-check" name="dayOption" id="dayClear" autocomplete="off">
+                        <label class="btn btn-light btn-outline-light toggle w-100" for="dayClear">Clear <i class="bi bi-x-square"></i></label>
                     </div>
                 </div>
 
@@ -97,7 +103,7 @@
                 <div class="row mb-3">
                     <div class="col">
                         <div class="input-group mb-3 mb-sm-0 has-validation">
-                            <input class="form-control text-end pe-1" id="calTitle" name="calTitle"
+                            <input class="form-control text-end pe-1" id="calendar-filename" name="calender-filename"
                                 type="text" autocomplete="off" placeholder="filename" required>
                             <span class="input-group-text ps-1">.cls</span>
                             <div class="invalid-tooltip">
@@ -159,8 +165,8 @@
     document.getElementById("calendar-date-before").addEventListener("click", () => changeCalendarDate(-1) );
     document.getElementById("calendar-date-after").addEventListener("click", () => changeCalendarDate(+1) );
 
-    document.getElementById("shortcutSelection").addEventListener("change", () => activateCalendar() );
+    document.getElementById("calendar-shortcut-selection").addEventListener("change", () => activateCalendar() );
 
-    document.getElementById("dayInsert").addEventListener("click", () => disableShortcut(false) );
-    document.getElementById("dayDelete").addEventListener("click", () => disableShortcut(true) );
+    document.getElementById("dayAdd").addEventListener("click", () => disableShortcut(false) );
+    document.getElementById("dayClear").addEventListener("click", () => disableShortcut(true) );
 </script>

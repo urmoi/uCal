@@ -73,23 +73,13 @@ select.toggle {
 
 #calendar-date button {
     aspect-ratio: 1;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: var(--bs-btn-font-size);
     background-color: var(--bs-gray-100);
     border-color: var(--bs-gray-400);
 }
 
 #calendar-date button:hover {
+    color: var(--bs-btn-color);
     background-color: var(--bs-gray-200);
-}
-
-#calendar-date-before {
-    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="%236c757d" class="bi bi-caret-left-fill" viewBox="0 0 16 16"><path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z"/></svg>');
-}
-
-#calendar-date-after {
-    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="%236c757d" class="bi bi-caret-right-fill" viewBox="0 0 16 16"><path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/></svg>');
 }
 
 #calendar-content {
