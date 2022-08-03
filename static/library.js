@@ -105,9 +105,6 @@ function correctTime(input) {
 
 function toggleTime(toggle=true, e=document.querySelector("#time-toggle-time")) {
     e.parentNode.querySelector("input[type=radio]").checked = !toggle;
-
-    e.classList.remove("btn-toggle-disabled");
-    e.parentNode.querySelector(".btn-toggle:not(#"+e.id+")").classList.add("btn-toggle-disabled");
     
     e.parentNode.querySelectorAll("input[type=text]")[0].disabled = !toggle;
     e.parentNode.querySelectorAll("input[type=text]")[1].disabled = !toggle;

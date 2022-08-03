@@ -17,7 +17,10 @@ a#libMake:hover {
     color: var(--bs-gray-200);
 }
 
-.btn-toggle-disabled * {
+input[type="radio"]:not(:checked)~.btn-toggle-on *,
+input[type="radio"]:checked~.btn-toggle-off *
+/* .btn-toggle-disabled * */
+{
     cursor: pointer!important; 
     color: var(--bs-gray-400)!important;
     border-color: var(--bs-gray-400)!important;

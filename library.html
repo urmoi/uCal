@@ -67,7 +67,7 @@
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label position-relative" for="calStarts">Time</label>
                         <input type="radio" class="btn-check" name="time-toggle" id="time-toggle" autocomplete="off">
-                        <div class="col flex-nowrap input-group btn-toggle has-validation" id="time-toggle-time">
+                        <div class="col flex-nowrap input-group btn-toggle btn-toggle-off has-validation" id="time-toggle-time">
                             <i class="input-group-text bi bi-clock-fill"></i>
                             <input class="form-control input-time text-end" id="calStarts" name="calStarts" type="text" placeholder="12:00" required>
                             <i class="input-group-text bi bi-dash-lg bg-transparent"></i>
@@ -76,7 +76,7 @@
                                 Please give a valid time [i.e. 12 | 1200 | 12:00].
                             </div>
                         </div>
-                        <div class="col-sm-auto btn-toggle mt-3 mt-sm-0 text-center" id="time-toggle-allday">
+                        <div class="col-sm-auto btn-toggle btn-toggle-on mt-3 mt-sm-0 text-center" id="time-toggle-allday">
                             <laben class="input-group-text"><i class="bi bi-circle-half me-3 me-sm-0"></i>&nbsp;all-day</label>
                         </div>
                     </div>
@@ -92,7 +92,7 @@
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label" for="calNotes">Notes</label>
                         <div class="col input-group">
-                            <i class="input-group-text bi bi-card-text"></i>
+                            <label class="input-group-text align-items-start"><i class="bi bi-card-text"></i></label>
                             <textarea class="form-control" id="calNotes" name="calNotes" type="text"></textarea>
                         </div>
                     </div>
@@ -114,7 +114,7 @@
                             </div>
                         </div>
                         <div class="col-sm-auto">
-                            <button class="btn btn-dark w-100" type="button" id="libSave"><i class="bi bi-download"></i> Download <i class="bi bi-journals"></i> Library</button>
+                            <button class="btn btn-dark w-100" type="button" id="libSave"><i class="bi bi-download"></i> Download</button>
                         </div>
                     </div>
                 </form>
