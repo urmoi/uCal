@@ -11,9 +11,12 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
 
-        <!-- https://favicon.io/emoji-favicons/spiral-calendar -->
+        <!-- https://icons.getbootstrap.com/ -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+
+        <!-- https://favicon.io/emoji-favicons/spiral-calendar/ -->
         <link href="/static/favicon.ico" rel="icon">
-        
+
         <link href="/static/styles.css" rel="stylesheet">
 
         <script src="/static/library.js"></script>
@@ -23,9 +26,10 @@
     </head>
 
     <body>
+
         <nav class="bg-light border navbar navbar-expand-md navbar-light">
             <div class="container-fluid">
-                <a class="navbar-brand" href="/">uCal</a>
+                <a class="navbar-brand" href="/"><i class="bi bi-calendar3"></i> uCal</a>
             </div>
         </nav>
 
@@ -36,21 +40,23 @@
                         <label class="col-sm-2 col-form-label" for="calShort">Shortcut</label>
                         <div class="col position-relative">
                             <div class="input-group has-validation">
+                                <i class="input-group-text bi bi-ticket-fill"></i>
                                 <input class="form-control" id="calShort" name="calShort" type="text" autofocus autocomplete="off" required>
                                 <div class="invalid-tooltip rounded">
-                                    Please choose a unique shortcut key.
+                                    Please choose a unique shortcut.
                                 </div>
                                 <div class="invalid-tooltip used-tooltip rounded">
-                                    Shortcut already used, you will overwrite it.
+                                    Shortcut already used, you will overwrite it!
                                 </div>
-                                <button class="col-sm-3 btn btn-dark w-auto" type="button" id="calAdd">Add to Library</button>
+                                <button class="col-sm-3 btn btn-dark w-auto" type="button" id="calAdd"><i class="bi bi-journal-plus"></i> <i class="bi bi-arrow-right"></i> <i class="bi bi-journals"></i> Library</button>
                             </div>
                         </div>
                     </div>
 
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label" for="calSub">Subject</label>
-                        <div class="col position-relative">
+                    <div class="row mb-3 position-relative">
+                        <label class="col-sm-2 col-form-label" for="calSub">Subject</i></label>
+                        <div class="col input-group has-validation">
+                            <i class="input-group-text bi bi-calendar2-fill"></i>
                             <input class="form-control has-validation" id="calSub" name="calSub" type="text" autocomplete="off" required>
                             <div class="invalid-tooltip">
                                 Please give a subject.
@@ -58,54 +64,57 @@
                         </div>
                     </div>
 
-                    <div class="row">
-                        <label class="col-sm-2 col-form-label position-relative" for="calStart">Time</label>
-                        <div class="col flex-nowrap input-group mb-3 has-validation">
-                            <input class="form-control input-time toggle text-end" id="calStarts" name="calStart" type="text" placeholder="12:00" required>
-                            <input type="radio" class="btn-check" name="timeOption" id="calTime" autocomplete="off" checked>
-                            <label class="btn btn-light btn-outline-light toggle" for="calTime">&#x2500;</label>
-                            <input class="form-control input-time toggle" id="calEnds" name="calEnds" type="text" placeholder="13:00" required>
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label position-relative" for="calStarts">Time</label>
+                        <input type="radio" class="btn-check" name="time-toggle" id="time-toggle" autocomplete="off">
+                        <div class="col flex-nowrap input-group btn-toggle has-validation" id="time-toggle-time">
+                            <i class="input-group-text bi bi-clock-fill"></i>
+                            <input class="form-control input-time text-end" id="calStarts" name="calStarts" type="text" placeholder="12:00" required>
+                            <i class="input-group-text bi bi-dash-lg bg-transparent"></i>
+                            <input class="form-control input-time" id="calEnds" name="calEnds" type="text" placeholder="13:00" required>
                             <div class="invalid-tooltip">
                                 Please give a valid time [i.e. 12 | 1200 | 12:00].
                             </div>
                         </div>
-                        <div class="col-auto">
-                            <input type="radio" class="btn-check" name="timeOption" id="calAllday" autocomplete="off">
-                            <label class="btn btn-light btn-outline-light toggle" for="calAllday">all-day</label>
+                        <div class="col-sm-auto btn-toggle mt-3 mt-sm-0 text-center" id="time-toggle-allday">
+                            <laben class="input-group-text"><i class="bi bi-circle-half me-3 me-sm-0"></i>&nbsp;all-day</label>
                         </div>
                     </div>
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label" for="calLocal">Location</label>
-                        <div class="col">
+                        <div class="col input-group">
+                            <i class="input-group-text bi bi-pin-map"></i>
                             <input class="form-control" id="calLocal" name="calLocal" type="text" autocomplete="off">
                         </div>
                     </div>
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label" for="calNotes">Notes</label>
-                        <div class="col">
+                        <div class="col input-group">
+                            <i class="input-group-text bi bi-card-text"></i>
                             <textarea class="form-control" id="calNotes" name="calNotes" type="text"></textarea>
                         </div>
                     </div>
                 </form>
             </div>
 
-            <hr class="visually-hidden" id="new-lib-hr">
+            <hr class="" id="new-lib-hr">
 
-            <div class="w-700px container-sm visually-hidden" id="new-lib-container">
+            <div class="w-700px container-sm " id="new-lib-container">
                 <form class="text-start text-sm-end needs-validation" id="new-lib" novalidate>
                     <div class="row">
                         <label class="col-sm-2 col-form-label" for="libTitle">Library</label>
                         <div class="col flex-nowrap input-group has-validation mb-3 mb-sm-0">
+                            <i class="input-group-text bi bi-journals"></i>
                             <input class="form-control text-end pe-1" id="libTitle" name="libTitle" type="text" autocomplete="off" placeholder="filename" required>
                             <span class="input-group-text ps-1">.ucal</span>
                             <div class="invalid-tooltip">
                                 Please choose a name for this Library.
                             </div>
                         </div>
-                        <div class="col-sm-5">
-                            <button class="btn btn-dark w-100" type="button" id="libSave">Save .ucal Library</button>
+                        <div class="col-sm-auto">
+                            <button class="btn btn-dark w-100" type="button" id="libSave"><i class="bi bi-download"></i> Download <i class="bi bi-journals"></i> Library</button>
                         </div>
                     </div>
                 </form>
@@ -151,8 +160,11 @@
 
     document.getElementById("calShort").addEventListener("input", (e) => checkShort(e.srcElement) );
 
-    document.getElementById("calTime").addEventListener("click", () => disableTime(false) );
-    document.getElementById("calAllday").addEventListener("click", () => disableTime(true) );
+    document.getElementById("time-toggle-time").addEventListener("click", (e) => toggleTime(true, e.currentTarget));
+    document.getElementById("time-toggle-allday").addEventListener("click", (e) => toggleTime(false, e.currentTarget));
+
+    // document.getElementById("calTime").addEventListener("click", () => disableTime(false) );
+    // document.getElementById("calAllday").addEventListener("click", () => disableTime(true) );
 
     document.getElementById("calStarts").addEventListener("input", (e) => checkTime(e.srcElement) );
     document.getElementById("calEnds").addEventListener("input", (e) => checkTime(e.srcElement) );

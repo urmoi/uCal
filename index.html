@@ -8,14 +8,13 @@
     <meta name="viewport" content="initial-scale=1, width=device-width">
 
     <!-- http://getbootstrap.com/docs/5.2/ -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
-        crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+    
+    <!-- https://icons.getbootstrap.com/ -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
 
-    <!-- https://favicon.io/emoji-favicons/spiral-calendar -->
+    <!-- https://favicon.io/emoji-favicons/spiral-calendar/ -->
     <link href="/static/favicon.ico" rel="icon">
 
     <link href="/static/styles.css" rel="stylesheet">
@@ -27,9 +26,10 @@
 </head>
 
 <body>
+    
     <nav class="bg-light border navbar navbar-expand-md navbar-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/">uCal</a>
+            <a class="navbar-brand" href="/"><i class="bi bi-calendar3"></i> uCal</a>
         </div>
     </nav>
 
@@ -112,7 +112,7 @@
                         </div>
                     </div>
                     <div class="col-sm-6">
-                    <button class="btn btn-dark w-100" type="button" id="saveCal">Download .ics Calendar</button>
+                    <button class="btn btn-dark w-100" type="button" id="saveCal"><i class="bi bi-file-arrow-down"></i> Download Calendar</button>
                     </div>
                 </div>
             </form>

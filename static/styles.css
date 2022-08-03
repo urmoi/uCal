@@ -13,32 +13,15 @@ a#libMake:hover {
     background-color: var(--bs-gray-300);
 }
 
-label.toggle {
-    color: #ced4da;
-    border-color: #ced4da;
+.btn-toggle input::placeholder {
+    color: var(--bs-gray-200);
 }
 
-.btn-check:checked+.toggle {
-    color: #212529;
-    border-color: #ced4da;
-    background-color: var(--bs-gray-200);
-}
-
-.input-time {
-    min-width: 65px!important;
-}
-
-.toggle:disabled, .toggle:disabled::placeholder {
-    color: #ced4da;
-    background-color: #fff;
-}
-
-.input-group-time {
-    min-width: 135px;
-}
-
-.input-group-text.input-time {
-    min-width: 67px;
+.btn-toggle-disabled * {
+    cursor: pointer!important; 
+    color: var(--bs-gray-400)!important;
+    border-color: var(--bs-gray-400)!important;
+    background-color: var(--bs-gray-100)!important;
 }
 
 input.is-used {
@@ -64,6 +47,8 @@ input.is-used:focus~.used-tooltip {
 .was-validated .text-end.form-control:invalid,
 .was-validated .text-end.form-control:valid {
     background-position: left calc(.375em + .1875rem) center;
+    padding-left: calc(1.5em + .75rem);
+    padding-right: calc(var(--bs-gutter-x) * .5);
 }
 
 select.toggle {
@@ -118,4 +103,3 @@ select.toggle {
     height: calc(100% - calc(var(--bs-body-font-size) * var(--bs-btn-line-height)));
     resize: none;
 }
-

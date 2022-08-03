@@ -37,7 +37,7 @@ function addItem () {
 
     itemData["subject"] = document.getElementById("calSub").value;
 
-    if (document.getElementById("calTime").checked) {
+    if (!document.getElementById("time-toggle").checked) {
         itemData["time"] = correctTime(document.getElementById("calStarts").value) + "-" + correctTime(document.getElementById("calEnds").value);
     } else {
         itemData["time"] = "all-day";
@@ -61,8 +61,8 @@ function checkForm(form) {
 
 function resetForm(form) {
     form.classList.remove("was-validated");
-    disableTime(false);
     document.getElementById("calShort").classList.remove("is-used");
+    toggleTime();
     form.reset();
 }
 
@@ -103,9 +103,16 @@ function correctTime(input) {
     }
 }
 
-function disableTime(disable) {
-    document.getElementById("calStarts").disabled = disable;
-    document.getElementById("calEnds").disabled = disable;
+function toggleTime(toggle=true, e=document.querySelector("#time-toggle-time")) {
+    console.log("toggle", e.parentNode.querySelector("input[type=radio]").checked);//, e.parentNode.parentNode.querySelector(".btn-toggle:not(#"+e.parentNode.id+")"));
+    
+    e.parentNode.querySelector("input[type=radio]").checked = !toggle;
+
+    e.classList.remove("btn-toggle-disabled");
+    e.parentNode.querySelector(".btn-toggle:not(#"+e.id+")").classList.add("btn-toggle-disabled");
+    
+    e.parentNode.querySelectorAll("input[type=text]")[0].disabled = !toggle;
+    e.parentNode.querySelectorAll("input[type=text]")[1].disabled = !toggle;
 }
 
 function updateTable() {
