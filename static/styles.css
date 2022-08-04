@@ -17,9 +17,12 @@ a#libMake:hover {
     display: flex;
     border: 0;
     padding-block: 0;
+    background-color: transparent!important;
 }
 
-.btn-toggle {
+.btn-toggle,
+.btn-click
+{
     --bs-btn-color: var(--bs-gray-900);
     --bs-btn-bg: var(--bs-gray-200);
     --bs-btn-border-color: var(--bs-gray-400);
@@ -33,29 +36,52 @@ a#libMake:hover {
     --bs-btn-active-border-color: var(--bs-gray-400);
 }
 
+.btn-toggle,
+.btn-toggle
+ {
+    --bs-btn-hover-bg: var(--bs-gray-200);
+    --bs-btn-active-color: var(--bs-gray-900);
+    --bs-btn-active-bg: var(--bs-gray-200);
+}
+
+.btn-toggle-on button.btn-toggle,
+.btn-toggle-off button.btn-toggle
+ {
+    cursor: initial;
+}
+
 input.btn-toggle,
 select.btn-toggle
 {
+    opacity: 1;
     background-color: transparent;
-}
-
-.btn-toggle:disabled {
-    opacity: 1!important;
 }
 
 .btn-toggle input::placeholder {
     color: var(--bs-gray-200);
 }
 
-input[type="radio"]:not(:checked)~.btn-toggle-on *,
-input[type="radio"]:checked~.btn-toggle-off *
+input[type="radio"]:not(:checked)~.btn-toggle-on>*,
+input[type="radio"]:checked~.btn-toggle-off>*
 {
-    cursor: pointer!important;
-    border-color: var(--bs-gray-400);
+    cursor: pointer;
     color: var(--bs-gray-400);
-    background-color: var(--bs-gray-100);
+    /* background-color: var(--bs-gray-100)!important; */
+    background-color: transparent;
+    border-color: var(--bs-gray-400);
     --bs-btn-color: var(--bs-gray-400);
-    --bs-btn-bg: var(--bs-gray-100);
+    --bs-btn-bg: var(--bs-gray-100)!important;
+    --bs-btn-border-color: var(--bs-gray-400);
+}
+
+input[type="radio"]:not(:checked)~.btn-toggle-on:hover>*,
+input[type="radio"]:checked~.btn-toggle-off:hover>*
+{
+    color: var(--bs-gray-400);
+    background-color: var(--bs-gray-200)!important;
+    border-color: var(--bs-gray-400);
+    --bs-btn-color: var(--bs-gray-400);
+    --bs-btn-bg: var(--bs-gray-200)!important;
     --bs-btn-border-color: var(--bs-gray-400);
 }
 

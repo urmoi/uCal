@@ -110,7 +110,7 @@ function makeCalendar () {
 
     for (let i = 0; i < weeksInMonth; i++) {
         let week = document.createElement("div");
-        week.classList.add("row", "mx-auto");
+        week.classList.add("row", "mx-auto", "flex-nowwrap");
         for (let j = 1; j <= daysInWeek; j++) {
             let numberDay = i * daysInWeek + j;
             let calendarDay = numberDay - firstDay + 1;
