@@ -3,23 +3,6 @@
     min-width: 300px;
 }
 
-/* a#libMake {
-    background-color: var(--bs-gray-200);
-    border-color: #ced4da;
-    color: #212529;
-}
-
-a#libMake:hover {
-    background-color: var(--bs-gray-300);
-} */
-
-.btn-toggle-group {
-    display: flex;
-    border: 0;
-    padding-block: 0;
-    background-color: transparent!important;
-}
-
 .btn-toggle,
 .btn-click
 {
@@ -36,28 +19,40 @@ a#libMake:hover {
     --bs-btn-active-border-color: var(--bs-gray-400);
 }
 
-.btn-toggle,
-.btn-toggle
- {
+nav .btn-click {
+    text-decoration: none;
+    --bs-btn-color: var(--bs-gray-900);
+    --bs-btn-bg: transparent;
+    --bs-btn-border-color: transparent;
+    --bs-btn-hover-bg: transparent;
+}
+
+
+.btn-toggle {
     --bs-btn-hover-bg: var(--bs-gray-200);
     --bs-btn-active-color: var(--bs-gray-900);
     --bs-btn-active-bg: var(--bs-gray-200);
 }
 
-.btn-toggle-on button.btn-toggle,
-.btn-toggle-off button.btn-toggle
+.btn-toggle-on,
+.btn-toggle-off
+{
+    cursor: pointer;
+}
+
+.btn-toggle-on .btn:not(select),
+.btn-toggle-off .btn:not(select)
  {
-    cursor: initial;
+    cursor:initial;
 }
 
 input.btn-toggle,
 select.btn-toggle
 {
-    opacity: 1;
-    background-color: transparent;
+    background-color: transparent!important;
 }
 
-.btn-toggle input::placeholder {
+input.btn-toggle::placeholder {
     color: var(--bs-gray-200);
 }
 
@@ -66,9 +61,8 @@ input[type="radio"]:checked~.btn-toggle-off>*
 {
     cursor: pointer;
     color: var(--bs-gray-400);
-    /* background-color: var(--bs-gray-100)!important; */
-    background-color: transparent;
-    border-color: var(--bs-gray-400);
+    background-color: var(--bs-gray-100)!important;
+    border-color: var(--bs-gray-200);
     --bs-btn-color: var(--bs-gray-400);
     --bs-btn-bg: var(--bs-gray-100)!important;
     --bs-btn-border-color: var(--bs-gray-400);
@@ -78,7 +72,7 @@ input[type="radio"]:not(:checked)~.btn-toggle-on:hover>*,
 input[type="radio"]:checked~.btn-toggle-off:hover>*
 {
     color: var(--bs-gray-400);
-    background-color: var(--bs-gray-200)!important;
+    background-color: var(--bs-gray-100)!important;
     border-color: var(--bs-gray-400);
     --bs-btn-color: var(--bs-gray-400);
     --bs-btn-bg: var(--bs-gray-200)!important;
@@ -108,21 +102,9 @@ input.is-used:focus~.used-tooltip {
 .was-validated .text-end.form-control:invalid,
 .was-validated .text-end.form-control:valid {
     background-position: left calc(.375em + .1875rem) center;
-    padding-left: calc(1.5em + .75rem);
+    padding-left: calc(var(--bs-gutter-x) + var(--bs-gutter-x) * .5);
     padding-right: calc(var(--bs-gutter-x) * .5);
 }
-
-
-/* #calendar-date button {
-    aspect-ratio: 1;
-    background-color: var(--bs-gray-100);
-    border-color: var(--bs-gray-400);
-}
-
-#calendar-date button:hover {
-    color: var(--bs-btn-color);
-    background-color: var(--bs-gray-200);
-} */
 
 #calendar-content {
     padding: .5px;

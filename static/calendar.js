@@ -41,6 +41,14 @@ function saveCalendar () {
     cal.download(filename);
 }
 
+function checkFilename(input) {
+    if (/^[^\\ \/ : * ? " < > |]+$/.test(input.value)) {
+        input.setCustomValidity("");
+    } else {
+        input.setCustomValidity("invalid filename")
+    }
+}
+
 function checkForm(form) {
     form.classList.add("was-validated");
     return form.checkValidity();
@@ -155,9 +163,7 @@ function dayClick (btn) {
 }
 
 function toggleShortcut(toggle=true, e=document.querySelector("#shortcut-toggle-add")) {
-    console.log(e);
     e.parentNode.querySelector("input[type=radio]").checked = toggle;
-    
     e.parentNode.querySelector("select").disabled = !toggle;
 }
 
