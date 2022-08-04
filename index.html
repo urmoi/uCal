@@ -29,41 +29,30 @@
 </head>
 
 <body>
-
     <nav class="bg-light border navbar navbar-light">
-        <div class="container-fluid justify-content-start position-absolute w-auto">
-            <span class="navbar-brand mb-0 h1"><i class="bi bi-calendar3"></i> uCal</span>
-        </div>
-        <div class="container-fluid justify-content-sm-center justify-content-end">
-            <a class="btn btn-click active" role="button" href="#">
-                <i class="bi bi-calendar3-range"></i> Calendar
-            </a>
-            <a class="btn btn-click mx-2 me-sm-0" role="button" href="/library.html">
-                <i class="bi bi-journals"></i> Library
-            </a>
+        <div class="container justify-content-center py-2">
+            <span class="navbar-brand h1 brand-span m-0 mb-3 mb-lg-0" ><i class="bi bi-calendar3"></i> uCal</span>
+            <div class="container-md w-700px">
+                <div class="row">
+                    <div class="col input-group">
+                        <input class="btn-click form-control" type="file" accept=".ucal" id="libFile" name="libFile"value="Upload Library">
+                        <label class="btn btn-click input-group-text" for="libFile">
+                            Upload <i class="bi bi-journals"></i> Library
+                        </label>
+                    </div>
+                    <div class="col-md-auto mt-3 mt-md-0">
+                        <a class="btn btn-click w-100" href="/library.html" role="button" id="libMake">
+                            New <i class="bi bi-journals"></i> Library
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <span class="brand-span"></span>
         </div>
     </nav>
 
     <main class="container py-5 text-center">
-        <div class="w-700px container-md">
-            <div class="row mb-3">
-                <div class="col input-group">
-                    <input class="btn-click form-control" type="file" accept=".ucal" id="libFile" name="libFile"value="Upload Library">
-                    <label class="btn btn-click input-group-text" for="libFile">
-                        <i class="bi bi-journals"></i> Library .ucal
-                    </label>
-                </div>
-                <div class="col-md-auto mt-3 mt-md-0">
-                    <a class="btn btn-click w-100" href="/library.html" role="button" id="libMake">
-                        New <i class="bi bi-journals"></i> Library
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <hr>
-
-        <div class="w-700px container-md" id="container-calendar">
+        <div class="w-700px container-sm">
             <form class="needs-validation" id="calendar-selection" novalidate>
                 <div class="row">
                     <div class="input-group has-validation justify-content-center" id="calendar-date">
@@ -131,7 +120,9 @@
     </main>
 
     <footer class="mb-5 small text-center text-muted">
-
+        <i class="bi bi-chevron-expand"></i> challenged by <a class="text-muted" href="https://cs50.harvard.edu/x/2022/">cs50</a> 
+        <span class="mx-5"> </span>
+        <i class="bi bi-code"></i> coded by <a class="text-muted" href="https://github.com/urmoi/">urmoi</a>
     </footer>
 
 </body>

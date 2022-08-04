@@ -1,3 +1,7 @@
+.brand-span {
+    width: 100px;
+}
+
 .w-700px {
     max-width: 700px;
     min-width: 300px;
@@ -18,15 +22,6 @@
     --bs-btn-active-bg: var(--bs-gray-300);
     --bs-btn-active-border-color: var(--bs-gray-400);
 }
-
-nav .btn-click {
-    text-decoration: none;
-    --bs-btn-color: var(--bs-gray-900);
-    --bs-btn-bg: transparent;
-    --bs-btn-border-color: transparent;
-    --bs-btn-hover-bg: transparent;
-}
-
 
 .btn-toggle {
     --bs-btn-hover-bg: var(--bs-gray-200);
