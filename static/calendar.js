@@ -142,7 +142,7 @@ function activateCalendar () {
 function dayClick (btn) {
     let textarea = btn.querySelector("textarea");
 
-    if (document.getElementById("dayAdd").checked) {
+    if (document.getElementById("shortcut-toggle").checked) {
         let shortcut = btn.form.elements["calendar-shortcut-selection"].value;
 
         if (!shortcut) { return }
@@ -152,6 +152,13 @@ function dayClick (btn) {
     } else {
         textarea.value = "";
     }
+}
+
+function toggleShortcut(toggle=true, e=document.querySelector("#shortcut-toggle-add")) {
+    console.log(e);
+    e.parentNode.querySelector("input[type=radio]").checked = toggle;
+    
+    e.parentNode.querySelector("select").disabled = !toggle;
 }
 
 function getCalendarDate() {

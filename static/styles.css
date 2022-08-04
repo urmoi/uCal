@@ -3,7 +3,7 @@
     min-width: 300px;
 }
 
-a#libMake {
+/* a#libMake {
     background-color: var(--bs-gray-200);
     border-color: #ced4da;
     color: #212529;
@@ -11,6 +11,36 @@ a#libMake {
 
 a#libMake:hover {
     background-color: var(--bs-gray-300);
+} */
+
+.btn-toggle-group {
+    display: flex;
+    border: 0;
+    padding-block: 0;
+}
+
+.btn-toggle {
+    --bs-btn-color: var(--bs-gray-900);
+    --bs-btn-bg: var(--bs-gray-200);
+    --bs-btn-border-color: var(--bs-gray-400);
+    --bs-btn-hover-color: var(--bs-gray-900);
+    --bs-btn-hover-bg: var(--bs-gray-300);
+    --bs-btn-hover-border-color: var(--bs-gray-400);
+    --bs-btn-disabled-opacity: 1;
+    /* --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb); */
+    --bs-btn-active-color: var(--bs-gray-600);
+    --bs-btn-active-bg: var(--bs-gray-300);
+    --bs-btn-active-border-color: var(--bs-gray-400);
+}
+
+input.btn-toggle,
+select.btn-toggle
+{
+    background-color: transparent;
+}
+
+.btn-toggle:disabled {
+    opacity: 1!important;
 }
 
 .btn-toggle input::placeholder {
@@ -19,12 +49,14 @@ a#libMake:hover {
 
 input[type="radio"]:not(:checked)~.btn-toggle-on *,
 input[type="radio"]:checked~.btn-toggle-off *
-/* .btn-toggle-disabled * */
 {
-    cursor: pointer!important; 
-    color: var(--bs-gray-400)!important;
-    border-color: var(--bs-gray-400)!important;
-    background-color: var(--bs-gray-100)!important;
+    cursor: pointer!important;
+    border-color: var(--bs-gray-400);
+    color: var(--bs-gray-400);
+    background-color: var(--bs-gray-100);
+    --bs-btn-color: var(--bs-gray-400);
+    --bs-btn-bg: var(--bs-gray-100);
+    --bs-btn-border-color: var(--bs-gray-400);
 }
 
 input.is-used {
@@ -54,12 +86,8 @@ input.is-used:focus~.used-tooltip {
     padding-right: calc(var(--bs-gutter-x) * .5);
 }
 
-select.toggle {
-    min-width: 140px!important;
-}
 
-
-#calendar-date button {
+/* #calendar-date button {
     aspect-ratio: 1;
     background-color: var(--bs-gray-100);
     border-color: var(--bs-gray-400);
@@ -68,7 +96,7 @@ select.toggle {
 #calendar-date button:hover {
     color: var(--bs-btn-color);
     background-color: var(--bs-gray-200);
-}
+} */
 
 #calendar-content {
     padding: .5px;

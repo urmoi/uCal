@@ -35,15 +35,14 @@
 
     <main class="container py-5 text-center">
         <div class="w-700px container-md">
-            <div class="row">
-                <div class="col input-group mb-3 mb-md-0">
+            <div class="row mb-3">
+                <div class="col input-group">
                     <input class="form-control btn-light" type="file" accept=".ucal" id="libFile" name="libFile"
                         value="Upload Library">
                     <label class="input-group-text" for="libFile">.ucal Library</label>
                 </div>
-                <div class="col-sm-auto">
-                    <a class="btn btn-light btn-outline-light w-100" href="/library.html" role="button"
-                        id="libMake">Make new .ucal Library</a>
+                <div class="col-sm-auto mt-3 mt-sm-0">
+                    <a class="btn btn-toggle w-100" href="/library.html" role="button" id="libMake">Make new .ucal Library</a>
                 </div>
             </div>
         </div>
@@ -54,7 +53,7 @@
             <form class="needs-validation" id="calendar-selection" novalidate>
                 <div class="row">
                     <div class="input-group has-validation justify-content-center" id="calendar-date">
-                        <button class="btn btn-outline-secondary" id="calendar-date-before" type="button">
+                        <button class="btn btn-toggle" id="calendar-date-before" type="button">
                             <i class="bi bi-caret-left-fill"></i>
                         </button>
                         <input class="form-control text-center" id="calendar-date-input" value="" type="text">
@@ -64,7 +63,7 @@
                         <div class="invalid-tooltip rounded">
                             invalid [MM / YYYY]
                         </div>
-                        <button class="btn btn-outline-secondary" id="calendar-date-after" type="button">
+                        <button class="btn btn-toggle" id="calendar-date-after" type="button">
                             <i class="bi bi-caret-right-fill"></i>
                         </button>
                     </div>
@@ -78,17 +77,15 @@
             
             <form class="needs-validation" id="calendar-input" novalidate>
                 <div class="row mb-3">
-                    <div class="col input-group flex-nowrap mb-3 mb-md-0 w-100">
-                        <select class="form-select toggle" id="calendar-shortcut-selection" aria-label="Example select with button addon">
-                            <option value="" disabled selected>Choose Shortcut...</option>
+                    <input type="radio" class="btn-check" name="shortcut-toggle" id="shortcut-toggle" autocomplete="off" checked>
+                    <div class="col btn btn-toggle-group input-group flex-nowrap btn-toggle-on w-100" id="shortcut-toggle-add">
+                        <button class="btn btn-toggle input-group-text" type="button" id="calendar-shortcut-add">Add <i class="bi bi-journal-plus"></i></button>
+                        <select class="btn btn-toggle form-select" type="button" id="calendar-shortcut-selection">
+                            <option value="" disabled selected><i class="bi bi-trash3"></i> Shortcut...</option>
                         </select>
-                        <input type="radio" class="btn-check form-check-input" name="dayOption" id="dayAdd"
-                            autocomplete="off" checked>
-                        <label class="btn btn-light btn-outline-light toggle" id="calendar-shortcut-add" for="dayAdd">Add <i class="bi bi-plus-square"></i></label>
                     </div>
-                    <div class="col-sm-auto">
-                        <input type="radio" class="btn-check" name="dayOption" id="dayClear" autocomplete="off">
-                        <label class="btn btn-light btn-outline-light toggle w-100" for="dayClear">Clear <i class="bi bi-x-square"></i></label>
+                    <div class="col-sm-auto btn-toggle-off mt-3 mt-sm-0" id="shortcut-toggle-clear">
+                        <button class="btn btn-toggle input-group-text w-100" type="button">Clear <i class="bi bi-trash3"></i></button>
                     </div>
                 </div>
 
@@ -153,6 +150,8 @@
 
 
 <script>
+    document.addEventListener("click", (e) => console.log(e.target));
+
     window.addEventListener("load", setCalendarDate() );
     
     document.getElementById("libFile").addEventListener("input", () => loadLibrary() );
@@ -167,6 +166,9 @@
 
     document.getElementById("calendar-shortcut-selection").addEventListener("change", () => activateCalendar() );
 
-    document.getElementById("dayAdd").addEventListener("click", () => disableShortcut(false) );
-    document.getElementById("dayClear").addEventListener("click", () => disableShortcut(true) );
+    // document.getElementById("dayAdd").addEventListener("click", () => disableShortcut(false) );
+    // document.getElementById("dayClear").addEventListener("click", () => disableShortcut(true) );
+
+    document.getElementById("shortcut-toggle-add").addEventListener("click", (e) => toggleShortcut(true, e.currentTarget));
+    document.getElementById("shortcut-toggle-clear").addEventListener("click", (e) => toggleShortcut(false, e.currentTarget));
 </script>

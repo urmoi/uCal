@@ -67,11 +67,11 @@
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label position-relative" for="calStarts">Time</label>
                         <input type="radio" class="btn-check" name="time-toggle" id="time-toggle" autocomplete="off">
-                        <div class="col flex-nowrap input-group btn-toggle btn-toggle-off has-validation" id="time-toggle-time">
+                        <div class="col input-group flex-nowrap btn-toggle btn-toggle-off has-validation" id="time-toggle-time">
                             <i class="input-group-text bi bi-clock-fill"></i>
-                            <input class="form-control input-time text-end" id="calStarts" name="calStarts" type="text" placeholder="12:00" required>
+                            <input class="form-control text-end" id="calStarts" name="calStarts" type="text" placeholder="12:00" required>
                             <i class="input-group-text bi bi-dash-lg bg-transparent"></i>
-                            <input class="form-control input-time" id="calEnds" name="calEnds" type="text" placeholder="13:00" required>
+                            <input class="form-control" id="calEnds" name="calEnds" type="text" placeholder="13:00" required>
                             <div class="invalid-tooltip">
                                 Please give a valid time [i.e. 12 | 1200 | 12:00].
                             </div>
@@ -162,9 +162,6 @@
 
     document.getElementById("time-toggle-time").addEventListener("click", (e) => toggleTime(true, e.currentTarget));
     document.getElementById("time-toggle-allday").addEventListener("click", (e) => toggleTime(false, e.currentTarget));
-
-    // document.getElementById("calTime").addEventListener("click", () => disableTime(false) );
-    // document.getElementById("calAllday").addEventListener("click", () => disableTime(true) );
 
     document.getElementById("calStarts").addEventListener("input", (e) => checkTime(e.srcElement) );
     document.getElementById("calEnds").addEventListener("input", (e) => checkTime(e.srcElement) );
