@@ -117,12 +117,17 @@ function updateTable() {
     const old_tbody = document.querySelector("tbody");
     const new_tbody = document.createElement("tbody");
 
-    for (let short in libData) {
-        let data = libData[short];
+    for (let shortcut in libData) {
+        let data = libData[shortcut];
         let row = new_tbody.insertRow();
 
+        let cell = document.createElement("th");
+        let text = document.createTextNode(shortcut);
+        cell.appendChild(text);
+        row.appendChild(cell);
+
         for (key in data) {
-            let cell = document.createElement(key === "short" ? "th" : "td");
+            let cell = document.createElement("td");
             let text = document.createTextNode(data[key]);
             cell.appendChild(text);
             row.appendChild(cell);
