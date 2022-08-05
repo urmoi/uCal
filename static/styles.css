@@ -137,3 +137,8 @@ input.is-used:focus~.used-tooltip {
     height: calc(100% - calc(var(--bs-body-font-size) * var(--bs-btn-line-height)));
     resize: none;
 }
+
+.deactivated {
+    pointer-events: none;
+    opacity: 50%;
+}

@@ -90,7 +90,7 @@ function updateShortcutSelection() {
     for (let shortcut in libData) {
         var opt = document.createElement('option');
         opt.value = shortcut;
-        opt.innerHTML = shortcut + " - " + libData[short]["subject"];
+        opt.innerHTML = shortcut + " - " + libData[shortcut]["subject"];
         shortcutSelection.appendChild(opt);
     }
 }
@@ -98,8 +98,8 @@ function updateShortcutSelection() {
 function makeCalendar () {
     let [month, year] = getCalendarDate();
 
-    var headerTemp = document.querySelector("template#calendar-header");
-    var dayTemp = document.querySelector("template#calendar-day");
+    var headerTemp = document.querySelector("template#template-calendar-header");
+    var dayTemp = document.querySelector("template#template-calendar-day");
 
     var container = document.getElementById("calendar-calendar");
 
@@ -139,12 +139,11 @@ function makeCalendar () {
 }
 
 function activateCalendar () {
-    let activate = document.getElementById("calendar-shortcut-selection").value;
-    let container = document.getElementById("calendar-calendar");
-    container.style.pointerEvents = activate ? "all" : "none";
-    container.style.opacity = activate ? 1 : .5;
-    container.style.filter = activate ? "initial" : "blur(1px)";
+    let shortcut = document.getElementById("calendar-shortcut-selection").value;
 
+    document.getElementById("calendar-shortcut").classList.remove("deactivated");
+
+    if (shortcut) { document.getElementById("calendar-calendar").classList.remove("deactivated"); };
 }
 
 function dayClick (btn) {
@@ -194,7 +193,7 @@ function updateCalendarDate (month, year, update=true) {
     if (update) { makeCalendar() };
 }
 
-function editCalenderDate (input) {
+function editCalendarDate (input) {
     input.form.classList.add("was-validated");
     input.setCustomValidity("");
 
@@ -203,7 +202,7 @@ function editCalenderDate (input) {
     input.value = (month+1) + " / " + year;
 }
 
-function checkCalenderDate (input) {
+function checkCalendarDate (input) {
     if (/^(1[0-2]|0?[1-9]) ?\/ ?([2-9]\d[1-9]\d|[1-9]\d)$/.test(input.value)) {
         input.setCustomValidity("");
         let [month, year] = input.value.split("/");
@@ -213,7 +212,7 @@ function checkCalenderDate (input) {
     }
 }
 
-function acceptCalenderDate (input) {
+function acceptCalendarDate (input) {
     input.form.classList.remove("was-validated");
 
     let [month, year] = input.value.split("/");
