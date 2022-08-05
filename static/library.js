@@ -1,11 +1,12 @@
 var libData = {};
 
 function saveLibrary () {
-    let form = document.getElementById("library-file");
-    if (!checkForm(form)) { return };
+    let filenameInput = document.getElementById("library-filename-input");
+    if (!checkForm(filenameInput.form)) { return }
+    filenameInput.form.classList.remove("was-validated");
     if (Object.keys(libData).length === 0) { return };
 
-    const filename = document.getElementById("library-filename").value + ".ucal";
+    let filename = filenameInput.value + ".ucal";
 
     console.log(libData);
 

@@ -99,12 +99,12 @@
 
             <hr>
 
-            <form class="needs-validation" id="calendar-file" novalidate>
+            <form class="needs-validation" id="calendar-filename" novalidate>
                 <div class="row mb-3">
                     <div class="col">
                         <div class="input-group mb-3 mb-sm-0 has-validation">
                             <span class="input-group-text"><i class="bi bi-calendar3-range me-2"></i>Calendar</i></span>
-                            <input class="form-control text-end pe-1" id="calendar-filename" name="calendar-filename" type="text" autocomplete="off" placeholder="filename" required>
+                            <input class="form-control text-end pe-1" id="calendar-filename-input" name="calendar-filename-input" type="text" autocomplete="off" placeholder="filename" required>
                             <span class="input-group-text ps-1">.cls</span>
                             <div class="invalid-tooltip">Please choose a name for the Calender file.</div>
                         </div>
@@ -151,9 +151,10 @@
     window.addEventListener("load", setCalendarDate());
 
     document.getElementById("library-file").addEventListener("input", () => loadLibrary());
+
     document.getElementById("calendar-save").addEventListener("click", () => saveCalendar());
 
-    document.getElementById("calendar-filename").addEventListener("input", e => checkFilename(e.srcElement));
+    document.getElementById("calendar-filename-input").addEventListener("input", e => checkFilename(e.srcElement));
 
     document.getElementById("calendar-date-input").addEventListener("focus", (e) => editCalenderDate(e.srcElement));
     document.getElementById("calendar-date-input").addEventListener("input", (e) => checkCalenderDate(e.srcElement));

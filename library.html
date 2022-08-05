@@ -52,8 +52,7 @@
                     <div class="col">
                         <div class="input-group has-validation">
                             <i class="input-group-text bi bi-ticket-fill"></i>
-                            <input class="form-control" id="shortcut-shortcut" name="shortcut-shortcut" type="text" autofocus
-                                autocomplete="off" required>
+                            <input class="form-control" id="shortcut-shortcut" name="shortcut-shortcut" type="text" autofocus autocomplete="off" required>
                             <div class="invalid-tooltip rounded">missing unique shortcut</div>
                             <div class="invalid-tooltip used-tooltip rounded">already used shortcut, will overwrite!</div>
                             <button class="col-sm-3 btn btn-dark w-auto" type="button" id="shortcut-add">
@@ -111,12 +110,12 @@
         <hr>
 
         <div class="w-700px container-sm">
-            <form class="text-start text-sm-end needs-validation" id="library-file" novalidate>
+            <form class="text-start text-sm-end needs-validation" id="library-filename" novalidate>
                 <div class="row">
-                    <label class="col-sm-2 col-form-label" for="library-filename">Library</label>
+                    <label class="col-sm-2 col-form-label" for="library-filename-input">Library</label>
                     <div class="col flex-nowrap input-group has-validation mb-3 mb-sm-0">
                         <i class="input-group-text bi bi-journals"></i>
-                        <input class="form-control text-end pe-1" id="library-filename" name="library-filename" type="text" autocomplete="off" placeholder="filename" required>
+                        <input class="form-control text-end pe-1" id="library-filename-input" name="library-filename-input" type="text" autocomplete="off" placeholder="filename" required>
                         <span class="input-group-text ps-1">.ucal</span>
                         <div class="invalid-tooltip">missing library name</div>
                     </div>
@@ -159,7 +158,7 @@
 <script>
     document.getElementById("library-save").addEventListener("click", () => saveLibrary());
 
-    document.getElementById("library-file").addEventListener("input", e => checkFilename(e.srcElement));
+    document.getElementById("library-filename-input").addEventListener("input", e => checkFilename(e.srcElement));
 
 
     document.getElementById("shortcut-add").addEventListener("click", () => addItem());
