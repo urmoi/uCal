@@ -117,6 +117,52 @@
                     </div>
                 </form>
             </div>
+
+            <template id="template-calendar-header">
+                <div class="row mx-auto" id="calendar-header">
+                    <label class="col col-form-label overflow-hidden px-0">Mon</label>
+                    <label class="col col-form-label overflow-hidden px-0">Tue</label>
+                    <label class="col col-form-label overflow-hidden px-0">Wed</label>
+                    <label class="col col-form-label overflow-hidden px-0">Thu</label>
+                    <label class="col col-form-label overflow-hidden px-0">Fri</label>
+                    <label class="col col-form-label overflow-hidden px-0">Sat</label>
+                    <label class="col col-form-label overflow-hidden px-0">Sun</label>
+                </div>
+            </template>
+            
+            <template class="day" id="template-calendar-day">
+                <button class="col btn btn-day p-0" type="button">
+                    <label class="w-100" role="button"></label>
+                    <textarea class="text-center w-100 bg-transparent border-0" role="button" disabled autocomplete="off"></textarea>
+                </button>
+            </template>
+
+            <script>
+                window.addEventListener("load", setCalendarDate());
+            
+                document.getElementById("library-file").addEventListener("input", () => loadLibrary());
+                document.getElementById("library-file").addEventListener("input", () => activateCalendar());
+            
+                document.getElementById("calendar-save").addEventListener("click", () => saveCalendar());
+            
+                document.getElementById("calendar-filename-input").addEventListener("input", e => checkFilename(e.srcElement));
+            
+                document.getElementById("calendar-date-input").addEventListener("focus", (e) => editCalendarDate(e.srcElement));
+                document.getElementById("calendar-date-input").addEventListener("input", (e) => checkCalendarDate(e.srcElement));
+                document.getElementById("calendar-date-input").addEventListener("focusout", (e) => acceptCalendarDate(e.srcElement));
+            
+                document.getElementById("calendar-date-before").addEventListener("click", () => changeCalendarDate(-1));
+                document.getElementById("calendar-date-after").addEventListener("click", () => changeCalendarDate(+1));
+            
+                document.getElementById("calendar-shortcut-selection").addEventListener("change", () => activateCalendar());
+            
+                // document.getElementById("dayAdd").addEventListener("click", () => disableShortcut(false) );
+                // document.getElementById("dayClear").addEventListener("click", () => disableShortcut(true) );
+            
+                document.getElementById("toggle-shortcut-add").addEventListener("click", (e) => toggleShortcut(true, e.currentTarget));
+                document.getElementById("toggle-shortcut-clear").addEventListener("click", (e) => toggleShortcut(false, e.currentTarget));
+            </script>
+            
         </main>
 
         <footer class="mb-5 small text-center text-muted">
@@ -127,48 +173,3 @@
     </body>
 
 </html>
-
-<template id="template-calendar-header">
-    <div class="row mx-auto" id="calendar-header">
-        <label class="col col-form-label overflow-hidden px-0">Mon</label>
-        <label class="col col-form-label overflow-hidden px-0">Tue</label>
-        <label class="col col-form-label overflow-hidden px-0">Wed</label>
-        <label class="col col-form-label overflow-hidden px-0">Thu</label>
-        <label class="col col-form-label overflow-hidden px-0">Fri</label>
-        <label class="col col-form-label overflow-hidden px-0">Sat</label>
-        <label class="col col-form-label overflow-hidden px-0">Sun</label>
-    </div>
-</template>
-
-<template class="day" id="template-calendar-day">
-    <button class="col btn btn-day p-0" type="button">
-        <label class="w-100" role="button"></label>
-        <textarea class="text-center w-100 bg-transparent border-0" role="button" disabled autocomplete="off"></textarea>
-    </button>
-</template>
-
-<script>
-    window.addEventListener("load", setCalendarDate());
-
-    document.getElementById("library-file").addEventListener("input", () => loadLibrary());
-    document.getElementById("library-file").addEventListener("input", () => activateCalendar());
-
-    document.getElementById("calendar-save").addEventListener("click", () => saveCalendar());
-
-    document.getElementById("calendar-filename-input").addEventListener("input", e => checkFilename(e.srcElement));
-
-    document.getElementById("calendar-date-input").addEventListener("focus", (e) => editCalendarDate(e.srcElement));
-    document.getElementById("calendar-date-input").addEventListener("input", (e) => checkCalendarDate(e.srcElement));
-    document.getElementById("calendar-date-input").addEventListener("focusout", (e) => acceptCalendarDate(e.srcElement));
-
-    document.getElementById("calendar-date-before").addEventListener("click", () => changeCalendarDate(-1));
-    document.getElementById("calendar-date-after").addEventListener("click", () => changeCalendarDate(+1));
-
-    document.getElementById("calendar-shortcut-selection").addEventListener("change", () => activateCalendar());
-
-    // document.getElementById("dayAdd").addEventListener("click", () => disableShortcut(false) );
-    // document.getElementById("dayClear").addEventListener("click", () => disableShortcut(true) );
-
-    document.getElementById("toggle-shortcut-add").addEventListener("click", (e) => toggleShortcut(true, e.currentTarget));
-    document.getElementById("toggle-shortcut-clear").addEventListener("click", (e) => toggleShortcut(false, e.currentTarget));
-</script>
