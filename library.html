@@ -46,44 +46,44 @@
 
     <main class="container py-5 text-center">
         <div class="w-700px container-sm">
-            <form class="text-start text-sm-end needs-validation" id="new-item" novalidate>
+            <form class="text-start text-sm-end needs-validation" id="shortcut-form" novalidate>
                 <div class="row mb-3">
-                    <label class="col-sm-2 col-form-label" for="calShort">Shortcut</label>
-                    <div class="col position-relative">
+                    <label class="col-sm-2 col-form-label" for="shortcut-shortcut">Shortcut</label>
+                    <div class="col">
                         <div class="input-group has-validation">
                             <i class="input-group-text bi bi-ticket-fill"></i>
-                            <input class="form-control" id="calShort" name="calShort" type="text" autofocus
+                            <input class="form-control" id="shortcut-shortcut" name="shortcut-shortcut" type="text" autofocus
                                 autocomplete="off" required>
                             <div class="invalid-tooltip rounded">missing unique shortcut</div>
                             <div class="invalid-tooltip used-tooltip rounded">already used shortcut, will overwrite!</div>
-                            <button class="col-sm-3 btn btn-dark w-auto" type="button" id="calAdd">
+                            <button class="col-sm-3 btn btn-dark w-auto" type="button" id="shortcut-add">
                                 <i class="bi bi-journal-plus"></i> <i class="bi bi-arrow-right"></i> <i class="bi bi-journals"></i> Library
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <div class="row mb-3 position-relative">
-                    <label class="col-sm-2 col-form-label" for="calSub">Subject</i></label>
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label" for="shortcut-subject">Subject</i></label>
                     <div class="col input-group has-validation">
                         <i class="input-group-text bi bi-calendar2-fill"></i>
-                        <input class="form-control has-validation" id="calSub" name="calSub" type="text" autocomplete="off" required>
+                        <input class="form-control has-validation" id="shortcut-subject" name="shortcut-subject" type="text" autocomplete="off" required>
                         <div class="invalid-tooltip">missing subject</div>
                     </div>
                 </div>
 
                 <div class="row mb-3">
-                    <label class="col-sm-2 col-form-label position-relative" for="calStarts">Time</label>
-                    <input type="radio" class="btn-check" name="time-toggle" id="time-toggle" autocomplete="off">
-                    <div class="col input-group flex-nowrap btn-toggle btn-toggle-off has-validation" id="time-toggle-time">
+                    <label class="col-sm-2 col-form-label" for="shortcut-begin">Time</label>
+                    <input type="radio" class="btn-check" name="toggle-time" id="toggle-time" autocomplete="off">
+                    <div class="col input-group flex-nowrap btn-toggle btn-toggle-off has-validation" id="toggle-time-time">
                         <i class="btn btn-toggle input-group-text bi bi-clock-fill"></i>
-                        <input class="btn-toggle form-control text-end" id="calStarts" name="calStarts" type="text"
+                        <input class="btn-toggle form-control text-end" id="shortcut-begin" name="shortcut-begin" type="text"
                             placeholder="12:00" required>
                         <i class="btn btn-toggle border-start-0 border-end-0 input-group-text bi bi-dash-lg bg-transparent"></i>
-                        <input class="btn-toggle form-control" id="calEnds" name="calEnds" type="text" placeholder="13:00" required>
+                        <input class="btn-toggle form-control" id="shortcut-end" name="shortcut-end" type="text" placeholder="13:00" required>
                         <div class="invalid-tooltip">missing / invalid time <i class="bi bi-arrow-right"></i> 12 | 1200 | 12:00</div>
                     </div>
-                    <div class="col-sm-auto btn-toggle-on mt-3 mt-sm-0 text-center" id="time-toggle-allday">
+                    <div class="col-sm-auto btn-toggle-on mt-3 mt-sm-0 text-center" id="toggle-time-allday">
                         <button class="btn btn-toggle input-group-text w-100 text-start" type="button">
                             <i class="bi bi-circle-half me-4 me-sm-2"></i>all-day
                         </button>
@@ -91,37 +91,37 @@
                 </div>
 
                 <div class="row mb-3">
-                    <label class="col-sm-2 col-form-label" for="calLocal">Location</label>
+                    <label class="col-sm-2 col-form-label" for="shortcut-location">Location</label>
                     <div class="col input-group">
                         <i class="input-group-text bi bi-pin-map"></i>
-                        <input class="form-control" id="calLocal" name="calLocal" type="text" autocomplete="off">
+                        <input class="form-control" id="shortcut-location" name="shortcut-location" type="text" autocomplete="off">
                     </div>
                 </div>
 
                 <div class="row mb-3">
-                    <label class="col-sm-2 col-form-label" for="calNotes">Notes</label>
+                    <label class="col-sm-2 col-form-label" for="shortcut-description">Notes</label>
                     <div class="col input-group">
                         <label class="input-group-text align-items-start"><i class="bi bi-card-text"></i></label>
-                        <textarea class="form-control" id="calNotes" name="calNotes" type="text"></textarea>
+                        <textarea class="form-control" id="shortcut-description" name="shortcut-description" type="text"></textarea>
                     </div>
                 </div>
             </form>
         </div>
 
-        <hr class="" id="new-lib-hr">
+        <hr>
 
-        <div class="w-700px container-sm " id="new-lib-container">
-            <form class="text-start text-sm-end needs-validation" id="new-lib" novalidate>
+        <div class="w-700px container-sm">
+            <form class="text-start text-sm-end needs-validation" id="library-file" novalidate>
                 <div class="row">
-                    <label class="col-sm-2 col-form-label" for="libTitle">Library</label>
+                    <label class="col-sm-2 col-form-label" for="library-filename">Library</label>
                     <div class="col flex-nowrap input-group has-validation mb-3 mb-sm-0">
                         <i class="input-group-text bi bi-journals"></i>
-                        <input class="form-control text-end pe-1" id="libTitle" name="libTitle" type="text" autocomplete="off" placeholder="filename" required>
+                        <input class="form-control text-end pe-1" id="library-filename" name="library-filename" type="text" autocomplete="off" placeholder="filename" required>
                         <span class="input-group-text ps-1">.ucal</span>
                         <div class="invalid-tooltip">missing library name</div>
                     </div>
                     <div class="col-sm-auto col-md-4">
-                        <button class="btn btn-dark w-100" type="button" id="libSave">
+                        <button class="btn btn-dark w-100" type="button" id="library-save">
                             <i class="bi bi-download"></i> Download
                         </button>
                     </div>
@@ -157,22 +157,21 @@
 </html>
 
 <script>
-    document.getElementById("libSave").addEventListener("click", () => saveLibrary());
+    document.getElementById("library-save").addEventListener("click", () => saveLibrary());
 
-    document.getElementById("libTitle").addEventListener("input", e => checkTitle(e.srcElement));
+    document.getElementById("library-file").addEventListener("input", e => checkFilename(e.srcElement));
 
 
-    const addButton = document.getElementById("calAdd");
-    addButton.addEventListener("click", () => addItem());
-    addButton.addEventListener("click", () => updateTable());
+    document.getElementById("shortcut-add").addEventListener("click", () => addItem());
+    document.getElementById("shortcut-add").addEventListener("click", () => updateTable());
 
-    document.getElementById("calShort").addEventListener("input", (e) => checkShort(e.srcElement));
+    document.getElementById("shortcut-shortcut").addEventListener("input", (e) => checkShort(e.srcElement));
 
-    document.getElementById("time-toggle-time").addEventListener("click", (e) => toggleTime(true, e.currentTarget));
-    document.getElementById("time-toggle-allday").addEventListener("click", (e) => toggleTime(false, e.currentTarget));
+    document.getElementById("toggle-time-time").addEventListener("click", (e) => toggleTime(true, e.currentTarget));
+    document.getElementById("toggle-time-allday").addEventListener("click", (e) => toggleTime(false, e.currentTarget));
 
-    document.getElementById("calStarts").addEventListener("input", (e) => checkTime(e.srcElement));
-    document.getElementById("calEnds").addEventListener("input", (e) => checkTime(e.srcElement));
+    document.getElementById("shortcut-begin").addEventListener("input", (e) => checkTime(e.srcElement));
+    document.getElementById("shortcut-end").addEventListener("input", (e) => checkTime(e.srcElement));
 
 
 </script>

@@ -13,20 +13,26 @@
     --bs-btn-color: var(--bs-gray-900);
     --bs-btn-bg: var(--bs-gray-200);
     --bs-btn-border-color: var(--bs-gray-400);
+
     --bs-btn-hover-color: var(--bs-gray-900);
     --bs-btn-hover-bg: var(--bs-gray-300);
     --bs-btn-hover-border-color: var(--bs-gray-400);
-    --bs-btn-disabled-opacity: 1;
-    /* --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb); */
+
     --bs-btn-active-color: var(--bs-gray-600);
     --bs-btn-active-bg: var(--bs-gray-300);
     --bs-btn-active-border-color: var(--bs-gray-400);
+
+    --bs-btn-disabled-color: var(--bs-gray-400);
+    --bs-btn-disabled-bg: var(--bs-gray-100);
+    --bs-btn-disabled-border-color: var(--bs-gray-200);
+    --bs-btn-disabled-opacity: 1;
 }
 
 .btn-toggle {
-    --bs-btn-hover-bg: var(--bs-gray-200);
-    --bs-btn-active-color: var(--bs-gray-900);
-    --bs-btn-active-bg: var(--bs-gray-200);
+    --bs-btn-hover-bg: var(--bs-btn-bg);
+
+    --bs-btn-active-color: var(--bs-btn-color);
+    --bs-btn-active-bg: var(--bs-btn-bg);
 }
 
 .btn-toggle-on,
@@ -47,31 +53,24 @@ select.btn-toggle
     background-color: transparent!important;
 }
 
-input.btn-toggle::placeholder {
-    color: var(--bs-gray-200);
+.btn-toggle::placeholder {
+    color: var(--bs-btn-disabled-border-color);
 }
 
 input[type="radio"]:not(:checked)~.btn-toggle-on>*,
 input[type="radio"]:checked~.btn-toggle-off>*
 {
     cursor: pointer;
-    color: var(--bs-gray-400);
-    background-color: var(--bs-gray-100)!important;
-    border-color: var(--bs-gray-200);
-    --bs-btn-color: var(--bs-gray-400);
-    --bs-btn-bg: var(--bs-gray-100)!important;
-    --bs-btn-border-color: var(--bs-gray-400);
+
+    color: var(--bs-btn-disabled-color);
+    background-color: var(--bs-btn-disabled-bg)!important;
+    border-color: var(--bs-btn-disabled-border-color);
 }
 
 input[type="radio"]:not(:checked)~.btn-toggle-on:hover>*,
 input[type="radio"]:checked~.btn-toggle-off:hover>*
 {
-    color: var(--bs-gray-400);
-    background-color: var(--bs-gray-100)!important;
-    border-color: var(--bs-gray-400);
-    --bs-btn-color: var(--bs-gray-400);
-    --bs-btn-bg: var(--bs-gray-200)!important;
-    --bs-btn-border-color: var(--bs-gray-400);
+    border-color: var(--bs-btn-hover-border-color);
 }
 
 input.is-used {
@@ -84,7 +83,7 @@ input.is-used:focus {
 
 .used-tooltip {
     display: none!important;
-    color: black!important;
+    color: var(--bs-gray-900)!important;
     background-color: var(--bs-warning)!important;
 }
 
@@ -101,39 +100,40 @@ input.is-used:focus~.used-tooltip {
     padding-right: calc(var(--bs-gutter-x) * .5);
 }
 
-#calendar-content {
-    padding: .5px;
-    border-radius: calc(var(--bs-border-radius) + 1px);
+#calendar-input {
+    padding: var(--bs-border-width);
+    border-radius: calc(var(--bs-border-radius) + 2 * var(--bs-border-width));
     background-color: var(--bs-gray-200);
 }
 
-#calendar-content button {
-    margin: 1px;
-    background-color: var(--bs-gray-100);
-    border-radius: var(--bs-btn-border-radius);
+.btn-day {
+    --bs-btn-border-width: 0;
+    --bs-btn-color: var(--bs-gray-900);
+    --bs-btn-bg: var(--bs-gray-100);
+    --bs-btn-border-color: transparent;
+    --bs-btn-hover-color: var(--bs-gray-600);
+    --bs-btn-hover-bg: var(--bs-gray-300);
+    --bs-btn-hover-border-color: transparent;
+    --bs-btn-active-color: var(--bs-gray-900);
+    --bs-btn-active-bg: var(--bs-gray-200);
+    --bs-btn-active-border-color: transparent;
+    --bs-btn-disabled-color: transparent;
+    --bs-btn-disabled-bg: transparent;
+    --bs-btn-disabled-border-color: transparent;
+    --bs-btn-disabled-opacity: 0;
+
+    margin: var(--bs-border-width);
     min-height: calc(3 * var(--bs-body-font-size) * var(--bs-btn-line-height));
     aspect-ratio: 1;
 }
 
-#calendar-content button:hover {
-    background-color: var(--bs-gray-300);
-}
-
-#calendar-content button:active {
-    background-color: var(--bs-gray-200);
-}
-
-#calendar-content button:disabled {
-    background-color: transparent;
-}
-
-#calendar-content label {
-    background-color: var(--bs-gray-300);
+.btn-day label {
+    background-color: var(--bs-btn-hover-bg);
     border-bottom-left-radius: var(--bs-border-radius-sm);
     border-bottom-right-radius: var(--bs-border-radius-sm);
 }
 
-#calendar-content textarea {
+.btn-day textarea {
     height: calc(100% - calc(var(--bs-body-font-size) * var(--bs-btn-line-height)));
     resize: none;
 }

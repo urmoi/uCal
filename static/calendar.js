@@ -11,7 +11,7 @@ function saveCalendar () {
     fileInput.form.classList.remove("was-validated");
     let filename = fileInput.value;
     
-    let input = document.getElementById("calendar-input").querySelectorAll("textarea");
+    let input = document.getElementById("calendar-calendar").querySelectorAll("textarea");
 
     let [month, year] = getCalendarDate();
 
@@ -28,7 +28,7 @@ function saveCalendar () {
                 let shortcut = shortcuts[j];
 
                 let subject = libData[shortcut]["subject"];
-                let description = libData[shortcut]["notes"];
+                let description = libData[shortcut]["description"];
                 let location = libData[shortcut]["location"];
                 let [begin, end] = getTime(libData[shortcut]["time"], year, month, day);
 
@@ -55,7 +55,7 @@ function checkForm(form) {
 }
 
 function loadLibrary () {
-    let libFile = new Blob(document.getElementById("libFile").files, {type:"application/json"});
+    let libraryFile = new Blob(document.getElementById("library-file").files, {type:"application/json"});
 
     const reader = new FileReader();
     reader.addEventListener('load', (event) => {
@@ -65,15 +65,15 @@ function loadLibrary () {
 
         resetCalendar();
     });
-    reader.readAsText(libFile);
+    reader.readAsText(libraryFile);
 }
 
 function resetCalendar() {
-    let form = document.getElementById("calendar-input");
+    let form = document.getElementById("calendar-form");
     form.reset();
 
     updateShortcutSelection();
-    disableShortcut(false);
+    toggleShortcut();
     activateCalendar();
 }
 
@@ -87,10 +87,10 @@ function updateShortcutSelection() {
 
     shortcutSelection.selectedIndex = 0;
 
-    for (let short in libData) {
+    for (let shortcut in libData) {
         var opt = document.createElement('option');
-        opt.value = short;
-        opt.innerHTML = short + " - " + libData[short]["subject"];
+        opt.value = shortcut;
+        opt.innerHTML = shortcut + " - " + libData[short]["subject"];
         shortcutSelection.appendChild(opt);
     }
 }
@@ -108,7 +108,7 @@ function makeCalendar () {
     new_container.appendChild(header);
     
     var content = document.createElement("div");
-    content.id = "calendar-content";
+    content.id = "calendar-input";
     new_container.appendChild(content);
 
     let daysInWeek = 7;
@@ -150,7 +150,7 @@ function activateCalendar () {
 function dayClick (btn) {
     let textarea = btn.querySelector("textarea");
 
-    if (document.getElementById("shortcut-toggle").checked) {
+    if (document.getElementById("toggle-shortcut").checked) {
         let shortcut = btn.form.elements["calendar-shortcut-selection"].value;
 
         if (!shortcut) { return }
@@ -162,7 +162,7 @@ function dayClick (btn) {
     }
 }
 
-function toggleShortcut(toggle=true, e=document.querySelector("#shortcut-toggle-add")) {
+function toggleShortcut(toggle=true, e=document.getElementById("toggle-shortcut-add")) {
     e.parentNode.querySelector("input[type=radio]").checked = toggle;
     e.parentNode.querySelector("select").disabled = !toggle;
 }
@@ -238,10 +238,6 @@ function getDateFromMonthAndYear (month, year) {
 
 function getStringFromDate (date) {
     return date.toLocaleString("en-US", { month: "long", year: "numeric" });
-}
-
-function disableShortcut(disable) {
-    document.getElementById("calendar-shortcut-selection").disabled = disable;
 }
 
 function getTime(time, year, month, day) {

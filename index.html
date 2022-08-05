@@ -35,13 +35,13 @@
             <div class="container-md w-700px">
                 <div class="row">
                     <div class="col input-group">
-                        <input class="btn-click form-control" type="file" accept=".ucal" id="libFile" name="libFile"value="Upload Library">
-                        <label class="btn btn-click input-group-text" for="libFile">
+                        <input class="btn-click form-control" type="file" accept=".ucal" id="library-file" name="library-file" value="Upload Library">
+                        <label class="btn btn-click input-group-text" for="library-file">
                             Upload <i class="bi bi-journals"></i> Library
                         </label>
                     </div>
                     <div class="col-md-auto mt-3 mt-md-0">
-                        <a class="btn btn-click w-100" href="/library.html" role="button" id="libMake">
+                        <a class="btn btn-click w-100" href="/library.html" role="button" id="library-new">
                             New <i class="bi bi-journals"></i> Library
                         </a>
                     </div>
@@ -53,9 +53,9 @@
 
     <main class="container py-5 text-center">
         <div class="w-700px container-sm">
-            <form class="needs-validation" id="calendar-selection" novalidate>
+            <form class="needs-validation" novalidate>
                 <div class="row">
-                    <div class="input-group has-validation justify-content-center" id="calendar-date">
+                    <div class="input-group has-validation justify-content-center">
                         <button class="btn btn-click" id="calendar-date-before" type="button">
                             <i class="bi bi-caret-left-fill"></i>
                         </button>
@@ -74,18 +74,18 @@
 
             <hr>
 
-            <form class="needs-validation" id="calendar-input" novalidate>
-                <div class="row mb-3">
-                    <input type="radio" class="btn-check" name="shortcut-toggle" id="shortcut-toggle" autocomplete="off" checked>
-                    <div class="col input-group flex-nowrap btn-toggle-on w-100" id="shortcut-toggle-add">
-                        <button class="btn btn-toggle input-group-text" type="button" id="calendar-shortcut-add">
+            <form class="needs-validation" id="calendar-form" novalidate>
+                <div class="row mb-3" id="calendar-shortcut">
+                    <input type="radio" class="btn-check" name="toggle-shortcut" id="toggle-shortcut" autocomplete="off" checked>
+                    <div class="col input-group flex-nowrap btn-toggle-on w-100" id="toggle-shortcut-add">
+                        <button class="btn btn-toggle input-group-text" type="button">
                             <i class="bi bi-journal-plus"></i> <i class="bi bi-arrow-right"></i> <i class="bi bi-calendar3-event"></i>
                         </button>
                         <select class="btn btn-toggle form-select" type="button" id="calendar-shortcut-selection">
                             <option value="" disabled selected>add shortcut...</option>
                         </select>
                     </div>
-                    <div class="col-sm-auto btn-toggle-off mt-3 mt-sm-0" id="shortcut-toggle-clear">
+                    <div class="col-sm-auto btn-toggle-off mt-3 mt-sm-0" id="toggle-shortcut-clear">
                         <button class="btn btn-toggle input-group-text w-100 text-start" type="button">
                             <i class="bi bi-calendar3-event"></i> <i class="bi bi-arrow-right"></i> <i class="bi bi-trash3 me-4 me-sm-2"></i>clear day
                         </button>
@@ -110,7 +110,7 @@
                         </div>
                     </div>
                     <div class="col-sm-auto col-md-5">
-                        <button class="btn btn-dark w-100" type="button" id="saveCal">
+                        <button class="btn btn-dark w-100" type="button" id="calendar-save">
                             <i class="bi bi-download"></i> Download
                         </button>
                     </div>
@@ -142,22 +142,17 @@
 </template>
 
 <template class="day" id="calendar-day">
-    <button class="col btn p-0 border-0" type="button">
+    <button class="col btn btn-day p-0" type="button">
         <label class="w-100" role="button"></label>
-        <textarea class="text-center w-100 bg-transparent border-0" role="button" disabled id="calShort" name="calShort" autocomplete="off"></textarea>
+        <textarea class="text-center w-100 bg-transparent border-0" role="button" disabled autocomplete="off"></textarea>
     </button>
 </template>
-
-<template class="day" id="is-not-day">
-    <button class="col btn p-0 bg-transparent border-0" disabled type="button"></button>
-</template>
-
 
 <script>
     window.addEventListener("load", setCalendarDate());
 
-    document.getElementById("libFile").addEventListener("input", () => loadLibrary());
-    document.getElementById("saveCal").addEventListener("click", () => saveCalendar());
+    document.getElementById("library-file").addEventListener("input", () => loadLibrary());
+    document.getElementById("calendar-save").addEventListener("click", () => saveCalendar());
 
     document.getElementById("calendar-filename").addEventListener("input", e => checkFilename(e.srcElement));
 
@@ -173,6 +168,6 @@
     // document.getElementById("dayAdd").addEventListener("click", () => disableShortcut(false) );
     // document.getElementById("dayClear").addEventListener("click", () => disableShortcut(true) );
 
-    document.getElementById("shortcut-toggle-add").addEventListener("click", (e) => toggleShortcut(true, e.currentTarget));
-    document.getElementById("shortcut-toggle-clear").addEventListener("click", (e) => toggleShortcut(false, e.currentTarget));
+    document.getElementById("toggle-shortcut-add").addEventListener("click", (e) => toggleShortcut(true, e.currentTarget));
+    document.getElementById("toggle-shortcut-clear").addEventListener("click", (e) => toggleShortcut(false, e.currentTarget));
 </script>
