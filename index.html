@@ -23,6 +23,48 @@
     <script src="/static/library.js"></script>
     <script>
         var libData = {};
+
+        // var dateData = {
+        //     value: new Date(),
+        //     letMeKnow() {
+        //         console.log(`The variable has changed to ${this.dates}`);
+        //     },
+        //     get dates() {
+        //         return this.value;
+        //     },
+        //     set dates(value) {
+        //         this.value = value;
+        //         this.letMeKnow();
+        //         // updateCalendarDate();
+        //         // makeCalendar();
+        //     },
+        //     enumerable:true,
+        // }
+
+        // var inputDate = document.getElementById("calendar-date-date");
+        // var valueDate = inputDate.value;
+        // Object.defineProperty(document.getElementById("calendar-date-date"), "value", {
+        //     set(newValueDate) {
+        //         console.log("Value changed to", newValueDate);
+        //         valueDate = newValueDate;
+        //         // inputDate.value = newValueDate;
+        //         updateCalendarDate();
+        //         makeCalendar();
+        //     },
+        //     get(){
+        //         return valueDate;
+        //     }
+        // });
+
+        let data = {};
+        let date = new Date();
+        Object.defineProperty(data, "date", {
+            set(newDate) {
+                date = newDate;
+                updateCalendar();
+            },
+            get() { return date; }
+        });
     </script>
 
     <title>uCal: Calendar</title>
@@ -40,10 +82,10 @@
             <div class="container-md w-700px">
                 <div class="row">
                     <div class="col input-group">
-                        <input class="btn-click form-control" type="file" accept=".ucal" id="library-file" name="library-file">
                         <label class="btn btn-click input-group-text" for="library-file">
                             Upload <i class="bi bi-upload"></i> <i class="bi bi-journals"></i> Library
                         </label>
+                        <input class="btn-click form-control" type="file" accept=".ucal" id="library-file" name="library-file">
                     </div>
                     <div class="col-md-auto mt-3 mt-md-0">
                         <button class="btn btn-click w-100" type="button" id="library-new">
@@ -61,30 +103,6 @@
                 document.getElementById("calendar").hidden = !document.getElementById("calendar").hidden//true;
                 document.getElementById("library").hidden = !document.getElementById("calendar").hidden//false;
             });
-
-            // libData.addEventListener("change", () => { console.log("libData changed") });
-
-            // var obj = {
-            //     value: '',
-            //     letMeKnow() {
-            //         console.log(`The variable has changed to ${this.testVar}`);
-            //     },
-            //     get testVar() {
-            //         return this.value;
-            //     },
-            //     set testVar(value) {
-            //         this.value = value;
-            //         this.letMeKnow();
-            //     }
-            // }
-
-            // console.log(obj.testVar)
-
-            // obj.testVar = 5;
-            // console.log(obj.testVar)
-
-            // obj.testVar = 15;
-            // console.log(obj.testVar)
         </script>
 
     </nav>
@@ -106,7 +124,6 @@
                             <i class="bi bi-caret-right-fill"></i>
                         </button>
                     </div>
-                    <input id="calendar-date-date" value="" type="text">
                 </div>
 
             </form>
@@ -121,7 +138,7 @@
                             <i class="bi bi-journal-plus"></i> <i class="bi bi-arrow-right"></i> <i
                                 class="bi bi-calendar3-event"></i>
                         </button>
-                        <select class="btn btn-toggle form-select" id="calendar-shortcut-selection">
+                        <select class="btn btn-toggle form-select text-start" id="calendar-shortcut-selection">
                             <option value="" disabled selected>add shortcut...</option>
                         </select>
                     </div>
@@ -203,22 +220,7 @@
             document.getElementById("toggle-shortcut-add").addEventListener("click", toggleShortcut);
             document.getElementById("toggle-shortcut-clear").addEventListener("click", toggleShortcut);
 
-            var inputDate = document.getElementById("calendar-date-date");
-            var valueDate = inputDate.value;
-            Object.defineProperty(document.getElementById("calendar-date-date"), "value", {
-                set(newValueDate) {
-                    console.log("Value changed to", newValueDate);
-                    valueDate = newValueDate;
-                    // inputDate.value = newValueDate;
-                    updateCalendarDate();
-                    makeCalendar();
-                },
-                get(){
-                    return valueDate;
-                }
-            });
-
-            document.addEventListener("load", setCalendarDate());
+            window.addEventListener("load", updateCalendar());
         </script>
 
     </main>

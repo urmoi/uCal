@@ -11,9 +11,8 @@ function saveCalendar () {
     filenameInput.form.classList.remove("was-validated");
     let filename = filenameInput.value;
     
+    let [month, year] = [data.date.getMonth(), data.date.getFullYear()];
     let input = document.getElementById("calendar-calendar").querySelectorAll("textarea");
-
-    let date = getDateFromString();
 
     var cal = ics();
 
@@ -30,7 +29,7 @@ function saveCalendar () {
                 let subject = libData[shortcut]["subject"];
                 let description = libData[shortcut]["description"];
                 let location = libData[shortcut]["location"];
-                let [begin, end] = getTime(libData[shortcut]["time"], date.getFullYear(), date.getMonth(), day);
+                let [begin, end] = getTime(libData[shortcut]["time"], year, month, day);
 
                 console.log(subject, description, location, begin, end);
 
@@ -95,10 +94,10 @@ function updateShortcutSelection() {
     }
 }
 
-function makeCalendar () {
-    let date = getDateFromString();
-    let [month, year] = [date.getMonth(), date.getFullYear()];
-    console.log(month, year);
+function updateCalendar () {
+    updateCalendarInput();
+
+    let [month, year] = [data.date.getMonth(), data.date.getFullYear()];
 
     var headerTemp = document.querySelector("template#template-calendar-header");
     var dayTemp = document.querySelector("template#template-calendar-day");
@@ -141,11 +140,9 @@ function makeCalendar () {
 }
 
 function activateCalendar () {
-    let shortcut = document.getElementById("calendar-shortcut-selection").value;
-
     document.getElementById("calendar-shortcut").classList.remove("deactivated");
-
-    if (shortcut) { document.getElementById("calendar-calendar").classList.remove("deactivated"); };
+    if (!document.getElementById("calendar-shortcut-selection").value) { return };
+    document.getElementById("calendar-calendar").classList.remove("deactivated");
 }
 
 function dayClick (btn) {
@@ -164,77 +161,70 @@ function dayClick (btn) {
 }
 
 function toggleShortcut(e) {
-    let toggleOn = e.currentTarget.getAttribute("data-toggle") === "add"
+    let toggleOn = e.currentTarget.getAttribute("data-toggle") === "add";
     e.currentTarget.parentNode.querySelector("input[type=radio]").checked = toggleOn;
     e.currentTarget.parentNode.querySelector("select").disabled = !toggleOn;
 }
 
-function setCalendarDate () {
-    let date = new Date();
-    document.getElementById("calendar-date-date").value = date.getMonth() + " / " + date.getFullYear();
-}
-
 function changeCalendarDate (e) {
     let direction = parseInt(e.currentTarget.getAttribute("data-direction"));
-    let date = getDateFromString();
-    date.setMonth(date.getMonth()+direction);
-    document.getElementById("calendar-date-date").value = getStringFromDate(date);
+    const dateCopy = new Date(data.date.getTime());
+    dateCopy.setMonth(dateCopy.getMonth() + direction);
+    data.date = dateCopy;
 }
 
-function updateCalendarDate () {
-    document.getElementById("calendar-date-input").value = getFormattedStringFromDate(getDateFromString());
+function updateCalendarInput () {
+    let formattedString = getFormattedStringFromDate(data.date);
+    document.getElementById("calendar-date-input").value = formattedString;
 }
 
 function editCalendarDate (e) {
     e.currentTarget.form.classList.add("was-validated");
     e.currentTarget.setCustomValidity("");
-    e.currentTarget.value = getStringFromDate(getDateFromString(), true);
+    e.currentTarget.value = getStringFromDate();
 
-    updateCalendarTooltip(e.currentTarget.value);
+    updateCalendarTooltip();
 }
 
 function checkCalendarDate (e) {
     if (/^(1[0-2]|0?[1-9]) ?\/ ?([2-9]\d[1-9]\d|[1-9]\d)$/.test(e.currentTarget.value)) {
         e.currentTarget.setCustomValidity("");
-        updateCalendarTooltip(e.currentTarget.value);
+        updateCalendarTooltip();
     } else {
         e.currentTarget.setCustomValidity("invalid date")
     }
 }
 
 function acceptCalendarDate (e) {
-    let inputDate = getDateFromString(e.currentTarget.value, true);
-    let savedDate = getDateFromString();
-
+    let inputDate = getDateFromString();
+    let savedDate = new Date(data.date.getFullYear(), data.date.getMonth());
     if (e.currentTarget.form.checkValidity() && +inputDate !== +savedDate) {
-        document.getElementById("calendar-date-date").value = getStringFromDate(inputDate);
+        data.date = inputDate;
     } else {
-        updateCalendarDate();
+        updateCalendarInput();
     }
 
     e.currentTarget.form.classList.remove("was-validated");
 }
 
-function getDateFromString (string=document.getElementById("calendar-date-date").value, modifieMonth=false) {
-    let [month, year]= string.split("/");
-    let date = new Date(year, month);
-    if (modifieMonth) { date.setMonth(date.getMonth()-1) };
+function getDateFromString () {
+    let [month, year]= document.getElementById("calendar-date-input").value.split("/");
+    let date = new Date(year, month-1);
     if (date.getFullYear() < 1970) { date.setFullYear(date.getFullYear() + 100) };
     return date;
 }
 
-function getStringFromDate (date, modifieMonth=false) {
-    if (modifieMonth) { date.setMonth(date.getMonth()+1); };
-    return date.getMonth() + " / " + date.getFullYear();
+function getStringFromDate () {
+    date = data.date;
+    return (date.getMonth()+1) + " / " + date.getFullYear();
 }
 
 function getFormattedStringFromDate (date) {
     return date.toLocaleString("en-US", { month: "long", year: "numeric" });
 }
 
-function updateCalendarTooltip (input) {
-    console.log("updateCalendarTooltip", input);
-    document.getElementById("calendar-date-tooltip").innerHTML = getFormattedStringFromDate(getDateFromString(input, true));
+function updateCalendarTooltip () {
+    document.getElementById("calendar-date-tooltip").innerHTML = getFormattedStringFromDate(getDateFromString());
 }
 
 function getTime(time, year, month, day) {
