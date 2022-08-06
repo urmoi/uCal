@@ -21,7 +21,9 @@
 
     <script src="/static/calendar.js"></script>
     <script src="/static/library.js"></script>
-    <script>var libData = {};</script>
+    <script>
+        var libData = {};
+    </script>
 
     <title>uCal: Calendar</title>
 
@@ -104,8 +106,7 @@
                             <i class="bi bi-caret-right-fill"></i>
                         </button>
                     </div>
-                    <input class="visually-hidden" id="calendar-date-month" value="" type="number">
-                    <input class="visually-hidden" id="calendar-date-year" value="" type="number">
+                    <input id="calendar-date-date" value="" type="text">
                 </div>
 
             </form>
@@ -202,7 +203,22 @@
             document.getElementById("toggle-shortcut-add").addEventListener("click", toggleShortcut);
             document.getElementById("toggle-shortcut-clear").addEventListener("click", toggleShortcut);
 
-            window.addEventListener("load", setCalendarDate());
+            var inputDate = document.getElementById("calendar-date-date");
+            var valueDate = inputDate.value;
+            Object.defineProperty(document.getElementById("calendar-date-date"), "value", {
+                set(newValueDate) {
+                    console.log("Value changed to", newValueDate);
+                    valueDate = newValueDate;
+                    // inputDate.value = newValueDate;
+                    updateCalendarDate();
+                    makeCalendar();
+                },
+                get(){
+                    return valueDate;
+                }
+            });
+
+            document.addEventListener("load", setCalendarDate());
         </script>
 
     </main>

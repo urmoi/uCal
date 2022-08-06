@@ -13,7 +13,7 @@ function saveCalendar () {
     
     let input = document.getElementById("calendar-calendar").querySelectorAll("textarea");
 
-    let [month, year] = getCalendarDate();
+    let date = getDateFromString();
 
     var cal = ics();
 
@@ -30,7 +30,7 @@ function saveCalendar () {
                 let subject = libData[shortcut]["subject"];
                 let description = libData[shortcut]["description"];
                 let location = libData[shortcut]["location"];
-                let [begin, end] = getTime(libData[shortcut]["time"], year, month, day);
+                let [begin, end] = getTime(libData[shortcut]["time"], date.getFullYear(), date.getMonth(), day);
 
                 console.log(subject, description, location, begin, end);
 
@@ -96,7 +96,9 @@ function updateShortcutSelection() {
 }
 
 function makeCalendar () {
-    let [month, year] = getCalendarDate();
+    let date = getDateFromString();
+    let [month, year] = [date.getMonth(), date.getFullYear()];
+    console.log(month, year);
 
     var headerTemp = document.querySelector("template#template-calendar-header");
     var dayTemp = document.querySelector("template#template-calendar-day");
@@ -167,78 +169,72 @@ function toggleShortcut(e) {
     e.currentTarget.parentNode.querySelector("select").disabled = !toggleOn;
 }
 
-function getCalendarDate() {
-    let month = parseInt(document.getElementById("calendar-date-month").value);
-    let year = parseInt(document.getElementById("calendar-date-year").value);
-    return [month, year];
-}
-
 function setCalendarDate () {
-    let month = new Date().getMonth();
-    let year = new Date().getFullYear();
-    updateCalendarDate(month, year);
+    let date = new Date();
+    document.getElementById("calendar-date-date").value = date.getMonth() + " / " + date.getFullYear();
 }
 
-function changeCalendarDate (event) {
-    let [month, year] = getCalendarDate();
-    let direction = parseInt(event.currentTarget.getAttribute("data-direction"));
-    updateCalendarDate(month+direction, year);
+function changeCalendarDate (e) {
+    let direction = parseInt(e.currentTarget.getAttribute("data-direction"));
+    let date = getDateFromString();
+    date.setMonth(date.getMonth()+direction);
+    document.getElementById("calendar-date-date").value = getStringFromDate(date);
 }
 
-function updateCalendarDate (month, year, update=true) {
-    let date = getDateFromMonthAndYear(month, year);
-
-    document.getElementById("calendar-date-month").value = date.getMonth();
-    document.getElementById("calendar-date-year").value = date.getFullYear();
-    document.getElementById("calendar-date-input").value = getStringFromDate(date);
-
-    if (update) { makeCalendar() };
+function updateCalendarDate () {
+    document.getElementById("calendar-date-input").value = getFormattedStringFromDate(getDateFromString());
 }
 
-function editCalendarDate (event) {
-    let [month, year] = getCalendarDate();
-    updateCalendarTooltip (month, year);
+function editCalendarDate (e) {
+    e.currentTarget.form.classList.add("was-validated");
+    e.currentTarget.setCustomValidity("");
+    e.currentTarget.value = getStringFromDate(getDateFromString(), true);
 
-    event.currentTarget.form.classList.add("was-validated");
-    event.currentTarget.setCustomValidity("");
-    event.currentTarget.value = (month+1) + " / " + year;
+    updateCalendarTooltip(e.currentTarget.value);
 }
 
-function checkCalendarDate (event) {
-    if (/^(1[0-2]|0?[1-9]) ?\/ ?([2-9]\d[1-9]\d|[1-9]\d)$/.test(event.currentTarget.value)) {
-        event.currentTarget.setCustomValidity("");
-        let [month, year] = event.currentTarget.value.split("/");
-        updateCalendarTooltip(month-1, year);
+function checkCalendarDate (e) {
+    if (/^(1[0-2]|0?[1-9]) ?\/ ?([2-9]\d[1-9]\d|[1-9]\d)$/.test(e.currentTarget.value)) {
+        e.currentTarget.setCustomValidity("");
+        updateCalendarTooltip(e.currentTarget.value);
     } else {
-        event.currentTarget.setCustomValidity("invalid date")
+        e.currentTarget.setCustomValidity("invalid date")
     }
 }
 
-function acceptCalendarDate (event) {
-    let [month, year] = event.currentTarget.value.split("/");
-    month -= 1;
+function acceptCalendarDate (e) {
+    let inputDate = getDateFromString(e.currentTarget.value, true);
+    let savedDate = getDateFromString();
 
-    let [savedMonth, savedYear] = getCalendarDate();
+    if (e.currentTarget.form.checkValidity() && +inputDate !== +savedDate) {
+        document.getElementById("calendar-date-date").value = getStringFromDate(inputDate);
+    } else {
+        updateCalendarDate();
+    }
 
-    if (!event.currentTarget.form.checkValidity()) { [month, year] = [savedMonth, savedYear] }
-
-    updateCalendarDate(month, year, month != savedMonth || year != savedYear);
-
-    event.currentTarget.form.classList.remove("was-validated");
+    e.currentTarget.form.classList.remove("was-validated");
 }
 
-function updateCalendarTooltip (month, year) {
-    document.getElementById("calendar-date-tooltip").innerHTML = getStringFromDate(getDateFromMonthAndYear(month, year));
-}
-
-function getDateFromMonthAndYear (month, year) {
+function getDateFromString (string=document.getElementById("calendar-date-date").value, modifieMonth=false) {
+    let [month, year]= string.split("/");
     let date = new Date(year, month);
+    if (modifieMonth) { date.setMonth(date.getMonth()-1) };
     if (date.getFullYear() < 1970) { date.setFullYear(date.getFullYear() + 100) };
     return date;
 }
 
-function getStringFromDate (date) {
+function getStringFromDate (date, modifieMonth=false) {
+    if (modifieMonth) { date.setMonth(date.getMonth()+1); };
+    return date.getMonth() + " / " + date.getFullYear();
+}
+
+function getFormattedStringFromDate (date) {
     return date.toLocaleString("en-US", { month: "long", year: "numeric" });
+}
+
+function updateCalendarTooltip (input) {
+    console.log("updateCalendarTooltip", input);
+    document.getElementById("calendar-date-tooltip").innerHTML = getFormattedStringFromDate(getDateFromString(input, true));
 }
 
 function getTime(time, year, month, day) {
