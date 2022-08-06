@@ -1,4 +1,4 @@
-var libData = {};
+// var libData = {};
 
 function saveCalendar () {
     // https://github.com/nwcell/ics.js
@@ -41,11 +41,12 @@ function saveCalendar () {
     cal.download(filename);
 }
 
-function checkFilename(input) {
-    if (/^[^\\ \/ : * ? " < > |]+$/.test(input.value)) {
-        input.setCustomValidity("");
+function checkFilename(event) {
+    console.log(event.currentTarget.value);
+    if (/^[^\\ \/ : * ? " < > |]+$/.test(event.currentTarget.value)) {
+        event.currentTarget.setCustomValidity("");
     } else {
-        input.setCustomValidity("invalid filename")
+        event.currentTarget.setCustomValidity("invalid filename")
     }
 }
 
@@ -73,7 +74,6 @@ function resetCalendar() {
     form.reset();
 
     updateShortcutSelection();
-    toggleShortcut();
     activateCalendar();
 }
 
@@ -161,9 +161,10 @@ function dayClick (btn) {
     }
 }
 
-function toggleShortcut(toggle=true, e=document.getElementById("toggle-shortcut-add")) {
-    e.parentNode.querySelector("input[type=radio]").checked = toggle;
-    e.parentNode.querySelector("select").disabled = !toggle;
+function toggleShortcut(e) {
+    let toggleOn = e.currentTarget.getAttribute("data-toggle") === "add"
+    e.currentTarget.parentNode.querySelector("input[type=radio]").checked = toggleOn;
+    e.currentTarget.parentNode.querySelector("select").disabled = !toggleOn;
 }
 
 function getCalendarDate() {
@@ -178,9 +179,10 @@ function setCalendarDate () {
     updateCalendarDate(month, year);
 }
 
-function changeCalendarDate (direction) {
+function changeCalendarDate (event) {
     let [month, year] = getCalendarDate();
-    updateCalendarDate(month + direction, year);
+    let direction = parseInt(event.currentTarget.getAttribute("data-direction"));
+    updateCalendarDate(month+direction, year);
 }
 
 function updateCalendarDate (month, year, update=true) {
@@ -193,36 +195,36 @@ function updateCalendarDate (month, year, update=true) {
     if (update) { makeCalendar() };
 }
 
-function editCalendarDate (input) {
-    input.form.classList.add("was-validated");
-    input.setCustomValidity("");
-
+function editCalendarDate (event) {
     let [month, year] = getCalendarDate();
     updateCalendarTooltip (month, year);
-    input.value = (month+1) + " / " + year;
+
+    event.currentTarget.form.classList.add("was-validated");
+    event.currentTarget.setCustomValidity("");
+    event.currentTarget.value = (month+1) + " / " + year;
 }
 
-function checkCalendarDate (input) {
-    if (/^(1[0-2]|0?[1-9]) ?\/ ?([2-9]\d[1-9]\d|[1-9]\d)$/.test(input.value)) {
-        input.setCustomValidity("");
-        let [month, year] = input.value.split("/");
-        updateCalendarTooltip (month-1, year);
+function checkCalendarDate (event) {
+    if (/^(1[0-2]|0?[1-9]) ?\/ ?([2-9]\d[1-9]\d|[1-9]\d)$/.test(event.currentTarget.value)) {
+        event.currentTarget.setCustomValidity("");
+        let [month, year] = event.currentTarget.value.split("/");
+        updateCalendarTooltip(month-1, year);
     } else {
-        input.setCustomValidity("invalid date")
+        event.currentTarget.setCustomValidity("invalid date")
     }
 }
 
-function acceptCalendarDate (input) {
-    input.form.classList.remove("was-validated");
-
-    let [month, year] = input.value.split("/");
+function acceptCalendarDate (event) {
+    let [month, year] = event.currentTarget.value.split("/");
     month -= 1;
 
     let [savedMonth, savedYear] = getCalendarDate();
 
-    if (!input.form.checkValidity()) { [month, year] = [savedMonth, savedYear] }
+    if (!event.currentTarget.form.checkValidity()) { [month, year] = [savedMonth, savedYear] }
 
     updateCalendarDate(month, year, month != savedMonth || year != savedYear);
+
+    event.currentTarget.form.classList.remove("was-validated");
 }
 
 function updateCalendarTooltip (month, year) {

@@ -21,13 +21,13 @@ function saveLibrary () {
     form.classList.remove("was-validated");
 }
 
-function checkFilname(input) {
-    if (/^[^\\ \/ : * ? " < > |]+$/.test(input.value)) {
-        input.setCustomValidity("");
-    } else {
-        input.setCustomValidity("invalid filename")
-    }
-}
+// function checkFilname(input) {
+//     if (/^[^\\ \/ : * ? " < > |]+$/.test(input.value)) {
+//         input.setCustomValidity("");
+//     } else {
+//         input.setCustomValidity("invalid filename")
+//     }
+// }
 
 function addItem () {
     let form = document.getElementById("shortcut-form");
@@ -105,8 +105,8 @@ function correctTime(input) {
 function toggleTime(toggle=true, e=document.getElementById("toggle-time-time")) {
     e.parentNode.querySelector("input[type=radio]").checked = !toggle;
     
-    e.parentNode.querySelectorAll("input[type=text]")[0].disabled = !toggle;
-    e.parentNode.querySelectorAll("input[type=text]")[1].disabled = !toggle;
+    // e.parentNode.querySelectorAll("input[type=text]")[0].disabled = !toggle;
+    // e.parentNode.querySelectorAll("input[type=text]")[1].disabled = !toggle;
 }
 
 function updateTable() {

@@ -21,13 +21,14 @@
 
     <script src="/static/calendar.js"></script>
     <script src="/static/library.js"></script>
+    <script>var libData = {};</script>
 
     <title>uCal: Calendar</title>
 
 </head>
 
 <body>
-    
+
     <nav class="bg-light border navbar navbar-light">
 
         <div class="container justify-content-center py-2">
@@ -55,9 +56,33 @@
         <script>
             document.getElementById("library-new").addEventListener("click", () => {
                 console.log("switch to library");
-                document.getElementById("calendar").hidden = true;
-                document.getElementById("library").hidden = false;
+                document.getElementById("calendar").hidden = !document.getElementById("calendar").hidden//true;
+                document.getElementById("library").hidden = !document.getElementById("calendar").hidden//false;
             });
+
+            // libData.addEventListener("change", () => { console.log("libData changed") });
+
+            // var obj = {
+            //     value: '',
+            //     letMeKnow() {
+            //         console.log(`The variable has changed to ${this.testVar}`);
+            //     },
+            //     get testVar() {
+            //         return this.value;
+            //     },
+            //     set testVar(value) {
+            //         this.value = value;
+            //         this.letMeKnow();
+            //     }
+            // }
+
+            // console.log(obj.testVar)
+
+            // obj.testVar = 5;
+            // console.log(obj.testVar)
+
+            // obj.testVar = 15;
+            // console.log(obj.testVar)
         </script>
 
     </nav>
@@ -69,13 +94,13 @@
             <form class="needs-validation" novalidate>
                 <div class="row">
                     <div class="input-group has-validation justify-content-center">
-                        <button class="btn btn-click" id="calendar-date-before" type="button">
+                        <button class="btn btn-click" id="calendar-date-before" type="button" data-direction="-1">
                             <i class="bi bi-caret-left-fill"></i>
                         </button>
                         <input class="form-control text-center" id="calendar-date-input" value="" type="text">
                         <div class="valid-tooltip rounded" id="calendar-date-tooltip">Looks good!</div>
                         <div class="invalid-tooltip rounded">invalid [MM / YYYY]</div>
-                        <button class="btn btn-click" id="calendar-date-after" type="button">
+                        <button class="btn btn-click" id="calendar-date-after" type="button" data-direction="+1">
                             <i class="bi bi-caret-right-fill"></i>
                         </button>
                     </div>
@@ -90,7 +115,7 @@
             <form class="needs-validation" id="calendar-form" novalidate>
                 <div class="row mb-3 deactivated" id="calendar-shortcut">
                     <input type="radio" class="btn-check" name="toggle-shortcut" id="toggle-shortcut" checked>
-                    <div class="col input-group flex-nowrap btn-toggle-on w-100" id="toggle-shortcut-add">
+                    <div class="col input-group flex-nowrap btn-toggle-on w-100" id="toggle-shortcut-add" data-toggle="add">
                         <button class="btn btn-toggle input-group-text" type="button">
                             <i class="bi bi-journal-plus"></i> <i class="bi bi-arrow-right"></i> <i
                                 class="bi bi-calendar3-event"></i>
@@ -135,6 +160,7 @@
                     </div>
                 </div>
             </form>
+
         </div>
 
         <template id="template-calendar-header">
@@ -157,29 +183,26 @@
         </template>
 
         <script>
+            document.getElementById("library-file").addEventListener("input", loadLibrary);
+            document.getElementById("library-file").addEventListener("input", activateCalendar);
+
+            document.getElementById("calendar-save").addEventListener("click", saveCalendar);
+
+            document.getElementById("calendar-filename-input").addEventListener("input", checkFilename);
+
+            document.getElementById("calendar-date-input").addEventListener("focus", editCalendarDate);
+            document.getElementById("calendar-date-input").addEventListener("input", checkCalendarDate);
+            document.getElementById("calendar-date-input").addEventListener("focusout", acceptCalendarDate);
+
+            document.getElementById("calendar-date-before").addEventListener("click", changeCalendarDate);
+            document.getElementById("calendar-date-after").addEventListener("click", changeCalendarDate);
+
+            document.getElementById("calendar-shortcut-selection").addEventListener("change", activateCalendar);
+
+            document.getElementById("toggle-shortcut-add").addEventListener("click", toggleShortcut);
+            document.getElementById("toggle-shortcut-clear").addEventListener("click", toggleShortcut);
+
             window.addEventListener("load", setCalendarDate());
-
-            document.getElementById("library-file").addEventListener("input", () => loadLibrary());
-            document.getElementById("library-file").addEventListener("input", () => activateCalendar());
-
-            document.getElementById("calendar-save").addEventListener("click", () => saveCalendar());
-
-            document.getElementById("calendar-filename-input").addEventListener("input", e => checkFilename(e.srcElement));
-
-            document.getElementById("calendar-date-input").addEventListener("focus", (e) => editCalendarDate(e.srcElement));
-            document.getElementById("calendar-date-input").addEventListener("input", (e) => checkCalendarDate(e.srcElement));
-            document.getElementById("calendar-date-input").addEventListener("focusout", (e) => acceptCalendarDate(e.srcElement));
-
-            document.getElementById("calendar-date-before").addEventListener("click", () => changeCalendarDate(-1));
-            document.getElementById("calendar-date-after").addEventListener("click", () => changeCalendarDate(+1));
-
-            document.getElementById("calendar-shortcut-selection").addEventListener("change", () => activateCalendar());
-
-            // document.getElementById("dayAdd").addEventListener("click", () => disableShortcut(false) );
-            // document.getElementById("dayClear").addEventListener("click", () => disableShortcut(true) );
-
-            document.getElementById("toggle-shortcut-add").addEventListener("click", (e) => toggleShortcut(true, e.currentTarget));
-            document.getElementById("toggle-shortcut-clear").addEventListener("click", (e) => toggleShortcut(false, e.currentTarget));
         </script>
 
     </main>
@@ -254,11 +277,9 @@
                     </div>
                 </div>
             </form>
-        </div>
 
-        <hr>
+            <hr>
 
-        <div class="w-700px container-sm">
             <form class="text-start text-sm-end needs-validation" id="library-filename" novalidate>
                 <div class="row">
                     <label class="col-sm-2 col-form-label" for="library-filename-input">Library</label>
@@ -298,7 +319,7 @@
         <script>
             document.getElementById("library-save").addEventListener("click", () => saveLibrary());
 
-            document.getElementById("library-filename-input").addEventListener("input", e => checkFilename(e.srcElement));
+            document.getElementById("library-filename-input").addEventListener("input", checkFilename);
 
 
             document.getElementById("shortcut-add").addEventListener("click", () => addItem());
@@ -314,6 +335,8 @@
         </script>
 
     </main>
+
+    <hr>
 
     <footer class="mb-5 small text-center text-muted">
 
