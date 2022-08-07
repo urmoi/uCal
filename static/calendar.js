@@ -1,5 +1,3 @@
-// var libData = {};
-
 function saveCalendar () {
     // https://github.com/nwcell/ics.js
     /*! ics.js Wed Aug 20 2014 17:23:02 */
@@ -26,10 +24,10 @@ function saveCalendar () {
             for (let j = 0; j < shortcuts.length; j++) {
                 let shortcut = shortcuts[j];
 
-                let subject = libData[shortcut]["subject"];
-                let description = libData[shortcut]["description"];
-                let location = libData[shortcut]["location"];
-                let [begin, end] = getTime(libData[shortcut]["time"], year, month, day);
+                let subject = library[shortcut]["subject"];
+                let description = library[shortcut]["description"];
+                let location = library[shortcut]["location"];
+                let [begin, end] = getTime(library[shortcut]["time"], year, month, day);
 
                 console.log(subject, description, location, begin, end);
 
@@ -40,13 +38,18 @@ function saveCalendar () {
     cal.download(filename);
 }
 
-function checkFilename(event) {
-    console.log(event.currentTarget.value);
-    if (/^[^\\ \/ : * ? " < > |]+$/.test(event.currentTarget.value)) {
-        event.currentTarget.setCustomValidity("");
+function checkFilename(e) {
+    console.log(e.currentTarget.value);
+    if (/^[^\\ \/ : * ? " < > |]+$/.test(e.currentTarget.value)) {
+        e.currentTarget.setCustomValidity("");
     } else {
-        event.currentTarget.setCustomValidity("invalid filename")
+        e.currentTarget.setCustomValidity("invalid filename")
     }
+}
+
+function uncheckFilename(e) {
+    console.log(e.currentTarget.value);
+    e.currentTarget.form.classList.remove("was-validated");
 }
 
 function checkForm(form) {
@@ -54,27 +57,12 @@ function checkForm(form) {
     return form.checkValidity();
 }
 
-function loadLibrary () {
-    let libraryFile = new Blob(document.getElementById("library-file").files, {type:"application/json"});
+// function resetCalendar() {
+//     let form = document.getElementById("calendar-form");
+//     form.reset();
 
-    const reader = new FileReader();
-    reader.addEventListener('load', (event) => {
-        let libText = event.target.result;
-        libData = JSON.parse(libText)
-        console.log(libData);
-
-        resetCalendar();
-    });
-    reader.readAsText(libraryFile);
-}
-
-function resetCalendar() {
-    let form = document.getElementById("calendar-form");
-    form.reset();
-
-    updateShortcutSelection();
-    activateCalendar();
-}
+//     updateShortcutSelection();
+// }
 
 function updateShortcutSelection() {
     let shortcutSelection = document.getElementById("calendar-shortcut-selection");
@@ -86,10 +74,10 @@ function updateShortcutSelection() {
 
     shortcutSelection.selectedIndex = 0;
 
-    for (let shortcut in libData) {
+    for (let shortcut in library) {
         var opt = document.createElement('option');
         opt.value = shortcut;
-        opt.innerHTML = shortcut + " - " + libData[shortcut]["subject"];
+        opt.innerHTML = shortcut + " - " + library[shortcut]["subject"];
         shortcutSelection.appendChild(opt);
     }
 }
@@ -119,14 +107,14 @@ function updateCalendar () {
 
     for (let i = 0; i < weeksInMonth; i++) {
         let week = document.createElement("div");
-        week.classList.add("row", "mx-auto", "flex-nowwrap");
+        week.classList.add("row", "mx-auto", "row-cols-7");
         for (let j = 1; j <= daysInWeek; j++) {
             let numberDay = i * daysInWeek + j;
             let calendarDay = numberDay - firstDay + 1;
             let isDay = calendarDay >= 1 && calendarDay <= daysInMonth;
             let node = document.importNode(dayTemp.content, true);
             if (isDay) {
-                node.querySelector("button").addEventListener("click", function() { dayClick(this) });
+                node.querySelector("button").addEventListener("click", dayClick);
                 node.querySelector("label").innerHTML = (calendarDay) + "." + (month+1) + ".";
             } else {
                 node.children[0].disabled = true;
@@ -139,17 +127,19 @@ function updateCalendar () {
     container.replaceChildren(new_container);
 }
 
-function activateCalendar () {
+function activateShortcutSelection () {
     document.getElementById("calendar-shortcut").classList.remove("deactivated");
-    if (!document.getElementById("calendar-shortcut-selection").value) { return };
+}
+
+function activateCalendar () {
     document.getElementById("calendar-calendar").classList.remove("deactivated");
 }
 
-function dayClick (btn) {
-    let textarea = btn.querySelector("textarea");
+function dayClick (e) {
+    let textarea = e.currentTarget.querySelector("textarea");
 
     if (document.getElementById("toggle-shortcut").checked) {
-        let shortcut = btn.form.elements["calendar-shortcut-selection"].value;
+        let shortcut = e.currentTarget.form.elements["calendar-shortcut-selection"].value;
 
         if (!shortcut) { return }
         if (textarea.value.split("\n").includes(shortcut)) { return }
@@ -168,7 +158,7 @@ function toggleShortcut(e) {
 
 function changeCalendarDate (e) {
     let direction = parseInt(e.currentTarget.getAttribute("data-direction"));
-    const dateCopy = new Date(data.date.getTime());
+    let dateCopy = new Date(data.date.getTime());
     dateCopy.setMonth(dateCopy.getMonth() + direction);
     data.date = dateCopy;
 }

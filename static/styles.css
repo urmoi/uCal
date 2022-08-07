@@ -1,14 +1,20 @@
 .w-700px {
     max-width: 700px;
-    min-width: 300px;
+    min-width: 315px;
 }
 
 .brand-span {
     width: 100px;
 }
 
+.deactivated {
+    pointer-events: none;
+    opacity: 25%;
+}
+
 .btn-toggle,
-.btn-click
+.btn-click,
+.btn-nav
 {
     --bs-btn-color: var(--bs-gray-900);
     --bs-btn-bg: var(--bs-gray-200);
@@ -28,6 +34,18 @@
     --bs-btn-disabled-opacity: 1;
 
     --bs-btn-focus-box-shadow: var(--bs-btn-box-shadow);
+}
+
+.btn-nav {
+    --bs-btn-disabled-color: var(--bs-btn-color);
+    --bs-btn-disabled-bg: var(--bs-btn-bg);
+    --bs-btn-disabled-border-color: var(--bs-btn-border-color);
+
+    --bs-btn-active-color: var(--bs-gray-400);
+    --bs-btn-active-bg: var(--bs-gray-900);
+    --bs-btn-active-border-color: var(--bs-gray-900);
+
+    --bs-btn-box-shadow: none;
 }
 
 .btn-toggle {
@@ -144,9 +162,4 @@ input.is-used:focus~.used-tooltip {
 .btn-day textarea {
     height: calc(100% - calc(var(--bs-body-font-size) * var(--bs-btn-line-height)));
     resize: none;
-}
-
-.deactivated {
-    pointer-events: none;
-    opacity: 50%;
 }
