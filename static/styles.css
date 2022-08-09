@@ -12,9 +12,47 @@
     opacity: 25%;
 }
 
-.btn-toggle,
-.btn-click,
 .btn-nav
+{
+    --bs-btn-color: var(--bs-gray-100);
+    --bs-btn-bg: var(--bs-gray-800);
+    --bs-btn-border-color: var(--bs-btn-bg);
+
+    --bs-btn-hover-color: var(--bs-gray-400);
+    --bs-btn-hover-bg: var(--bs-gray-900);
+    --bs-btn-hover-border-color: var(--bs-btn-hover-bg);
+
+    --bs-btn-active-color: var(--bs-gray-900);
+    --bs-btn-active-bg: var(--bs-gray-200);
+    --bs-btn-active-border-color: var(--bs-gray-900);
+
+    --bs-btn-disabled-color: var(--bs-gray-900);
+    --bs-btn-disabled-bg: var(--bs-gray-100);
+    --bs-btn-disabled-border-color: var(--bs-gray-400);
+    --bs-btn-disabled-opacity: 1;
+
+    --bs-btn-box-shadow: none;
+    --bs-btn-focus-box-shadow: var(--bs-btn-box-shadow);
+}
+
+/* .btn-nav:disabled {
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    border-radius: 0!important;
+} */
+
+/* .nav-toggle.active #calendar-nav,
+.nav-toggle.active #library-nav
+{
+    pointer-events: none;
+    color: var(--bs-gray-900);
+    background-color: transparent;
+    border-color: transparent;
+} */
+
+.btn-toggle,
+.btn-click
 {
     --bs-btn-color: var(--bs-gray-900);
     --bs-btn-bg: var(--bs-gray-200);
@@ -34,18 +72,6 @@
     --bs-btn-disabled-opacity: 1;
 
     --bs-btn-focus-box-shadow: var(--bs-btn-box-shadow);
-}
-
-.btn-nav {
-    --bs-btn-disabled-color: var(--bs-btn-color);
-    --bs-btn-disabled-bg: var(--bs-btn-bg);
-    --bs-btn-disabled-border-color: var(--bs-btn-border-color);
-
-    --bs-btn-active-color: var(--bs-gray-400);
-    --bs-btn-active-bg: var(--bs-gray-900);
-    --bs-btn-active-border-color: var(--bs-gray-900);
-
-    --bs-btn-box-shadow: none;
 }
 
 .btn-toggle {
@@ -111,6 +137,10 @@ input.is-used:focus~.used-tooltip {
     display: block!important;
 }
 
+.text-center.form-control.is-invalid,
+.text-center.form-control.is-valid,
+.was-validated .text-center.form-control:invalid,
+.was-validated .text-center.form-control:valid,
 .text-end.form-control.is-invalid,
 .text-end.form-control.is-valid,
 .was-validated .text-end.form-control:invalid,

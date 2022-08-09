@@ -70,22 +70,23 @@ function toggleNav (e) {
 
     let modes = [shownMode, shownMode === "library" ? "calendar" : "library"];
 
+    document.getElementById("library-new").disabled = shownMode === "library" ? true : false;
+
     for (let i = 0; i < modes.length; i++) {
         let mode = modes[i];
         let bool = i === 0 ? false : true;
-        let a = ["active", "pe-none"];
+        let a = ["active"];
         let r = ["was-validated"];
+        if (bool) { [a, r] = [r, a]; }
         let modeActivated = document.getElementById(mode+"-filename-form").hasAttribute("data-activated");
 
         document.getElementById(mode).hidden = bool;
         document.getElementById(mode+"-filename-input").disabled = bool;
-        if (!bool) {
-            document.getElementById(mode+"-nav").classList.add(...a);
-            document.getElementById(mode+"-filename-form").classList.remove(...r);
-        } else {
-            document.getElementById(mode+"-nav").classList.remove(...a);
-            document.getElementById(mode+"-filename-form").classList.add(...r);
-        }
+        document.getElementById(mode+"-nav").disabled = !bool;
+
+        document.getElementById(mode+"-filename-form").classList.add(...a);
+        document.getElementById(mode+"-filename-form").classList.remove(...r);
+
         document.getElementById(mode+"-save").hidden = modeActivated ? bool : true;
         document.getElementById(mode+"-edit").hidden =  modeActivated ? !bool : true;
     }
