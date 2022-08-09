@@ -75,59 +75,38 @@ function toggleNav (e) {
     for (let i = 0; i < modes.length; i++) {
         let mode = modes[i];
         let bool = i === 0 ? false : true;
-        let a = ["active"];
-        let r = ["was-validated"];
-        if (bool) { [a, r] = [r, a]; }
-        let modeActivated = document.getElementById(mode+"-filename-form").hasAttribute("data-activated");
+
+        let modeActivated = document.getElementById("nav-toggle-"+mode).hasAttribute("data-activated");
 
         document.getElementById(mode).hidden = bool;
         document.getElementById(mode+"-filename-input").disabled = bool;
         document.getElementById(mode+"-nav").disabled = !bool;
-
-        document.getElementById(mode+"-filename-form").classList.add(...a);
-        document.getElementById(mode+"-filename-form").classList.remove(...r);
 
         document.getElementById(mode+"-save").hidden = modeActivated ? bool : true;
         document.getElementById(mode+"-edit").hidden =  modeActivated ? !bool : true;
     }
 }
 
-function toggleCalendar() { /// ########################### TODO implementation! see below
-    document.getElementById("calendar-filename-form").setAttribute("data-activated", "activated");
-    document.getElementById("calendar-filename-form").classList.remove("col-md-auto");
+function toggleNavOnInput () {
+    document.getElementById("nav-toggle-calendar").classList.remove("col-md-auto");
     document.getElementById("calendar-nav").classList.remove("rounded", "flex-grow-1");
-    document.getElementById("calendar-filename-input").hidden = false;
-    let calendarStatus = document.getElementById("calendar").hidden;
-    document.getElementById("calendar-edit").hidden = !calendarStatus;
-    document.getElementById("calendar-save").hidden = calendarStatus
 
-
+    document.getElementById("library-nav").classList.remove("btn-add");
+    document.getElementById("library-nav").classList.add("btn-nav");
     document.getElementById("library-file-upload").hidden = true;
     document.getElementById("library-new").hidden = true;
     document.getElementById("library-filename-input").value = data.filename;
-    document.getElementById("library-filename-input").hidden = false;
-    let libraryStatus = document.getElementById("library").hidden;
-    document.getElementById("library-edit").hidden = !libraryStatus;
-    document.getElementById("library-save").hidden = libraryStatus
-}
 
-function toggleLibrary () {
-    document.getElementById("calendar-filename-form").setAttribute("data-activated", "activated");
-    document.getElementById("calendar-filename-form").classList.remove("col-md-auto");
-    document.getElementById("calendar-nav").classList.remove("rounded", "flex-grow-1");
-    document.getElementById("calendar-filename-input").hidden = false;
-    let calendarStatus = document.getElementById("calendar").hidden;
-    document.getElementById("calendar-edit").hidden = !calendarStatus;
-    document.getElementById("calendar-save").hidden = calendarStatus
+    let modes = ["calendar", "library"];
+    for (let i = 0; i < modes.length; i++) {
+        let mode = modes[i];
+        document.getElementById("nav-toggle-"+mode).setAttribute("data-activated", "activated");
+        document.getElementById(mode+"-filename-input").hidden = false;
 
-    document.getElementById("library-filename-form").setAttribute("data-activated", "activated");
-    document.getElementById("library-file-upload").hidden = true;
-    document.getElementById("library-new").hidden = true;
-    document.getElementById("library-filename-input").value = data.filename;
-    document.getElementById("library-filename-input").hidden = false;
-    let libraryStatus = document.getElementById("library").hidden;
-    document.getElementById("library-edit").hidden = !libraryStatus;
-    document.getElementById("library-save").hidden = libraryStatus
+        let status = document.getElementById(mode).hidden;
+        document.getElementById(mode+"-edit").hidden = !status;
+        document.getElementById(mode+"-save").hidden = status
+    }
 }
 
 //  --> double with calendar.js

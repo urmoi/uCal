@@ -41,7 +41,7 @@
                 console.log("library update", library, newLibrary);
                 if (Object.keys(library).length === 0) {
                     console.log("library was empty", library);
-                    toggleLibrary();
+                    toggleNavOnInput();
                     activateShortcutSelection();
                  };
                 library = newLibrary;
@@ -56,8 +56,6 @@
             set(newFilename) {
                 console.log("filename update", newFilename);
                 filename = newFilename;
-                toggleLibrary();
-                activateShortcutSelection();
             },
             get() { return filename; }
         });
@@ -77,177 +75,38 @@
             </span>
             <div class="container-md w-700px">
                 <div class="row">
-                     <div class="col col-md-auto">
-                        <form class="input-group justify-content-center needs-validation active" id="calendar-filename-form" novalidate>
-                            <button disabled class="btn btn-nav text-start flex-grow-1 rounded" type="button" id="calendar-nav" data-nav="calendar"><i class="bi bi-calendar3-range"></i> Calendar</button>
-                            <input hidden class="form-control text-center border-end-0" id="calendar-filename-input" name="calendar-filename-input" type="text" autocomplete="off" placeholder="calendar name" required>
+                     <div class="col col-md-auto" id="nav-toggle-calendar" data-nav="calendar">
+                        <form class="input-group justify-content-center needs-validation" id="calendar-filename-form" novalidate>
+                            <button disabled class="btn btn-nav text-start flex-grow-1 rounded" type="button" id="calendar-nav"><i class="bi bi-calendar3-range me-1"></i>Calendar</button>
+                            <input hidden class="btn-nav form-control text-center border-end-0" id="calendar-filename-input" name="calendar-filename-input" type="text" autocomplete="off" placeholder="calendar name" required>
                             <div class="invalid-tooltip rounded-end">invalid / missing calendar filename</div>
-                            <i hidden class="input-group-text border-start-0 rounded-end bi bi-pencil" id="calendar-edit"></i>
-                            <button hidden class="btn btn-nav" type="button" id="calendar-save"><i class="bi bi-download" id="calendar-save"></i></button>        
+                            <i hidden class="btn-nav input-group-text border-start-0 rounded-end bi bi-pencil" id="calendar-edit"></i>
+                            <button hidden class="btn btn-add" type="button" id="calendar-save"><i class="bi bi-download" id="calendar-save"></i></button>        
                         </form>
                     </div>
-                    <div class="col-md mt-3 mt-md-0">
+                    <div class="col-md mt-3 mt-md-0" id="nav-toggle-library" data-nav="library">
                         <form class="input-group needs-validation" id="library-filename-form" novalidate>
-                            <button class="btn btn-nav" type="button" id="library-nav" data-nav="library"><i class="bi bi-journals me-1"></i> Library</button>
-                            <button class="btn btn-nav flex-grow-1" type="button" id="library-new" data-nav="library">Create <i class="bi bi-patch-plus"></i></button>
-                            <input hidden class="form-control" type="file" accept=".ucal" id="library-file-input" name="library-file-input">
-                            <label class="btn btn-nav flex-grow-1 rounded-end" for="library-file-input" id="library-file-upload">Upload<i class="bi bi-upload ms-1"></i></label>
-                            <input hidden disabled class="form-control text-center border-end-0" id="library-filename-input" name="library-filename-input" type="text" autocomplete="off" placeholder="library name" required>
+                            <button class="btn btn-add text-start" type="button" id="library-nav"><i class="bi bi-journals me-1"></i>Library</button>
+                            <button class="btn btn-add flex-grow-1" type="button" id="library-new" data-nav="library">Create <i class="bi bi-patch-plus"></i></button>
+                            <input hidden class="btn-nav form-control" type="file" accept=".ucal" id="library-file-input" name="library-file-input">
+                            <label class="btn btn-add flex-grow-1 rounded-end" for="library-file-input" id="library-file-upload">Upload<i class="bi bi-upload ms-1"></i></label>
+                            <input hidden disabled class="btn-nav form-control text-center border-end-0 flex-fill" id="library-filename-input" name="library-filename-input" type="text" autocomplete="off" placeholder="library name" required>
                             <div class="invalid-tooltip rounded-end">invalid / missing library filename</div>
-                            <i hidden class="input-group-text border-start-0 rounded-end bi bi-pencil" id="library-edit"></i>
-                            <button hidden class="btn btn-nav" type="button" id="library-save"><i class="bi bi-download" id="library-save"></i></button>
+                            <i hidden class="btn-nav input-group-text border-start-0 rounded-end bi bi-pencil" id="library-edit"></i>
+                            <button hidden class="btn btn-add" type="button" id="library-save"><i class="bi bi-download" id="library-save"></i></button>
                         </form>
                     </div>
                 </div>
             </div>
             <span class="brand-span"></span>
         </div>
-
-        <!-- <div class="container justify-content-center py-2">
-            <span class="navbar-brand h1 brand-span text-center text-lg-start m-0 mb-3 mb-lg-0">
-                <i class="bi bi-calendar3"></i> uCal
-            </span>
-            <div class="container-md w-700px">
-                <div class="row">
-                    <form class="col col-md-auto active needs-validation" id="calendar-filename" novalidate>
-                        <div class="input-group">
-                            <button class="btn btn-nav rounded flex-grow-1 active" type="button" id="calendar-nav">
-                                <i class="bi bi-calendar3-range"></i> Calendar
-                            </button>
-                            <input hidden class="form-control filename-input text-end" id="calendar-filename-input" name="calendar-filename-input" type="text" autocomplete="off" placeholder="filename" required>
-                            <label hidden class="input-group-text filename-input" for="calendar-filename-input">.ics</label>
-                            <div hidden class="invalid-tooltip rounded">Please choose a name for the Calendar file.</div>
-                            <button hidden class="btn btn-nav" type="button" id="calendar-save">
-                                <i class="bi bi-download"></i>
-                            </button>
-                        </div>
-                    </form>
-                    <form class="col-md  mt-3 mt-md-0 needs-validation" id="library-filename" novalidate>
-                        <div class="input-group">
-                            <label class="input-group-text">
-                                <i class="bi bi-journals me-1"></i> Library
-                            </label>
-                            <input class="btn-nav form-control" type="file" accept=".ucal" id="library-file" name="library-file" hidden>
-                            <label class="btn btn-nav input-group-text flex-grow-1" for="library-file" id="library-file-upload">
-                                Upload<i class="bi bi-upload ms-1"></i>
-                            </label>
-                            <input hidden class="form-control filename-input text-end" id="calendar-filename-input" name="calendar-filename-input" type="text" autocomplete="off" placeholder="filename" required>
-                            <label hidden class="input-group-text filename-input" for="calendar-filename-input">.ucal</label>
-                            <button hidden class="btn btn-nav" type="button" id="calendar-save">
-                                <i class="bi bi-download"></i>
-                            </button>
-                            <span class="input-group-text bg-transparent" id="library-file-filename" hidden></span>
-                            <button class="btn btn-nav flex-grow-1" type="button" id="library-nav" data-nav="library">
-                                <span id="library-nav-new">Create <i class="bi bi-patch-plus"></i></span>
-                                <span id="library-nav-edit" hidden>Edit <i class="bi bi-pencil"></i></span>
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <span class="brand-span"></span>
-        </div>
-
-        <div class="container justify-content-center py-2">
-            <span class="navbar-brand h1 brand-span text-center text-lg-start m-0 mb-3 mb-lg-0">
-                <i class="bi bi-calendar3"></i> uCal
-            </span>
-            <div class="container-md w-700px">
-                <div class="row">
-                    <form class="col active needs-validation" id="calendar-filename" novalidate>
-                        <div class="input-group">
-                            <button class="btn btn-nav active" type="button" id="calendar-nav">
-                                <i class="bi bi-calendar3-range"></i> Calendar
-                            </button>
-                            <input class="form-control text-end" id="calendar-filename-input" name="calendar-filename-input" type="text" autocomplete="off" placeholder="filename" required>
-                            <label hidden class="input-group-text filename-input" for="calendar-filename-input">.ics</label>
-                            <div class="invalid-tooltip rounded">Please choose a name for the Calendar file.</div>
-                            <button class="btn btn-nav" type="button" id="calendar-save">
-                                <i class="bi bi-download"></i>
-                            </button>
-                        </div>
-                    </form>
-                    <form class="col flex-grow-1 mt-3 mt-md-0 needs-validation" id="library-filename" novalidate>
-                        <div class="input-group">
-                            <label class="input-group-text">
-                                <i class="bi bi-journals me-1"></i> Library
-                            </label>
-                            <input class="btn-nav form-control" type="file" accept=".ucal" id="library-file" name="library-file" hidden>
-                            <label hidden class="btn btn-nav input-group-text flex-fill" for="library-file" id="library-file-upload">
-                                Upload<i class="bi bi-upload ms-1"></i>
-                            </label>
-                            <input hidden class="form-control text-end pe-6" id="calendar-filename-input" name="calendar-filename-input" type="text" autocomplete="off" placeholder="filename" value="filename" required>
-                            <label hidden class="input-group-text filename-input" for="calendar-filename-input">.ucal</label>
-                            <span class="input-group-text flex-grow-1 border-start-0" id="library-file-filename">filename</span>
-                            <button hidden class="btn btn-nav" type="button" id="calendar-save">
-                                <i class="bi bi-download"></i>
-                            </button>
-                            <button class="btn btn-nav" type="button" id="library-nav" data-nav="library">
-                                <span id="library-nav-new" hidden>New <i class="bi bi-patch-plus"></i></span>
-                                <span id="library-nav-edit"><i class="bi bi-pencil"></i></span>
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <span class="brand-span"></span>
-        </div> -->
-
-        <!-- <div class="container justify-content-center py-2">
-            <span class="navbar-brand h1 brand-span text-center text-lg-start m-0 mb-3 mb-lg-0">
-                <i class="bi bi-calendar3"></i> uCal
-            </span>
-            <div class="container-md w-700px">
-                <div class="row">
-                    <form class="col needs-validation" id="calendar-filename-form" novalidate>
-                        <div class="input-group">
-                            <button class="btn btn-nav" type="button" id="calendar-nav">
-                                <i class="bi bi-calendar3-range"></i> Calendar
-                            </button>
-                            <input class="form-control text-end" disabled id="calendar-filename-input" name="calendar-filename-input" type="text" autocomplete="off" placeholder="filename" required>
-                            <label hidden class="input-group-text filename-input" for="calendar-filename-input">.ics</label>
-                            <div class="invalid-tooltip rounded">Please choose a name for the Calendar file.</div>
-                            <button hidden class="btn btn-nav" type="button" id="calendar-save">
-                                <i class="bi bi-download"></i>
-                            </button>
-                            <button class="btn btn-nav" type="button" id="calendar-edit">
-                                <i class="bi bi-pencil"></i>
-                            </button>
-                        </div>
-                    </form>
-                    <form class="col-md mt-3 mt-md-0 needs-validation" id="library-filename" novalidate>
-                        <div class="input-group">
-                            <label class="input-group-text btn btn-nav pe-none active">
-                                <i class="bi bi-journals me-1"></i> Library
-                            </label>
-                            <input class="btn-nav form-control" type="file" accept=".ucal" id="library-file" name="library-file" hidden>
-                            <label hidden class="btn btn-nav input-group-text flex-fill" for="library-file" id="library-file-upload">
-                                Upload<i class="bi bi-upload ms-1"></i>
-                            </label>
-                            <input hidden class="form-control text-end pe-6" id="calendar-filename-input" name="calendar-filename-input" type="text" autocomplete="off" placeholder="filename" value="filename" required>
-                            <label hidden class="input-group-text filename-input" for="calendar-filename-input">.ucal</label>
-                            <span hidden class="input-group-text flex-grow-1 border-start-0" id="library-file-filename">filename</span>
-                            <input class="form-control text-end" id="calendar-filename-input" name="calendar-filename-input" type="text" autocomplete="off" placeholder="filename" required>
-                            <button hidden class="btn btn-nav" type="button" id="calendar-save">
-                                <i class="bi bi-download"></i>
-                            </button>
-                            <button class="btn btn-nav" type="button" id="library-nav" data-nav="library">
-                                <span id="library-nav-new" hidden>New <i class="bi bi-patch-plus"></i></span>
-                                <span id="library-nav-edit"><i class="bi bi-pencil"></i></span>
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <span class="brand-span"></span>
-        </div> -->
 
         <script>
-            document.getElementById("library-file-input").addEventListener("input", loadLibrary, false);
+            document.getElementById("library-file-input").addEventListener("input", loadLibrary);
 
-            document.getElementById("calendar-nav").addEventListener("click", toggleNav);
+            document.getElementById("nav-toggle-calendar").addEventListener("click", toggleNav);
 
-            document.getElementById("library-nav").addEventListener("click", toggleNav);
+            document.getElementById("nav-toggle-library").addEventListener("click", toggleNav);
             document.getElementById("library-new").addEventListener("click", toggleNav);
 
             document.getElementById("calendar-save").addEventListener("click", saveCalendar);
@@ -307,32 +166,9 @@
                     </div>
                 </div>
 
-                <div class="text-center deactivated" id="calendar-calendar">
+                <div class="text-center deactivated" id="calendar-calendar"></div>
 
-                </div>
             </form>
-
-            <!-- <hr>
-
-            <form class="needs-validation" id="calendar-filename" novalidate>
-                <div class="row mb-3">
-                    <div class="col">
-                        <div class="input-group mb-3 mb-sm-0 has-validation">
-                            <span class="input-group-text">
-                                <i class="bi bi-calendar3-range me-2"></i>Calendar
-                            </span>
-                            <input class="form-control filename-input text-end pe-1" id="calendar-filename-input"name="calendar-filename-input" type="text" autocomplete="off" placeholder="filename" required>
-                            <div class="invalid-tooltip">Please choose a name for the Calendar file.</div>
-                            <label class="input-group-text filename-input" for="calendar-filename-input">.ics</label>
-                        </div>
-                    </div>
-                    <div class="col-sm-auto col-md-5">
-                        <button class="btn btn-dark w-100" type="button" id="calendar-save">
-                            <i class="bi bi-download"></i> Download
-                        </button>
-                    </div>
-                </div>
-            </form> -->
 
         </div>
 
@@ -368,7 +204,7 @@
             document.getElementById("toggle-shortcut-add").addEventListener("click", toggleShortcut);
             document.getElementById("toggle-shortcut-clear").addEventListener("click", toggleShortcut);
 
-            window.addEventListener("load", updateCalendar());
+            window.addEventListener("load", updateCalendar);
         </script>
 
     </main>
@@ -376,6 +212,7 @@
     <main class="container py-5 text-center" id="library" hidden>
         <div class="w-700px container-sm">
             <form class="text-start text-sm-end needs-validation" id="shortcut-form" novalidate>
+
                 <div class="row mb-3">
                     <label class="col-sm-2 col-form-label" for="shortcut-shortcut">Shortcut</label>
                     <div class="col">
@@ -386,7 +223,7 @@
                             <div class="invalid-tooltip rounded">missing unique shortcut</div>
                             <div class="invalid-tooltip used-tooltip rounded">already used shortcut, will overwrite!
                             </div>
-                            <button class="col-sm-3 btn btn-nav w-auto" type="button" id="shortcut-add">
+                            <button class="col-sm-3 btn btn-add" type="button" id="shortcut-add">
                                 <i class="bi bi-journal-plus"></i> <i class="bi bi-arrow-right"></i> <i
                                     class="bi bi-journals"></i> Library
                             </button>
@@ -437,28 +274,8 @@
                         <textarea class="form-control" id="shortcut-description" name="shortcut-description"></textarea>
                     </div>
                 </div>
+
             </form>
-
-            <!-- <hr>
-
-            <form class="text-start text-sm-end needs-validation" id="library-filename" novalidate>
-                <div class="row">
-                    <label class="col-sm-2 col-form-label" for="library-filename-input">Library</label>
-                    <div class="col flex-nowrap input-group has-validation mb-3 mb-sm-0">
-                        <i class="input-group-text bi bi-journals"></i>
-                        <input class="form-control text-end pe-1" id="library-filename-input"
-                            name="library-filename-input" type="text" autocomplete="off" placeholder="filename"
-                            required>
-                        <span class="input-group-text ps-1">.ucal</span>
-                        <div class="invalid-tooltip">missing library name</div>
-                    </div>
-                    <div class="col-sm-auto col-md-4">
-                        <button class="btn btn-dark w-100" type="button" id="library-save">
-                            <i class="bi bi-download"></i> Download
-                        </button>
-                    </div>
-                </div>
-            </form> -->
 
             <hr>
 
