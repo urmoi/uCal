@@ -79,11 +79,6 @@ form#shortcut-form .input-group label {
     --bs-btn-disabled-opacity: 1;
 }
 
-.btn-nav.form-control
-{
-    color: var(--bs-btn-disabled-color);
-}
-
 .btn-nav.input-group-text,
 .btn-nav.form-control:disabled,
 .btn-nav.form-control::placeholder
