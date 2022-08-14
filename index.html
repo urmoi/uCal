@@ -41,7 +41,7 @@
                 if (Object.keys(library).length === 0) {
                     console.log("library was empty before", library);
                     toggleNavOnInput();
-                    activateShortcutSelection();
+                    activateNode("calendar-shortcut");
                 };
                 console.log("library update", library, newLibrary);
                 library = newLibrary;
@@ -113,11 +113,11 @@
 
             document.getElementById("library-save").addEventListener("click", saveLibrary);
 
-            document.getElementById("calendar-filename-input").addEventListener("input", checkFilename);
-            document.getElementById("library-filename-input").addEventListener("input", checkFilename);
+            document.getElementById("calendar-filename-input").addEventListener("input", validateFilename);
+            document.getElementById("library-filename-input").addEventListener("input", validateFilename);
 
-            document.getElementById("calendar-filename-input").addEventListener("focusout", uncheckFilename);
-            document.getElementById("library-filename-input").addEventListener("focusout", uncheckFilename);
+            document.getElementById("calendar-filename-input").addEventListener("focusout", unvalidateFilename);
+            document.getElementById("library-filename-input").addEventListener("focusout", unvalidateFilename);
 
         </script>
 
@@ -192,14 +192,14 @@
         </template>
 
         <script>
-            document.getElementById("calendar-date-input").addEventListener("focus", editCalendarDate);
-            document.getElementById("calendar-date-input").addEventListener("input", checkCalendarDate);
-            document.getElementById("calendar-date-input").addEventListener("focusout", acceptCalendarDate);
+            document.getElementById("calendar-date-input").addEventListener("focus", editDateInput);
+            document.getElementById("calendar-date-input").addEventListener("input", validateDateInput);
+            document.getElementById("calendar-date-input").addEventListener("focusout", acceptDateInput);
 
             document.getElementById("calendar-date-before").addEventListener("click", changeCalendarDate);
             document.getElementById("calendar-date-after").addEventListener("click", changeCalendarDate);
 
-            document.getElementById("calendar-shortcut-selection").addEventListener("change", activateCalendar);
+            document.getElementById("calendar-shortcut-selection").addEventListener("change", () => activateNode("calendar-calendar"));
 
             document.getElementById("toggle-shortcut-add").addEventListener("click", toggleShortcut);
             document.getElementById("toggle-shortcut-clear").addEventListener("click", toggleShortcut);
@@ -314,13 +314,13 @@
         <script>
             document.getElementById("shortcut-add").addEventListener("click", addShortcut);
 
-            document.getElementById("shortcut-shortcut").addEventListener("input", checkShort);
+            document.getElementById("shortcut-shortcut").addEventListener("input", validateShortcut);
 
             document.getElementById("toggle-time-time").addEventListener("click", toggleTime);
             document.getElementById("toggle-time-allday").addEventListener("click", toggleTime);
 
-            document.getElementById("shortcut-begin").addEventListener("input", checkTime);
-            document.getElementById("shortcut-end").addEventListener("input", checkTime);
+            document.getElementById("shortcut-begin").addEventListener("input", validateTime);
+            document.getElementById("shortcut-end").addEventListener("input", validateTime);
         </script>
 
     </main>

@@ -42,22 +42,22 @@ function addShortcut () {
     let form = document.getElementById("shortcut-form");
     if (!checkForm(form)) { return }
 
-    var itemData = {};
+    var formData = {};
 
-    itemData["subject"] = document.getElementById("shortcut-subject").value;
+    formData["subject"] = form.elements["shortcut-subject"].value;
 
-    if (document.getElementById("toggle-time").checked) {
-        itemData["time"] = "all-day";
+    if (form.elements["toggle-time"].checked) {
+        formData["time"] = "all-day";
     } else {
-        itemData["time"] = correctTime(document.getElementById("shortcut-begin").value) + "-" + correctTime(document.getElementById("shortcut-end").value);
+        formData["time"] = correctTime(form.elements["shortcut-begin"].value)+"-"+correctTime(form.elements["shortcut-end"].value);
     }
 
-    itemData["location"] = document.getElementById("shortcut-location").value;
+    formData["location"] = form.elements["shortcut-location"].value;
 
-    itemData["description"] = document.getElementById("shortcut-description").value;
+    formData["description"] = form.elements["shortcut-description"].value;
 
     copyLibrary = { ...library };
-    copyLibrary[document.getElementById("shortcut-shortcut").value] = itemData;
+    copyLibrary[form.elements["shortcut-shortcut"].value] = formData;
     data.library = copyLibrary;
 
     resetLibraryForm(form);
@@ -125,7 +125,7 @@ function resetLibraryForm(form) {
     
 }
 
-function checkShort(e) {
+function validateShortcut(e) {
     if (data.library.hasOwnProperty(e.currentTarget.value)) {
         e.currentTarget.classList.add("is-used");
     } else {
@@ -133,8 +133,8 @@ function checkShort(e) {
     }
 }
 
-function checkTime(e) {
-    if (/^(2[0-3]|[01]?[0-9]):?([0-5][0-9])?$/.test(e.currentTarget.value)) {
+function validateTime(e) {
+    if (/^(2[0-3]|[01]?[0-9]):?([0-5][0-9])?( )?(AM|am|PM|pm)?$/.test(e.currentTarget.value)) {
         e.currentTarget.setCustomValidity("");
     } else {
         e.currentTarget.setCustomValidity("invalid time")
@@ -142,24 +142,14 @@ function checkTime(e) {
 }
 
 function correctTime(input) {
-    if (input.includes(":")) {
-        time = input.split(":");
-        if (input.length === 2) {
-            return input;
-        } else {
-            return time[0] + ":00";
-        }
-    } else {
-        if (input.length === 1) {
-            return "0" + input + ":00";
-        } else if (input.length === 2) {
-            return input + ":00";
-        } else if (input.length === 3) {
-            return "0" + input[0] + ":" + input[1] + input[2];
-        } else {
-            return input[0] + input[1] + ":" + input[2] + input[3];
-        }
-    }
+    let [h, m] = ["0", "0"];
+
+    if (input.includes(":")) { [h, m] = input.split(":") }
+    else if (input.length <= 2) { h = input }
+    else { [h, m] = [input.slice(0, -2), input.slice(-2)] };
+
+    let time = new Date(0, 0, 0, h, m, 0);
+    return ("0" + time.getHours()).slice(-2) + ":" + ("0" + time.getMinutes()).slice(-2);
 }
 
 function toggleTime(e) {
@@ -185,14 +175,15 @@ function updateShortcutCards() {
 
         node.querySelector(".card").setAttribute("data-card-shortcut", shortcut);
 
-        node.querySelector(".shortcut-card-shortcut").innerHTML += shortcut;
-
         node.querySelectorAll("button")[0].addEventListener("click", shortcutEdit);
         node.querySelectorAll("button")[1].addEventListener("click", shortcutDelete);
 
-        for (key in data) {
-            node.querySelector(".shortcut-card-"+key).innerHTML = data[key];
-        }
+        node.querySelector(".shortcut-card-shortcut").innerHTML += shortcut;
+
+        node.querySelector(".shortcut-card-subject").innerHTML = data["subject"];
+        node.querySelector(".shortcut-card-time").innerHTML = data["time"];
+        node.querySelector(".shortcut-card-location").innerHTML = data["location"];
+        node.querySelector(".shortcut-card-description").innerHTML = data["description"];
 
         new_container.insertBefore(node, new_container.firstChild);
     }
