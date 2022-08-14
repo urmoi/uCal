@@ -169,31 +169,64 @@ function toggleTime(e) {
     e.currentTarget.parentNode.querySelectorAll("input[type=text]")[1].disabled = toggleOn;
 }
 
-function updateTable() {
-    // if (Object.keys(libData).length === 0) { return }; 
+function updateShortcutCards() {
+    document.getElementById("container-library").hidden = false;
 
-    // document.getElementById("new-lib-container").classList.remove("visually-hidden");
-    // document.getElementById("new-lib-hr").classList.remove("visually-hidden");
+    var cardTemp = document.querySelector("template#template-shortcut-card");
 
-    const old_tbody = document.querySelector("tbody");
-    const new_tbody = document.createElement("tbody");
+    var container = document.getElementById("container-library-cards");
+
+    var new_container = document.createElement("div");
 
     for (let shortcut in library) {
         let data = library[shortcut];
-        let row = new_tbody.insertRow();
 
-        let cell = document.createElement("th");
-        let text = document.createTextNode(shortcut);
-        cell.appendChild(text);
-        row.appendChild(cell);
+        let node = document.importNode(cardTemp.content, true);
+
+        node.querySelector(".card").setAttribute("data-card-shortcut", shortcut);
+
+        node.querySelector(".shortcut-card-shortcut").innerHTML += shortcut;
+
+        node.querySelectorAll("button")[0].addEventListener("click", shortcutEdit);
+        node.querySelectorAll("button")[1].addEventListener("click", shortcutDelete);
 
         for (key in data) {
-            let cell = document.createElement("td");
-            let text = document.createTextNode(data[key]);
-            cell.appendChild(text);
-            row.appendChild(cell);
+            node.querySelector(".shortcut-card-"+key).innerHTML = data[key];
         }
+
+        new_container.insertBefore(node, new_container.firstChild);
     }
 
-    old_tbody.parentNode.replaceChild(new_tbody, old_tbody)
+    container.replaceChildren(...new_container.childNodes);
+}
+
+function shortcutEdit(e) {
+    let shortcut = e.currentTarget.parentNode.parentNode.getAttribute("data-card-shortcut");
+    let data = library[shortcut];
+
+    let form = document.getElementById("shortcut-form");
+
+    form.elements["shortcut-shortcut"].value = shortcut;
+
+    form.elements["shortcut-subject"].value = data["subject"];
+
+    if (data["time"] === "all-day") {
+        form.elements["toggle-time"].checked = true;
+    } else {
+        form.elements["toggle-time"].checked = false;
+        form.elements["shortcut-begin"].value = data["time"].split("-")[0];
+        form.elements["shortcut-end"].value = data["time"].split("-")[1];
+    }
+
+    form.elements["shortcut-location"].value = data["location"];
+
+    form.elements["shortcut-description"].value = data["description"];
+}
+
+function shortcutDelete(e) {
+    let shortcut = e.currentTarget.parentNode.parentNode.getAttribute("data-card-shortcut");
+
+    copyLibrary = { ...library };
+    delete copyLibrary[shortcut];
+    data.library = copyLibrary;
 }

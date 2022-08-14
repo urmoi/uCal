@@ -38,15 +38,15 @@
         let library = {};
         Object.defineProperty(data, "library", {
             set(newLibrary) {
-                console.log("library update", library, newLibrary);
                 if (Object.keys(library).length === 0) {
-                    console.log("library was empty", library);
+                    console.log("library was empty before", library);
                     toggleNavOnInput();
                     activateShortcutSelection();
-                 };
+                };
+                console.log("library update", library, newLibrary);
                 library = newLibrary;
                 updateShortcutSelection();
-                updateTable();
+                updateShortcutCards();
             },
             get() { return library; }
         });
@@ -61,7 +61,7 @@
         });
     </script>
 
-    <title>uCal: Calendar</title>
+    <title>uCal: Calendar from own Shortcuts</title>
 
 </head>
 
@@ -214,16 +214,17 @@
             <form class="text-start text-sm-end needs-validation" id="shortcut-form" novalidate>
 
                 <div class="row mb-3">
-                    <label class="col-sm-2 col-form-label" for="shortcut-shortcut">Shortcut</label>
+                    <label class="col-sm-2 col-form-label d-sm-none" for="shortcut-shortcut">Shortcut</label>
                     <div class="col">
                         <div class="input-group has-validation">
-                            <i class="input-group-text bi bi-ticket-fill"></i>
+                            <label class="input-group-text border-end-0 d-none d-sm-inline-flex" for="shortcut-shortcut">Shortcut</label>
+                            <i class="input-group-text bi bi-bookmark-star-fill"></i>
                             <input class="form-control" id="shortcut-shortcut" name="shortcut-shortcut" type="text"
                                 autofocus autocomplete="off" required>
                             <div class="invalid-tooltip rounded">missing unique shortcut</div>
                             <div class="invalid-tooltip used-tooltip rounded">already used shortcut, will overwrite!
                             </div>
-                            <button class="col-sm-3 btn btn-add" type="button" id="shortcut-add">
+                            <button class="btn btn-add text-nowrap" type="button" id="shortcut-add">
                                 <i class="bi bi-journal-plus"></i> <i class="bi bi-arrow-right"></i> <i
                                     class="bi bi-journals"></i> Library
                             </button>
@@ -232,8 +233,9 @@
                 </div>
 
                 <div class="row mb-3">
-                    <label class="col-sm-2 col-form-label" for="shortcut-subject">Subject</label>
+                    <label class="col-sm-2 col-form-label d-sm-none" for="shortcut-subject">Subject</label>
                     <div class="col input-group has-validation">
+                        <label class="input-group-text border-end-0 d-none d-sm-inline-flex" for="shortcut-subject">Subject</label>
                         <i class="input-group-text bi bi-calendar2-fill"></i>
                         <input class="form-control has-validation" id="shortcut-subject" name="shortcut-subject"
                             type="text" autocomplete="off" required>
@@ -242,9 +244,10 @@
                 </div>
 
                 <div class="row mb-3">
-                    <label class="col-sm-2 col-form-label" for="shortcut-begin">Time</label>
+                    <label class="col-sm-2 col-form-label d-sm-none" for="shortcut-begin">Time</label>
                     <input type="radio" class="btn-check" name="toggle-time" id="toggle-time" hidden>
                     <div class="col input-group flex-nowrap btn-toggle btn-toggle-off has-validation" id="toggle-time-time" data-toggle="time">
+                        <label class="input-group-text border-end-0 d-none d-sm-inline-flex" for="shortcut-begin">Time</label>
                         <i class="btn btn-toggle input-group-text bi bi-clock-fill"></i>
                         <input class="btn-toggle form-control text-end" id="shortcut-begin" name="shortcut-begin" type="text" placeholder="12:00" required>
                         <i class="btn btn-toggle border-start-0 border-end-0 input-group-text bi bi-dash-lg bg-transparent"></i>
@@ -259,8 +262,9 @@
                 </div>
 
                 <div class="row mb-3">
-                    <label class="col-sm-2 col-form-label" for="shortcut-location">Location</label>
+                    <label class="col-sm-2 col-form-label d-sm-none" for="shortcut-location">Location</label>
                     <div class="col input-group">
+                        <label class="input-group-text border-end-0 d-none d-sm-inline-flex" for="shortcut-location">Location</label>
                         <i class="input-group-text bi bi-pin-map"></i>
                         <input class="form-control" id="shortcut-location" name="shortcut-location" type="text"
                             autocomplete="off">
@@ -268,31 +272,44 @@
                 </div>
 
                 <div class="row mb-3">
-                    <label class="col-sm-2 col-form-label" for="shortcut-description">Notes</label>
+                    <label class="col-sm-2 col-form-label d-sm-none" for="shortcut-description">Notes</label>
                     <div class="col input-group">
-                        <label class="input-group-text align-items-start"><i class="bi bi-card-text"></i></label>
+                        <label class="input-group-text border-end-0 d-none d-sm-inline-flex align-items-start" for="shortcut-notes">Notes</label>
+                        <i class="input-group-text bi align-items-start"><i class="bi bi-card-text"></i></i>
                         <textarea class="form-control" id="shortcut-description" name="shortcut-description"></textarea>
                     </div>
                 </div>
 
             </form>
 
-            <hr>
+            <div id="container-library" hidden>
+                <hr id="seperator-library">
 
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col">Shortcut</th>
-                        <th scope="col">Subject</th>
-                        <th scope="col">Time</th>
-                        <th scope="col">Location</th>
-                        <th scope="col">Notes</th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
+                <h3 class="my-3" id="saved-shortcut-card"><i class="bi bi-journal-bookmark-fill"></i> Saved Shortcuts</h3>
+
+                <div class="row row-cols-1 row-cols-md-2 g-4" id="container-library-cards"></div>
+            </div>
         </div>
+
+        <template id="template-shortcut-card">
+            <div class="col">
+                <div class="card h-100 text-start">
+                    <div class="card-header p-2 clearfix d-flex align-items-center bg-transparent">
+                        <div class="h5 float-start m-0 flex-fill shortcut-card-shortcut"><i class="bi bi-bookmark-star-fill"></i> </div>
+                        <button class="btn btn-add btn-sm me-2" type="button"><i class="bi bi-pencil"></i></button>
+                        <button class="btn btn-add btn-sm" type="button"><i class="bi bi-trash3"></i></button>
+                    </div>
+                    <div class="card-body">
+                        <div class="clearfix d-flex align-items-baseline">
+                            <p class="card-title flex-fill text-nowrap overflow-auto float-start me-2 shortcut-card-subject"></p>
+                            <p class="card-subtitle text-nowrap text-muted shortcut-card-time"></p>
+                        </div>
+                        <p class="card-subtitle text-muted text-nowrap overflow-scroll shortcut-card-location"></p>
+                        <p class="card-text shortcut-card-description"></p>
+                    </div>
+                </div>
+            </div>
+        </template>
 
         <script>
             document.getElementById("shortcut-add").addEventListener("click", addShortcut);

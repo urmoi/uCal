@@ -1,3 +1,10 @@
+@media (max-width: 576px) {
+    form#shortcut-form .input-group .bi {
+        border-top-left-radius: var(--bs-border-radius);
+        border-bottom-left-radius: var(--bs-border-radius);
+    }
+}
+
 .w-700px {
     max-width: 700px;
     min-width: 320px;
@@ -7,6 +14,10 @@
 #library-nav
 {
     width: 112px;
+}
+
+form#shortcut-form .input-group label {
+    width: 90px!important;
 }
 
 .brand-span {
