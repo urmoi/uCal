@@ -11,7 +11,7 @@ function saveCalendar () {
     let filename = filenameInput.value;
     
     let [month, year] = [data.date.getMonth(), data.date.getFullYear()];
-    let input = document.getElementById("calendar-calendar").querySelectorAll("textarea");
+    let input = document.getElementById("calendar-input").querySelectorAll("textarea");
 
     var cal = ics();
 
@@ -49,7 +49,6 @@ function checkFilename(e) {
 }
 
 function uncheckFilename(e) {
-    console.log(e.currentTarget.value);
     e.currentTarget.form.classList.remove("was-validated");
 }
 
@@ -58,16 +57,9 @@ function checkForm(form) {
     return form.checkValidity();
 }
 
-// function resetCalendar() {
-//     let form = document.getElementById("calendar-form");
-//     form.reset();
-
-//     updateShortcutSelection();
-// }
-
 function updateShortcutSelection() {
     let shortcutSelection = document.getElementById("calendar-shortcut-selection");
-    let options = shortcutSelection.getElementsByTagName('option');
+    let options = shortcutSelection.getElementsByTagName("option");
 
     while (options.length > 1) {
         shortcutSelection.removeChild(options[1]);
@@ -76,7 +68,7 @@ function updateShortcutSelection() {
     shortcutSelection.selectedIndex = 0;
 
     for (let shortcut in library) {
-        var opt = document.createElement('option');
+        var opt = document.createElement("option");
         opt.value = shortcut;
         opt.innerHTML = shortcut + " - " + library[shortcut]["subject"];
         shortcutSelection.appendChild(opt);
@@ -88,18 +80,11 @@ function updateCalendar () {
 
     let [month, year] = [data.date.getMonth(), data.date.getFullYear()];
 
-    var headerTemp = document.querySelector("template#template-calendar-header");
     var dayTemp = document.querySelector("template#template-calendar-day");
 
-    var container = document.getElementById("calendar-calendar");
+    var container = document.getElementById("calendar-input");
 
     var new_container = document.createElement("div");
-    let header = document.importNode(headerTemp.content, true);
-    new_container.appendChild(header);
-    
-    var content = document.createElement("div");
-    content.id = "calendar-input";
-    new_container.appendChild(content);
 
     let daysInWeek = 7;
     let daysInMonth = new Date(year, month+1, 0).getDate();
@@ -123,9 +108,9 @@ function updateCalendar () {
             }
             week.appendChild(node);
         }
-        content.appendChild(week);
+        new_container.appendChild(week);
     }
-    container.replaceChildren(new_container);
+    container.replaceChildren(...new_container.childNodes);
 }
 
 function activateShortcutSelection () {

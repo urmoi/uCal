@@ -29,22 +29,6 @@ form#shortcut-form .input-group label {
     opacity: 25%;
 }
 
-/* .btn-nav:disabled {
-    border-top: 0;
-    border-left: 0;
-    border-right: 0;
-    border-radius: 0!important;
-} */
-
-/* .nav-toggle.active #calendar-nav,
-.nav-toggle.active #library-nav
-{
-    pointer-events: none;
-    color: var(--bs-gray-900);
-    background-color: transparent;
-    border-color: transparent;
-} */
-
 .btn-nav,
 .btn-add,
 .btn-click,
@@ -107,29 +91,6 @@ form#shortcut-form .input-group label {
     color: var(--bs-btn-color);
 }
 
-/* .btn-nav
-{
-    --bs-btn-color: var(--bs-gray-900);
-    --bs-btn-bg: var(--bs-gray-200);
-    --bs-btn-border-color: var(--bs-gray-400);
-
-    --bs-btn-hover-color: var(--bs-gray-400);
-    --bs-btn-hover-bg: var(--bs-gray-900);
-    --bs-btn-hover-border-color: var(--bs-btn-hover-bg);
-
-    --bs-btn-active-color: var(--bs-gray-100);
-    --bs-btn-active-bg: var(--bs-gray-800);
-    --bs-btn-active-border-color: var(--bs-gray-200);
-
-    --bs-btn-disabled-color: var(--bs-gray-900);
-    --bs-btn-disabled-bg: var(--bs-gray-400);
-    --bs-btn-disabled-border-color: var(--bs-gray-400);
-    --bs-btn-disabled-opacity: 1;
-
-    --bs-btn-box-shadow: none;
-    --bs-btn-focus-box-shadow: var(--bs-btn-box-shadow);
-} */
-
 .btn-toggle {
     --bs-btn-hover-bg: var(--bs-btn-bg);
 
@@ -159,8 +120,8 @@ select.btn-toggle
     color: var(--bs-btn-disabled-border-color);
 }
 
-input[type="radio"]:not(:checked)~.btn-toggle-on>*,
-input[type="radio"]:checked~.btn-toggle-off>*
+input[type="radio"]:not(:checked)~.btn-toggle-on .btn-toggle,
+input[type="radio"]:checked~.btn-toggle-off .btn-toggle
 {
     cursor: pointer;
 
@@ -169,8 +130,8 @@ input[type="radio"]:checked~.btn-toggle-off>*
     border-color: var(--bs-btn-disabled-border-color);
 }
 
-input[type="radio"]:not(:checked)~.btn-toggle-on:hover>*,
-input[type="radio"]:checked~.btn-toggle-off:hover>*
+input[type="radio"]:not(:checked)~.btn-toggle-on:hover .btn-toggle,
+input[type="radio"]:checked~.btn-toggle-off:hover .btn-toggle
 {
     border-color: var(--bs-btn-hover-border-color);
 }
