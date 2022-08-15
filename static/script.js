@@ -19,6 +19,7 @@ Object.defineProperty(data, "library", {
         library = newLibrary;
         updateShortcutSelection();
         updateShortcutCards();
+        updateLocationList();
     },
     get() { return library; }
 });
@@ -157,20 +158,20 @@ function toggleNavOnInput () {
     toggleNav(document.getElementById("calendar").hidden ? "library" : "calendar");
 }
 
-function toggleShortcut(e) {
+function toggleShortcut (e) {
     let toggleOn = e.currentTarget.getAttribute("data-toggle") === "add";
     e.currentTarget.parentNode.querySelector("input[type=radio]").checked = toggleOn;
     e.currentTarget.parentNode.querySelector("select").disabled = !toggleOn;
 }
 
-function toggleTime(e) {
+function toggleTime (e) {
     let toggleOn = e.currentTarget.getAttribute("data-toggle") === "allday";
     e.currentTarget.parentNode.querySelector("input[type=radio]").checked = toggleOn;
     e.currentTarget.parentNode.querySelectorAll("input[type=text]")[0].disabled = toggleOn;
     e.currentTarget.parentNode.querySelectorAll("input[type=text]")[1].disabled = toggleOn;
 }
 
-function updateShortcutSelection() {
+function updateShortcutSelection () {
     let select = document.getElementById("calendar-shortcut-selection");
     let options = select.getElementsByTagName("option");
 
@@ -183,6 +184,24 @@ function updateShortcutSelection() {
         option.innerHTML = shortcut+" - "+library[shortcut]["subject"];
         select.appendChild(option);
     };
+}
+
+function updateLocationList () {
+    let list = document.getElementById("shortcut-location-datalist");
+    let newList = document.createElement("datalist");
+
+    let locations = new Set();
+
+    for (let shortcut in library) {
+        locations.add(library[shortcut]["location"]);
+    };
+
+    locations.forEach((value) => {
+        let option = document.createElement("option");
+        option.value = value;
+        newList.appendChild(option);
+    });
+    list.replaceChildren(...newList.childNodes);
 }
 
 function updateCalendar () {
@@ -256,11 +275,11 @@ function updateShortcutCards() {
     container.replaceChildren(...new_container.childNodes);
 }
 
-function activateNode(id) {
+function activateNode (id) {
     document.getElementById(id).classList.remove("deactivated");
 }
 
-function validateFilename(e) {
+function validateFilename (e) {
     if (/^[^\\ \/ : * ? " < > |]+$/.test(e.currentTarget.value)) {
         e.currentTarget.setCustomValidity("");
     } else {
@@ -268,11 +287,11 @@ function validateFilename(e) {
     };
 }
 
-function unvalidateFilename(e) {
+function unvalidateFilename (e) {
     e.currentTarget.form.classList.remove("was-validated");
 }
 
-function validateShortcut(e) {
+function validateShortcut (e) {
     if (data.library.hasOwnProperty(e.currentTarget.value)) {
         e.currentTarget.classList.add("is-used");
     } else {
@@ -280,7 +299,7 @@ function validateShortcut(e) {
     };
 }
 
-function validateTime(e) {
+function validateTime (e) {
     if (/^(2[0-3]|[01]?[0-9]):?([0-5][0-9])?( )?(AM|am|PM|pm)?$/.test(e.currentTarget.value)) {
         e.currentTarget.setCustomValidity("");
     } else {
@@ -339,7 +358,7 @@ function dayInput (e) {
     };
 }
 
-function shortcutEdit(e) {
+function shortcutEdit (e) {
     let shortcut = e.currentTarget.parentNode.parentNode.getAttribute("data-card-shortcut");
     let data = library[shortcut];
 
@@ -362,7 +381,7 @@ function shortcutEdit(e) {
     form.elements["shortcut-description"].value = data["description"];
 }
 
-function shortcutDelete(e) {
+function shortcutDelete (e) {
     let shortcut = e.currentTarget.parentNode.parentNode.getAttribute("data-card-shortcut");
 
     copyLibrary = { ...library };
@@ -370,7 +389,7 @@ function shortcutDelete(e) {
     data.library = copyLibrary;
 }
 
-function checkForm(f) {
+function checkForm (f) {
     f.classList.add("was-validated");
     return f.checkValidity();
 }
@@ -383,7 +402,7 @@ function resetLibraryForm(f) {
     f.reset();
 }
 
-function correctTime(t) {
+function correctTime (t) {
     let [h, m] = ["00", "00"];
 
     if (t.includes(":")) { [h, m] = t.split(":") }
@@ -417,7 +436,7 @@ function getFormattedStringFromDate (date) {
     return date.toLocaleString("en-US", { month: "long", year: "numeric" });
 }
 
-function getTimeString(y, m, d, t) {
+function getTimeString (y, m, d, t) {
     y = parseInt(y); m = parseInt(m); d = parseInt(d);
 
     let [begin, end] = t.split("-");
