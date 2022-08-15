@@ -28,6 +28,7 @@
     <script>
         /* Only register a service worker if it's supported */
         if ('serviceWorker' in navigator) {
+            console.log("service worker supported")
             navigator.serviceWorker.register('/static/service-worker.js');
         }
     </script>
