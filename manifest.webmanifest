@@ -8,9 +8,11 @@
         "src": "static/calendar3.svg",
         "sizes": "any"
     }],
-    "start_url": "index.html",
+    "scope": "/",
+    "start_url": "/",
     "display": "minimal-ui",
     "orientation": "natural",
-    "background_color": "white",
+    "theme_color": "#212529",
+    "background_color": "#FFFFFF",
     "prefer_related_applications": false
   }
