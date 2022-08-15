@@ -19,12 +19,7 @@
 
     <link href="/static/styles.css" rel="stylesheet">
 
-    <!-- <script src="/static/calendar.js"></script> -->
-    <!-- <script src="/static/library.js"></script> -->
     <script src="/static/script.js"></script>
-    <script>
-
-    </script>
 
     <title>uCal: Calendar from own Shortcuts</title>
 
@@ -38,27 +33,37 @@
             <span class="navbar-brand h1 brand-span flex-lg-grow-0 flex-grow-1 text-center text-lg-start m-0 mb-3 mb-lg-0">
                 <i class="bi bi-calendar3"></i> uCal
             </span>
-            <div class="container-md w-700px">
+            <div class="container-md w-700px" id="nav-init">
                 <div class="row">
-                     <div class="col col-md-auto" id="nav-toggle-calendar" data-nav="calendar">
+                     <div class="col col-md-auto">
+                        <button disabled class="col-auto btn btn-nav text-start w-100" type="button" id="navinit-toggle-calendar" data-nav="calendar"><i class="bi bi-calendar3-week me-1"></i>Calendar</button>
+                    </div>
+                    <div class="col-md mt-3 mt-md-0 input-group">
+                        <button class="btn btn-add text-start" type="button" id="navinit-toggle-library" data-nav="library"><i class="bi bi-journal-bookmark-fill me-1"></i>Library</button>
+                        <button class="btn btn-add flex-grow-1" type="button" id="navinit-toggle-newlibrary" data-nav="library">Create <i class="bi bi-patch-plus"></i></button>
+                        <input hidden class="btn-nav form-control" type="file" accept=".ucal" id="library-file-input" name="library-file-input">
+                        <label class="btn btn-add flex-grow-1 rounded-end" for="library-file-input" id="library-file-upload">Upload<i class="bi bi-upload ms-1"></i></label>
+                    </div>
+                </div>
+            </div>
+            <div class="container-md w-700px" id="nav-input" hidden>
+                <div class="row">
+                     <div class="col" id="nav-toggle-calendar" data-nav="calendar">
                         <form class="input-group justify-content-center needs-validation" id="calendar-filename-form" novalidate>
-                            <button disabled class="btn btn-nav text-start flex-grow-1 rounded" type="button" id="calendar-nav"><i class="bi bi-calendar3-week me-1"></i>Calendar</button>
-                            <input hidden class="btn-nav form-control text-center border-end-0" id="calendar-filename-input" name="calendar-filename-input" type="text" autocomplete="off" placeholder="calendar name" required>
+                            <button class="btn btn-nav text-start" type="button" id="calendar-nav"><i class="bi bi-calendar3-week me-1"></i>Calendar</button>
+                            <input class="btn-nav form-control text-center border-end-0" id="calendar-filename-input" name="calendar-filename-input" type="text" autocomplete="off" placeholder="calendar name" required>
                             <div class="invalid-tooltip rounded-end">invalid / missing calendar filename</div>
-                            <i hidden class="btn-nav input-group-text border-start-0 rounded-end bi bi-pencil" id="calendar-edit"></i>
-                            <button hidden class="btn btn-add" type="button" id="calendar-save"><i class="bi bi-download" id="calendar-save"></i></button>        
+                            <i class="btn-nav input-group-text border-start-0 rounded-end bi bi-pencil" id="calendar-edit"></i>
+                            <button class="btn btn-add" type="button" id="calendar-save"><i class="bi bi-download" id="calendar-save"></i></button>        
                         </form>
                     </div>
                     <div class="col-md mt-3 mt-md-0" id="nav-toggle-library" data-nav="library">
-                        <form class="input-group needs-validation text-nowrap flex-nowrap overflow-auto" id="library-filename-form" novalidate>
-                            <button class="btn btn-add text-start" type="button" id="library-nav"><i class="bi bi-journal-bookmark-fill me-1"></i>Library</button>
-                            <button class="btn btn-add flex-grow-1" type="button" id="library-new" data-nav="library">Create <i class="bi bi-patch-plus"></i></button>
-                            <input hidden class="btn-nav form-control" type="file" accept=".ucal" id="library-file-input" name="library-file-input">
-                            <label class="btn btn-add flex-grow-1 rounded-end" for="library-file-input" id="library-file-upload">Upload<i class="bi bi-upload ms-1"></i></label>
-                            <input hidden disabled class="btn-nav form-control text-center border-end-0 flex-fill" id="library-filename-input" name="library-filename-input" type="text" autocomplete="off" placeholder="library name" required>
+                        <form class="input-group justify-content-center needs-validation" id="library-filename-form" novalidate>
+                            <button class="btn btn-nav text-start" type="button" id="library-nav"><i class="bi bi-journal-bookmark-fill me-1"></i>Library</button>
+                            <input class="btn-nav form-control text-center border-end-0" id="library-filename-input" name="library-filename-input" type="text" autocomplete="off" placeholder="library name" required>
                             <div class="invalid-tooltip rounded-end">invalid / missing library filename</div>
-                            <i hidden class="btn-nav input-group-text border-start-0 rounded-end bi bi-pencil" id="library-edit"></i>
-                            <button hidden class="btn btn-add" type="button" id="library-save"><i class="bi bi-download" id="library-save"></i></button>
+                            <i class="btn-nav input-group-text border-start-0 rounded-end bi bi-pencil" id="library-edit"></i>
+                            <button class="btn btn-add" type="button" id="library-save"><i class="bi bi-download" id="library-save"></i></button>
                         </form>
                     </div>
                 </div>
@@ -70,18 +75,20 @@
             document.getElementById("library-file-input").addEventListener("input", loadLibrary);
 
             document.getElementById("nav-toggle-calendar").addEventListener("click", toggleNav);
-
             document.getElementById("nav-toggle-library").addEventListener("click", toggleNav);
-            document.getElementById("library-new").addEventListener("click", toggleNav);
+
+            document.getElementById("navinit-toggle-calendar").addEventListener("click", toggleNavInit);
+            document.getElementById("navinit-toggle-library").addEventListener("click", toggleNavInit);
+            document.getElementById("navinit-toggle-newlibrary").addEventListener("click", toggleNavInit);
 
             document.getElementById("calendar-save").addEventListener("click", saveCalendar);
 
             document.getElementById("library-save").addEventListener("click", saveLibrary);
 
             document.getElementById("calendar-filename-input").addEventListener("input", validateFilename);
-            document.getElementById("library-filename-input").addEventListener("input", validateFilename);
-
             document.getElementById("calendar-filename-input").addEventListener("focusout", unvalidateFilename);
+
+            document.getElementById("library-filename-input").addEventListener("input", validateFilename);
             document.getElementById("library-filename-input").addEventListener("focusout", unvalidateFilename);
 
         </script>
@@ -248,9 +255,9 @@
             </form>
 
             <div id="container-library" hidden>
-                <hr id="seperator-library">
+                <hr class="my-5" id="seperator-library">
 
-                <h3 class="my-3" id="saved-shortcut-card"><i class="bi bi-journal-bookmark-fill"></i> Saved Shortcuts</h3>
+                <h3 class="my-3 text-start" id="saved-shortcut-card"><i class="bi bi-journal-bookmark-fill"></i> Saved Shortcuts</h3>
 
                 <div class="row row-cols-1 row-cols-md-2 g-4" id="container-library-cards"></div>
             </div>

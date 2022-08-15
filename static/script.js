@@ -1,10 +1,8 @@
-var libData = {};
-
 let data = {};
+
 let date = new Date();
 Object.defineProperty(data, "date", {
     set(newDate) {
-        console.log("date update", newDate);
         date = newDate;
         updateCalendar();
     },
@@ -15,11 +13,9 @@ let library = {};
 Object.defineProperty(data, "library", {
     set(newLibrary) {
         if (Object.keys(library).length === 0) {
-            console.log("library was empty before", library);
             toggleNavOnInput();
             activateNode("calendar-shortcut");
         };
-        console.log("library update", library, newLibrary);
         library = newLibrary;
         updateShortcutSelection();
         updateShortcutCards();
@@ -30,7 +26,6 @@ Object.defineProperty(data, "library", {
 let filename = "";
 Object.defineProperty(data, "filename", {
     set(newFilename) {
-        console.log("filename update", newFilename);
         filename = newFilename;
     },
     get() { return filename; }
@@ -96,7 +91,6 @@ function loadLibrary () {
     reader.addEventListener('load', (event) => {
         data.filename = libraryFilename;
         data.library = JSON.parse(event.target.result);
-        console.log(library);
     });
     reader.readAsText(libraryFile);
 }
@@ -126,50 +120,41 @@ function addShortcut () {
     resetLibraryForm(form);
 }
 
+function toggleNavInit (e) {
+    let showMode = e.currentTarget.getAttribute("data-nav");
+
+    document.getElementById("calendar").hidden = showMode === "calendar" ? false : true;
+    document.getElementById("library").hidden = showMode === "library" ? false : true;
+
+    document.getElementById("navinit-toggle-calendar").disabled = showMode === "calendar" ? true : false;
+    document.getElementById("navinit-toggle-library").disabled = showMode === "library" ? true : false;
+    document.getElementById("navinit-toggle-newlibrary").disabled = showMode === "library" ? true : false;
+}
+
 function toggleNav (e) {
-    let shownMode = (typeof e) === "string" ? e : e.currentTarget.getAttribute("data-nav");
-    let otherMode = shownMode === "library" ? "calendar" : "library";
-    console.log("switch to " + shownMode, "other mode " + otherMode);
+    let showMode = (typeof e) === "string" ? e : e.currentTarget.getAttribute("data-nav");
+    console.log(showMode);
 
-    let modes = [shownMode, shownMode === "library" ? "calendar" : "library"];
+    document.getElementById("calendar").hidden = showMode === "calendar" ? false : true;
+    document.getElementById("calendar-nav").disabled = showMode === "calendar" ? true : false;
+    document.getElementById("calendar-filename-input").disabled = showMode === "calendar" ? false : true;
+    document.getElementById("calendar-save").hidden = showMode === "calendar" ? false : true;
+    document.getElementById("calendar-edit").hidden = showMode === "calendar" ? true : false;
 
-    document.getElementById("library-new").disabled = shownMode === "library" ? true : false;
-
-    for (let i = 0; i < modes.length; i++) {
-        let mode = modes[i];
-        let bool = i === 0 ? false : true;
-
-        let modeActivated = document.getElementById("nav-toggle-"+mode).hasAttribute("data-activated");
-
-        document.getElementById(mode).hidden = bool;
-        document.getElementById(mode+"-filename-input").disabled = bool;
-        document.getElementById(mode+"-nav").disabled = !bool;
-
-        document.getElementById(mode+"-save").hidden = modeActivated ? bool : true;
-        document.getElementById(mode+"-edit").hidden =  modeActivated ? !bool : true;
-    };
+    document.getElementById("library").hidden = showMode === "library" ? false : true;
+    document.getElementById("library-nav").disabled = showMode === "library" ? true : false;
+    document.getElementById("library-filename-input").disabled = showMode === "library" ? false : true;
+    document.getElementById("library-save").hidden = showMode === "library" ? false : true;
+    document.getElementById("library-edit").hidden = showMode === "library" ? true : false;
 }
 
 function toggleNavOnInput () {
-    document.getElementById("nav-toggle-calendar").classList.remove("col-md-auto");
-    document.getElementById("calendar-nav").classList.remove("rounded", "flex-grow-1");
+    document.getElementById("nav-init").hidden = true;
+    document.getElementById("nav-input").hidden = false;
 
-    document.getElementById("library-nav").classList.remove("btn-add");
-    document.getElementById("library-nav").classList.add("btn-nav");
-    document.getElementById("library-file-upload").hidden = true;
-    document.getElementById("library-new").hidden = true;
     document.getElementById("library-filename-input").value = data.filename;
 
-    let modes = ["calendar", "library"];
-    for (let i = 0; i < modes.length; i++) {
-        let mode = modes[i];
-        document.getElementById("nav-toggle-"+mode).setAttribute("data-activated", "activated");
-        document.getElementById(mode+"-filename-input").hidden = false;
-
-        let status = document.getElementById(mode).hidden;
-        document.getElementById(mode+"-edit").hidden = !status;
-        document.getElementById(mode+"-save").hidden = status;
-    };
+    toggleNav(document.getElementById("calendar").hidden ? "library" : "calendar");
 }
 
 function toggleShortcut(e) {
