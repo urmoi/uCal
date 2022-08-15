@@ -26,6 +26,13 @@
     <script src="/static/script.js" defer></script>
 
     <script>
+        /* Only register a service worker if it's supported */
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/service-worker.js');
+        }
+    </script>
+
+    <script>
         let data = {};
 
         let date = new Date();
