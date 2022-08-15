@@ -1,0 +1,16 @@
+{
+    "lang": "en",
+    "dir": "ltr",
+    "name": "uCal: Calendar from own Shortcuts",
+    "short_name": "uCal",
+    "id": "ucal",
+    "icons": [{
+        "src": "static/calendar3.svg",
+        "sizes": "any"
+    }],
+    "start_url": "index.html",
+    "display": "minimal-ui",
+    "orientation": "natural",
+    "background_color": "white",
+    "prefer_related_applications": false
+  }
