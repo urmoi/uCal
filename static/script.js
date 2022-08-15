@@ -1,10 +1,48 @@
+var libData = {};
+
+let data = {};
+let date = new Date();
+Object.defineProperty(data, "date", {
+    set(newDate) {
+        console.log("date update", newDate);
+        date = newDate;
+        updateCalendar();
+    },
+    get() { return date; }
+});
+
+let library = {};
+Object.defineProperty(data, "library", {
+    set(newLibrary) {
+        if (Object.keys(library).length === 0) {
+            console.log("library was empty before", library);
+            toggleNavOnInput();
+            activateNode("calendar-shortcut");
+        };
+        console.log("library update", library, newLibrary);
+        library = newLibrary;
+        updateShortcutSelection();
+        updateShortcutCards();
+    },
+    get() { return library; }
+});
+
+let filename = "";
+Object.defineProperty(data, "filename", {
+    set(newFilename) {
+        console.log("filename update", newFilename);
+        filename = newFilename;
+    },
+    get() { return filename; }
+});
+
 /* https://github.com/nwcell/FileSaver.js */
 /*! @source http://purl.eligrey.com/github/FileSaver.js/blob/master/FileSaver.js */
 var saveAs=saveAs||function(e){"use strict";if(typeof e==="undefined"||typeof navigator!=="undefined"&&/MSIE [1-9]\./.test(navigator.userAgent)){return}var t=e.document,n=function(){return e.URL||e.webkitURL||e},r=t.createElementNS("http://www.w3.org/1999/xhtml","a"),o="download"in r,a=function(e){var t=new MouseEvent("click");e.dispatchEvent(t)},i=/constructor/i.test(e.HTMLElement)||e.safari,f=/CriOS\/[\d]+/.test(navigator.userAgent),u=function(t){(e.setImmediate||e.setTimeout)(function(){throw t},0)},s="application/octet-stream",d=1e3*40,c=function(e){var t=function(){if(typeof e==="string"){n().revokeObjectURL(e)}else{e.remove()}};setTimeout(t,d)},l=function(e,t,n){t=[].concat(t);var r=t.length;while(r--){var o=e["on"+t[r]];if(typeof o==="function"){try{o.call(e,n||e)}catch(a){u(a)}}}},p=function(e){if(/^\s*(?:text\/\S*|application\/xml|\S*\/\S*\+xml)\s*;.*charset\s*=\s*utf-8/i.test(e.type)){return new Blob([String.fromCharCode(65279),e],{type:e.type})}return e},v=function(t,u,d){if(!d){t=p(t)}var v=this,w=t.type,m=w===s,y,h=function(){l(v,"writestart progress write writeend".split(" "))},S=function(){if((f||m&&i)&&e.FileReader){var r=new FileReader;r.onloadend=function(){var t=f?r.result:r.result.replace(/^data:[^;]*;/,"data:attachment/file;");var n=e.open(t,"_blank");if(!n)e.location.href=t;t=undefined;v.readyState=v.DONE;h()};r.readAsDataURL(t);v.readyState=v.INIT;return}if(!y){y=n().createObjectURL(t)}if(m){e.location.href=y}else{var o=e.open(y,"_blank");if(!o){e.location.href=y}}v.readyState=v.DONE;h();c(y)};v.readyState=v.INIT;if(o){y=n().createObjectURL(t);setTimeout(function(){r.href=y;r.download=u;a(r);h();c(y);v.readyState=v.DONE});return}S()},w=v.prototype,m=function(e,t,n){return new v(e,t||e.name||"download",n)};if(typeof navigator!=="undefined"&&navigator.msSaveOrOpenBlob){return function(e,t,n){t=t||e.name||"download";if(!n){e=p(e)}return navigator.msSaveOrOpenBlob(e,t)}}w.abort=function(){};w.readyState=w.INIT=0;w.WRITING=1;w.DONE=2;w.error=w.onwritestart=w.onprogress=w.onwrite=w.onabort=w.onerror=w.onwriteend=null;return m}(typeof self!=="undefined"&&self||typeof window!=="undefined"&&window||this.content);if(typeof module!=="undefined"&&module.exports){module.exports.saveAs=saveAs}else if(typeof define!=="undefined"&&define!==null&&define.amd!==null){define("FileSaver.js",function(){return saveAs})};
 
 function saveCalendar () {
     let filenameInput = document.getElementById("calendar-filename-input");
-    if (!checkForm(filenameInput.form)) { return }
+    if (!checkForm(filenameInput.form)) { return };
     filenameInput.form.classList.remove("was-validated");
     let filename = filenameInput.value;
 
@@ -33,15 +71,15 @@ function saveCalendar () {
                 let [begin, end] = getTimeString(year, month, day, element["time"]);
 
                 cal.addEvent(subject, description, location, begin, end);
-            }
-        }
-    }
+            };
+        };
+    };
     cal.download(filename);
 }
 
 function saveLibrary () {
     let filenameInput = document.getElementById("library-filename-input");
-    if (!checkForm(filenameInput.form)) { return }
+    if (!checkForm(filenameInput.form)) { return };
     if (Object.keys(library).length === 0) { return };
 
     let filename = filenameInput.value + ".ucal";
@@ -75,7 +113,7 @@ function addShortcut () {
         formData["time"] = "all-day";
     } else {
         formData["time"] = correctTime(form.elements["shortcut-begin"].value)+"-"+correctTime(form.elements["shortcut-end"].value);
-    }
+    };
 
     formData["location"] = form.elements["shortcut-location"].value;
 
@@ -109,7 +147,7 @@ function toggleNav (e) {
 
         document.getElementById(mode+"-save").hidden = modeActivated ? bool : true;
         document.getElementById(mode+"-edit").hidden =  modeActivated ? !bool : true;
-    }
+    };
 }
 
 function toggleNavOnInput () {
@@ -130,8 +168,8 @@ function toggleNavOnInput () {
 
         let status = document.getElementById(mode).hidden;
         document.getElementById(mode+"-edit").hidden = !status;
-        document.getElementById(mode+"-save").hidden = status
-    }
+        document.getElementById(mode+"-save").hidden = status;
+    };
 }
 
 function toggleShortcut(e) {
@@ -148,18 +186,18 @@ function toggleTime(e) {
 }
 
 function updateShortcutSelection() {
-    let shortcutSelection = document.getElementById("calendar-shortcut-selection");
-    let options = shortcutSelection.getElementsByTagName("option");
+    let select = document.getElementById("calendar-shortcut-selection");
+    let options = select.getElementsByTagName("option");
 
-    while (options.length > 1) { shortcutSelection.removeChild(options[1]) };
-    shortcutSelection.selectedIndex = 0;
+    while (options.length > 1) { select.removeChild(options[1]) };
+    select.selectedIndex = 0;
 
     for (let shortcut in library) {
         var option = document.createElement("option");
         option.value = shortcut;
-        option.innerHTML = shortcut + " - " + library[shortcut]["subject"];
-        shortcutSelection.appendChild(option);
-    }
+        option.innerHTML = shortcut+" - "+library[shortcut]["subject"];
+        select.appendChild(option);
+    };
 }
 
 function updateCalendar () {
@@ -193,11 +231,11 @@ function updateCalendar () {
             } else {
                 node.children[0].disabled = true;
                 node.children[0].innerHTML = "";
-            }
+            };
             week.appendChild(node);
-        }
+        };
         new_container.appendChild(week);
-    }
+    };
     container.replaceChildren(...new_container.childNodes);
 }
 
@@ -228,7 +266,7 @@ function updateShortcutCards() {
         node.querySelector(".shortcut-card-description").innerHTML = data["description"];
 
         new_container.insertBefore(node, new_container.firstChild);
-    }
+    };
 
     container.replaceChildren(...new_container.childNodes);
 }
@@ -242,7 +280,7 @@ function validateFilename(e) {
         e.currentTarget.setCustomValidity("");
     } else {
         e.currentTarget.setCustomValidity("invalid filename")
-    }
+    };
 }
 
 function unvalidateFilename(e) {
@@ -254,7 +292,7 @@ function validateShortcut(e) {
         e.currentTarget.classList.add("is-used");
     } else {
         e.currentTarget.classList.remove("is-used");
-    }
+    };
 }
 
 function validateTime(e) {
@@ -262,7 +300,7 @@ function validateTime(e) {
         e.currentTarget.setCustomValidity("");
     } else {
         e.currentTarget.setCustomValidity("invalid time")
-    }
+    };
 }
 
 function changeCalendarDate (e) {
@@ -283,10 +321,10 @@ function editDateInput (e) {
 function validateDateInput (e) {
     if (/^(1[0-2]|0?[1-9]) ?\/ ?([2-9]\d[1-9]\d|[1-9]\d)$/.test(e.currentTarget.value)) {
         e.currentTarget.setCustomValidity("");
-        updateCDateTooltip();
+        updateDateTooltip();
     } else {
         e.currentTarget.setCustomValidity("invalid date")
-    }
+    };
 }
 
 function acceptDateInput (e) {
@@ -296,7 +334,7 @@ function acceptDateInput (e) {
         data.date = inputDate;
     } else {
         updateDateInput();
-    }
+    };
 
     e.currentTarget.form.classList.remove("was-validated");
 }
@@ -307,13 +345,13 @@ function dayInput (e) {
     if (document.getElementById("toggle-shortcut").checked) {
         let shortcut = e.currentTarget.form.elements["calendar-shortcut-selection"].value;
 
-        if (!shortcut) { return }
-        if (textarea.value.split("\n").includes(shortcut)) { return }
+        if (!shortcut) { return };
+        if (textarea.value.split("\n").includes(shortcut)) { return };
         if (textarea.value) { textarea.value += "\n" }
         textarea.value += shortcut;
     } else {
         textarea.value = "";
-    }
+    };
 }
 
 function shortcutEdit(e) {
@@ -332,7 +370,7 @@ function shortcutEdit(e) {
         form.elements["toggle-time"].checked = false;
         form.elements["shortcut-begin"].value = data["time"].split("-")[0];
         form.elements["shortcut-end"].value = data["time"].split("-")[1];
-    }
+    };
 
     form.elements["shortcut-location"].value = data["location"];
 
@@ -347,55 +385,59 @@ function shortcutDelete(e) {
     data.library = copyLibrary;
 }
 
-function checkForm(form) {
-    form.classList.add("was-validated");
-    return form.checkValidity();
+function checkForm(f) {
+    f.classList.add("was-validated");
+    return f.checkValidity();
 }
 
-function resetLibraryForm(form) {
-    form.reset();
-    form.classList.remove("was-validated");
+function resetLibraryForm(f) {
     document.getElementById("shortcut-shortcut").classList.remove("is-used");
     document.getElementById("shortcut-begin").disabled = false;
     document.getElementById("shortcut-end").disabled = false;
-    
+    f.classList.remove("was-validated");
+    f.reset();
 }
 
-function correctTime(input) {
-    let [h, m] = ["0", "0"];
+function correctTime(t) {
+    let [h, m] = ["00", "00"];
 
-    if (input.includes(":")) { [h, m] = input.split(":") }
-    else if (input.length <= 2) { h = input }
-    else { [h, m] = [input.slice(0, -2), input.slice(-2)] };
+    if (t.includes(":")) { [h, m] = t.split(":") }
+    else if (t.length <= 2) { h = t }
+    else { [h, m] = [t.slice(0, -2), t.slice(-2)] };
 
     let time = new Date(0, 0, 0, h, m, 0);
-    return ("0" + time.getHours()).slice(-2) + ":" + ("0" + time.getMinutes()).slice(-2);
+    return ("00"+time.getHours()).slice(-2)+":"+("00"+time.getMinutes()).slice(-2);
 }
 
 function updateDateInput () {
-    let formattedString = getFormattedStringFromDate(data.date);
-    document.getElementById("calendar-date-input").value = formattedString;
+    document.getElementById("calendar-date-input").value = getFormattedStringFromDate(data.date);
 }
 
 function updateDateTooltip () {
     document.getElementById("calendar-date-tooltip").innerHTML = getFormattedStringFromDate(getDateFromString());
 }
 
+function getDateFromString () {
+    let [month, year]= document.getElementById("calendar-date-input").value.split("/");
+    let date = new Date(year, month-1);
+    if (date.getFullYear() < 1970) { date.setFullYear(date.getFullYear() + 100) };
+    return date;
+}
+
 function getStringFromDate () {
-    return (date.getMonth()+1) + " / " + date.getFullYear();
+    return ("00"+(date.getMonth()+1)).slice(-2)+" / "+date.getFullYear();
 }
 
 function getFormattedStringFromDate (date) {
     return date.toLocaleString("en-US", { month: "long", year: "numeric" });
 }
 
-function getTimeString(year, month, day, time) {
-    let [start, end] = time.split("-");
+function getTimeString(y, m, d, t) {
+    y = parseInt(y); m = parseInt(m); d = parseInt(d);
 
-    let dateBegin = year + "/" + (month+1) + "/" + day;
-    let dateEnd = year + "/" + (month+1) + "/" + (day+(start < end ? 0 : 1));
+    let [begin, end] = t.split("-");
+    let day = y+"/"+(m+1)+"/"+d;
 
-    if (time === "all-day") { return [dateBegin, dateBegin] };
-
-    return [dateBegin + " " + start, dateEnd + " " + end];
+    if (t === "all-day") { return [day, day] };
+    return [day+" "+begin, day.substring(0, day.indexOf('/', 5)+1)+(d+(begin < end ? 0 : 1))+" "+end];
 }

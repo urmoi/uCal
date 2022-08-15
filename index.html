@@ -23,43 +23,7 @@
     <!-- <script src="/static/library.js"></script> -->
     <script src="/static/script.js"></script>
     <script>
-        var libData = {};
 
-        let data = {};
-        let date = new Date();
-        Object.defineProperty(data, "date", {
-            set(newDate) {
-                console.log("date update", newDate);
-                date = newDate;
-                updateCalendar();
-            },
-            get() { return date; }
-        });
-
-        let library = {};
-        Object.defineProperty(data, "library", {
-            set(newLibrary) {
-                if (Object.keys(library).length === 0) {
-                    console.log("library was empty before", library);
-                    toggleNavOnInput();
-                    activateNode("calendar-shortcut");
-                };
-                console.log("library update", library, newLibrary);
-                library = newLibrary;
-                updateShortcutSelection();
-                updateShortcutCards();
-            },
-            get() { return library; }
-        });
-
-        let filename = "";
-        Object.defineProperty(data, "filename", {
-            set(newFilename) {
-                console.log("filename update", newFilename);
-                filename = newFilename;
-            },
-            get() { return filename; }
-        });
     </script>
 
     <title>uCal: Calendar from own Shortcuts</title>
