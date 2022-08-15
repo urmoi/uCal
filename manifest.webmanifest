@@ -5,8 +5,13 @@
     "short_name": "uCal",
     "id": "ucal",
     "icons": [{
-        "src": "static/calendar3.svg",
-        "sizes": "any"
+        "src": "icons/icon-512.png",
+        "sizes": "512x512",
+        "type": "image/png"
+    }, {
+        "src": "icons/icon-192.png",
+        "sizes": "192x192",
+        "type": "image/png"
     }],
     "scope": "/",
     "start_url": "/",

@@ -6,6 +6,7 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, width=device-width">
+    <meta name="theme-color" content="#212529"/>
 
     <title>uCal: Calendar from own Shortcuts</title>
 
@@ -20,6 +21,8 @@
 
     <!-- https://favicon.io/emoji-favicons/spiral-calendar/ -->
     <link href="/static/favicon.ico" rel="icon">
+
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 
     <link href="/static/styles.css" rel="stylesheet">
 
@@ -88,6 +91,8 @@
                     if (isDay) {
                         node.querySelector("button").addEventListener("click", dayInput);
                         node.querySelector("label").innerHTML = (calendarDay) + "." + (month+1) + ".";
+                        node.querySelector("label").setAttribute("for", "calendar-day-"+calendarDay+"-"+(month+1)+"-"+year);
+                        node.querySelector("textarea").id = "calendar-day-"+calendarDay+"-"+(month+1)+"-"+year;
                     } else {
                         node.children[0].disabled = true;
                         node.children[0].innerHTML = "";
@@ -200,7 +205,7 @@
                             <i class="bi bi-caret-left-fill"></i>
                         </button>
                         <input class="form-control text-center" id="calendar-date-input" value="" type="text">
-                        <label for="calendar-date-input" hidden>input for calendar month</label>
+                        <label class="visually-hidden" for="calendar-date-input">input for calendar month</label>
                         <div class="valid-tooltip rounded" id="calendar-date-tooltip">Looks good!</div>
                         <div class="invalid-tooltip rounded">invalid [MM / YYYY]</div>
                         <button class="btn btn-click" id="calendar-date-after" type="button" aria-label="show calendar month after" data-direction="+1">
