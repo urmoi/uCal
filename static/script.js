@@ -1,36 +1,29 @@
-let data = {};
-
-let date = new Date();
-Object.defineProperty(data, "date", {
-    set(newDate) {
-        date = newDate;
-        updateCalendar();
-    },
-    get() { return date; }
-});
-
-let library = {};
-Object.defineProperty(data, "library", {
-    set(newLibrary) {
-        if (Object.keys(library).length === 0) {
-            toggleNavOnInput();
-            activateNode("calendar-shortcut");
-        };
-        library = newLibrary;
-        updateShortcutSelection();
-        updateShortcutCards();
-        updateLocationList();
-    },
-    get() { return library; }
-});
-
-let filename = "";
-Object.defineProperty(data, "filename", {
-    set(newFilename) {
-        filename = newFilename;
-    },
-    get() { return filename; }
-});
+document.getElementById("library-file-input").addEventListener("input", loadLibrary);
+document.getElementById("nav-toggle-calendar").addEventListener("click", toggleNav);
+document.getElementById("nav-toggle-library").addEventListener("click", toggleNav);
+document.getElementById("navinit-toggle-calendar").addEventListener("click", toggleNavInit);
+document.getElementById("navinit-toggle-library").addEventListener("click", toggleNavInit);
+document.getElementById("navinit-toggle-newlibrary").addEventListener("click", toggleNavInit);
+document.getElementById("calendar-save").addEventListener("click", saveCalendar);
+document.getElementById("library-save").addEventListener("click", saveLibrary);
+document.getElementById("calendar-filename-input").addEventListener("input", validateFilename);
+document.getElementById("calendar-filename-input").addEventListener("focusout", unvalidateFilename);
+document.getElementById("library-filename-input").addEventListener("input", validateFilename);
+document.getElementById("library-filename-input").addEventListener("focusout", unvalidateFilename);
+document.getElementById("calendar-date-input").addEventListener("focus", editDateInput);
+document.getElementById("calendar-date-input").addEventListener("input", validateDateInput);
+document.getElementById("calendar-date-input").addEventListener("focusout", acceptDateInput);
+document.getElementById("calendar-date-before").addEventListener("click", changeCalendarDate);
+document.getElementById("calendar-date-after").addEventListener("click", changeCalendarDate);
+document.getElementById("calendar-shortcut-selection").addEventListener("change", () => activateNode("calendar-calendar"));
+document.getElementById("toggle-shortcut-add").addEventListener("click", toggleShortcut);
+document.getElementById("toggle-shortcut-clear").addEventListener("click", toggleShortcut);
+document.getElementById("shortcut-add").addEventListener("click", addShortcut);
+document.getElementById("shortcut-shortcut").addEventListener("input", validateShortcut);
+document.getElementById("toggle-time-time").addEventListener("click", toggleTime);
+document.getElementById("toggle-time-allday").addEventListener("click", toggleTime);
+document.getElementById("shortcut-begin").addEventListener("input", validateTime);
+document.getElementById("shortcut-end").addEventListener("input", validateTime);
 
 /* https://github.com/nwcell/FileSaver.js */
 /*! @source http://purl.eligrey.com/github/FileSaver.js/blob/master/FileSaver.js */
@@ -90,7 +83,7 @@ function loadLibrary () {
 
     const reader = new FileReader();
     reader.addEventListener('load', (event) => {
-        data.filename = libraryFilename;
+        document.getElementById("library-filename-input").value = libraryFilename;
         data.library = JSON.parse(event.target.result);
     });
     reader.readAsText(libraryFile);
@@ -153,8 +146,6 @@ function toggleNavOnInput () {
     document.getElementById("nav-init").hidden = true;
     document.getElementById("nav-input").hidden = false;
 
-    document.getElementById("library-filename-input").value = data.filename;
-
     toggleNav(document.getElementById("calendar").hidden ? "library" : "calendar");
 }
 
@@ -202,45 +193,6 @@ function updateLocationList () {
         newList.appendChild(option);
     });
     list.replaceChildren(...newList.childNodes);
-}
-
-function updateCalendar () {
-    updateDateInput();
-
-    let [month, year] = [data.date.getMonth(), data.date.getFullYear()];
-
-    var dayTemp = document.querySelector("template#template-calendar-day");
-
-    var container = document.getElementById("calendar-input");
-
-    var new_container = document.createElement("div");
-
-    let daysInWeek = 7;
-    let daysInMonth = new Date(year, month+1, 0).getDate();
-    let firstDay = new Date(year, month, 1).getDay() || 7;
-    let weeksInMonth = (firstDay + daysInMonth - 1) / daysInWeek;
-
-    for (let i = 0; i < weeksInMonth; i++) {
-        let week = document.createElement("div");
-        week.classList.add("row", "mx-auto", "row-cols-7");
-
-        for (let j = 1; j <= daysInWeek; j++) {
-            let numberDay = i * daysInWeek + j;
-            let calendarDay = numberDay - firstDay + 1;
-            let isDay = calendarDay >= 1 && calendarDay <= daysInMonth;
-            let node = document.importNode(dayTemp.content, true);
-            if (isDay) {
-                node.querySelector("button").addEventListener("click", dayInput);
-                node.querySelector("label").innerHTML = (calendarDay) + "." + (month+1) + ".";
-            } else {
-                node.children[0].disabled = true;
-                node.children[0].innerHTML = "";
-            };
-            week.appendChild(node);
-        };
-        new_container.appendChild(week);
-    };
-    container.replaceChildren(...new_container.childNodes);
 }
 
 function updateShortcutCards() {
@@ -413,10 +365,6 @@ function correctTime (t) {
     return ("00"+time.getHours()).slice(-2)+":"+("00"+time.getMinutes()).slice(-2);
 }
 
-function updateDateInput () {
-    document.getElementById("calendar-date-input").value = getFormattedStringFromDate(data.date);
-}
-
 function updateDateTooltip () {
     document.getElementById("calendar-date-tooltip").innerHTML = getFormattedStringFromDate(getDateFromString());
 }
@@ -430,10 +378,6 @@ function getDateFromString () {
 
 function getStringFromDate () {
     return ("00"+(date.getMonth()+1)).slice(-2)+" / "+date.getFullYear();
-}
-
-function getFormattedStringFromDate (date) {
-    return date.toLocaleString("en-US", { month: "long", year: "numeric" });
 }
 
 function getTimeString (y, m, d, t) {
