@@ -26,7 +26,7 @@
 
     <link href="/static/styles.css" rel="stylesheet">
 
-    <script src="/static/script.js" defer></script>
+    <script src="/static/script.js"></script>
 
     <script>
         /* Only register a service worker if it's supported */
@@ -34,86 +34,6 @@
             console.log("service worker supported")
             navigator.serviceWorker.register('/service-worker.js');
         }
-    </script>
-
-    <script>
-        let data = {};
-
-        let date = new Date();
-        Object.defineProperty(data, "date", {
-            set(newDate) {
-                date = newDate;
-                updateCalendar();
-            },
-            get() { return date; }
-        });
-
-        let library = {};
-        Object.defineProperty(data, "library", {
-            set(newLibrary) {
-                if (Object.keys(library).length === 0) {
-                    toggleNavOnInput();
-                    activateNode("calendar-shortcut");
-                };
-                library = newLibrary;
-                updateShortcutSelection();
-                updateShortcutCards();
-                updateLocationList();
-            },
-            get() { return library; }
-        });
-
-        function updateCalendar () {
-            updateDateInput();
-
-            let [month, year] = [data.date.getMonth(), data.date.getFullYear()];
-
-            var dayTemp = document.querySelector("template#template-calendar-day");
-
-            var container = document.getElementById("calendar-input");
-
-            var new_container = document.createElement("div");
-
-            let daysInWeek = 7;
-            let daysInMonth = new Date(year, month+1, 0).getDate();
-            let firstDay = new Date(year, month, 1).getDay() || 7;
-            let weeksInMonth = (firstDay + daysInMonth - 1) / daysInWeek;
-
-            for (let i = 0; i < weeksInMonth; i++) {
-                let week = document.createElement("div");
-                week.classList.add("row", "mx-auto", "row-cols-7");
-
-                for (let j = 1; j <= daysInWeek; j++) {
-                    let numberDay = i * daysInWeek + j;
-                    let calendarDay = numberDay - firstDay + 1;
-                    let isDay = calendarDay >= 1 && calendarDay <= daysInMonth;
-                    let node = document.importNode(dayTemp.content, true);
-                    if (isDay) {
-                        node.querySelector("button").addEventListener("click", dayInput);
-                        node.querySelector("label").innerHTML = (calendarDay) + "." + (month+1) + ".";
-                        node.querySelector("label").setAttribute("for", "calendar-day-"+calendarDay+"-"+(month+1)+"-"+year);
-                        node.querySelector("textarea").id = "calendar-day-"+calendarDay+"-"+(month+1)+"-"+year;
-                    } else {
-                        node.children[0].disabled = true;
-                        node.children[0].innerHTML = "";
-                    };
-                    week.appendChild(node);
-                };
-                new_container.appendChild(week);
-            };
-            container.replaceChildren(...new_container.childNodes);
-        }
-
-        function updateDateInput () {
-            document.getElementById("calendar-date-input").value = getFormattedStringFromDate(data.date);
-        }
-
-        function getFormattedStringFromDate (date) {
-            return date.toLocaleString("en-US", { month: "long", year: "numeric" });
-        }
-
-        window.addEventListener("load", updateCalendar);
-
     </script>
 
 </head>
@@ -251,6 +171,8 @@
         </template>
 
         <script>
+            window.addEventListener("load", updateCalendar);
+
             document.getElementById("calendar-date-input").addEventListener("focus", editDateInput);
             document.getElementById("calendar-date-input").addEventListener("input", validateDateInput);
             document.getElementById("calendar-date-input").addEventListener("focusout", acceptDateInput);
