@@ -186,20 +186,18 @@
 
                 <div class="row mb-3">
                     <label class="col-sm-2 col-form-label d-sm-none" for="shortcut-shortcut">Shortcut</label>
-                    <div class="col">
-                        <div class="input-group has-validation">
-                            <label class="input-group-text d-none d-sm-inline-flex" for="shortcut-shortcut">Shortcut</label>
-                            <i class="input-group-text bi bi-bookmark-fill"></i>
-                            <input class="form-control" id="shortcut-shortcut" name="shortcut-shortcut" type="text"
-                                autofocus autocomplete="off" required>
-                            <div class="invalid-tooltip rounded">missing unique shortcut</div>
-                            <div class="invalid-tooltip used-tooltip rounded">already used shortcut, will overwrite!
-                            </div>
-                            <button class="btn btn-add text-nowrap" type="button" aria-label="add shortcut to library" id="shortcut-add">
-                                <i class="bi bi-bookmark-plus"></i> <i class="bi bi-arrow-right"></i> <i
-                                    class="bi bi-journal-bookmark-fill"></i> Library
-                            </button>
+                    <div class="col input-group has-validation">
+                        <label class="input-group-text d-none d-sm-inline-flex" for="shortcut-shortcut">Shortcut</label>
+                        <i class="input-group-text bi bi-bookmark-fill"></i>
+                        <input class="form-control" id="shortcut-shortcut" name="shortcut-shortcut" type="text"
+                            autofocus autocomplete="off" required>
+                        <div class="invalid-tooltip rounded">missing unique shortcut</div>
+                        <div class="invalid-tooltip rounded" id="shortcut-used-tooltop">already used shortcut, will overwrite!
                         </div>
+                        <button class="btn btn-add text-nowrap" type="button" aria-label="add shortcut to library" id="shortcut-add">
+                            <i class="bi bi-bookmark-plus"></i> <i class="bi bi-arrow-right"></i> <i
+                                class="bi bi-journal-bookmark-fill"></i> Library
+                        </button>
                     </div>
                 </div>
 

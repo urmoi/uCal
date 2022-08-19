@@ -5,6 +5,12 @@
     }
 }
 
+@media (min-width: 576px) {
+    form#shortcut-form .invalid-tooltip {
+        left: calc(var(--bs-gutter-x) + 90px + 1.75rem + 1px)!important;
+    }
+}
+
 .w-700px {
     max-width: 700px;
     min-width: 320px;
@@ -139,13 +145,13 @@ input.is-used:focus {
     box-shadow: 0 0 0 var(--bs-border-radius-sm) rgba(var(--bs-warning-rgb), .25)!important;
 }
 
-.used-tooltip {
+#shortcut-used-tooltop {
     display: none!important;
     color: var(--bs-gray-900)!important;
     background-color: var(--bs-warning)!important;
 }
 
-input.is-used:focus~.used-tooltip {
+input.is-used:focus~#shortcut-used-tooltop {
     display: block!important;
 }
 
