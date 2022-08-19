@@ -152,6 +152,8 @@ function updateCalendar () {
         new_container.appendChild(week);
     };
     container.replaceChildren(...new_container.childNodes);
+
+    document.getElementById("calendar-change-tooltip").setAttribute("data-promt", "none");
 }
 
 function updateDateInput () {
@@ -305,10 +307,15 @@ function validateTime (e) {
 }
 
 function changeCalendarDate (e) {
-    let direction = parseInt(e.currentTarget.getAttribute("data-direction"));
-    let dateCopy = new Date(data.date.getTime());
-    dateCopy.setMonth(dateCopy.getMonth() + direction);
-    data.date = dateCopy;
+    if (document.getElementById("calendar-change-tooltip").getAttribute("data-promt") === "show") {
+        document.getElementById("calendar-change-tooltip").setAttribute("data-promt", "shown");
+    } else {
+        let direction = parseInt(e.currentTarget.getAttribute("data-direction"));
+
+        let dateCopy = new Date(data.date.getTime());
+        dateCopy.setMonth(dateCopy.getMonth() + direction);
+        data.date = dateCopy;    
+    }
 }
 
 function editDateInput (e) {
@@ -317,6 +324,10 @@ function editDateInput (e) {
     e.currentTarget.value = getStringFromDate();
 
     updateDateTooltip();
+
+    if (document.getElementById("calendar-change-tooltip").getAttribute("data-promt") === "show") {
+        document.getElementById("calendar-change-tooltip").setAttribute("data-promt", "shown");
+    }
 }
 
 function validateDateInput (e) {
@@ -338,6 +349,7 @@ function acceptDateInput (e) {
     };
 
     e.currentTarget.form.classList.remove("was-validated");
+    document.getElementById("calendar-change-tooltip").setAttribute("data-promt", "show");
 }
 
 function dayInput (e) {
@@ -353,6 +365,8 @@ function dayInput (e) {
     } else {
         textarea.value = "";
     };
+
+    document.getElementById("calendar-change-tooltip").setAttribute("data-promt", "show");
 }
 
 function shortcutEdit (e) {
