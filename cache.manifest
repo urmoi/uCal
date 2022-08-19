@@ -2,13 +2,14 @@ CACHE MANIFEST
 
 # Version 0.0.2
 
+https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css
+https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css
+
 NETWORK:
 *
 
 
 CACHE:
 icons/apple-touch-icon.png
-https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css
-https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css
 
 FALLBACK:
