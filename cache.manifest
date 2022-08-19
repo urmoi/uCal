@@ -1,0 +1,10 @@
+CACHE MANIFEST
+
+# Version 0.0.2
+
+NETWORK: *
+
+CACHE:
+apple-touch-icon.png
+
+FALLBACK:
