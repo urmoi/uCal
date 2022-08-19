@@ -111,6 +111,13 @@ function addShortcut () {
     data.library = copyLibrary;
 
     resetLibraryForm(form);
+
+    if (!document.getElementById("library-download-tooltip").hasAttribute("data-promt")) {
+        document.getElementById("library-download-tooltip").setAttribute("data-promt", "show");
+        setTimeout(() => {
+            document.getElementById("library-download-tooltip").setAttribute("data-promt", "shown");
+        }, 3000);
+    }
 }
 
 function updateCalendar () {

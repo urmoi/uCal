@@ -215,3 +215,12 @@ input.is-used:focus~.used-tooltip {
     height: calc(100% - calc(var(--bs-body-font-size) * var(--bs-btn-line-height)));
     resize: none;
 }
+
+#library-download-tooltip {
+    color: var(--bs-gray-900)!important;
+    background-color: var(--bs-warning)!important;
+}
+
+#library-download-tooltip[data-promt="show"] {
+    display: block;
+}

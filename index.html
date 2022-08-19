@@ -58,7 +58,7 @@
                         <form class="input-group justify-content-center needs-validation" id="calendar-filename-form" novalidate>
                             <button class="btn btn-nav text-start" type="button" aria-label="toggle to calendar view" id="calendar-nav"><i class="bi bi-calendar3-week me-1"></i>Calendar</button>
                             <input class="btn-nav form-control text-center border-end-0" id="calendar-filename-input" name="calendar-filename-input" type="text" autocomplete="off" placeholder="calendar name" required>
-                            <div class="invalid-tooltip rounded-end">invalid / missing calendar filename</div>
+                            <div class="invalid-tooltip rounded-end end-0">invalid / missing calendar filename</div>
                             <i class="btn-nav input-group-text border-start-0 rounded-end bi bi-pencil" id="calendar-edit"></i>
                             <button class="btn btn-add" type="button" aria-label="save calendar as .ics file" id="calendar-save"><i class="bi bi-download"></i></button>        
                         </form>
@@ -67,7 +67,8 @@
                         <form class="input-group justify-content-center needs-validation" id="library-filename-form" novalidate>
                             <button class="btn btn-nav text-start" type="button" aria-label="toggle to library view" id="library-nav"><i class="bi bi-journal-bookmark-fill me-1"></i>Library</button>
                             <input class="btn-nav form-control text-center border-end-0" id="library-filename-input" name="library-filename-input" type="text" autocomplete="off" placeholder="library name" required>
-                            <div class="invalid-tooltip rounded-end">invalid / missing library filename</div>
+                            <div class="invalid-tooltip rounded-end end-0">invalid / missing library filename</div>
+                            <div class="invalid-tooltip rounded-end end-0" id="library-download-tooltip">don't forget to download when finished <i class="bi bi-hand-index me-1"></i></div>
                             <i class="btn-nav input-group-text border-start-0 rounded-end bi bi-pencil" id="library-edit"></i>
                             <button class="btn btn-add" type="button" aria-label="save library as .ucal file" id="library-save"><i class="bi bi-download"></i></button>
                         </form>
