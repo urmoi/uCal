@@ -200,12 +200,13 @@ input.is-used:focus~#shortcut-used-tooltop {
 }
 
 #calendar-change-tooltip {
+    display: none;
     top: -100%;
     color: var(--bs-gray-900)!important;
     background-color: var(--bs-warning)!important;
 }
 
-#calendar-change-tooltip[data-promt="shown"] {
+#calendar-change-tooltip[data-promt="show"] {
     display: block;
 }
 

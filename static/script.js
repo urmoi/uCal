@@ -318,14 +318,15 @@ function validateTime (e) {
 }
 
 function changeCalendarDate (e) {
-    if (document.getElementById("calendar-change-tooltip").getAttribute("data-promt") === "show") {
-        document.getElementById("calendar-change-tooltip").setAttribute("data-promt", "shown");
+    if (document.getElementById("calendar-change-tooltip").getAttribute("data-promt") === "active") {
+        document.getElementById("calendar-change-tooltip").setAttribute("data-promt", "show");
     } else {
         let direction = parseInt(e.currentTarget.getAttribute("data-direction"));
 
         let dateCopy = new Date(data.date.getTime());
         dateCopy.setMonth(dateCopy.getMonth() + direction);
-        data.date = dateCopy;    
+        data.date = dateCopy;
+        document.getElementById("calendar-change-tooltip").setAttribute("data-promt", "none");
     }
 }
 
@@ -336,8 +337,8 @@ function editDateInput (e) {
 
     updateDateTooltip();
 
-    if (document.getElementById("calendar-change-tooltip").getAttribute("data-promt") === "show") {
-        document.getElementById("calendar-change-tooltip").setAttribute("data-promt", "shown");
+    if (document.getElementById("calendar-change-tooltip").getAttribute("data-promt") === "active") {
+        document.getElementById("calendar-change-tooltip").setAttribute("data-promt", "show");
     }
 }
 
@@ -357,10 +358,12 @@ function acceptDateInput (e) {
         data.date = inputDate;
     } else {
         updateDateInput();
+        if (document.getElementById("calendar-change-tooltip").getAttribute("data-promt") === "show") {
+            document.getElementById("calendar-change-tooltip").setAttribute("data-promt", "active");
+        }
     };
 
     e.currentTarget.form.classList.remove("was-validated");
-    document.getElementById("calendar-change-tooltip").setAttribute("data-promt", "show");
 }
 
 function dayInput (e) {
@@ -377,7 +380,7 @@ function dayInput (e) {
         textarea.value = "";
     };
 
-    document.getElementById("calendar-change-tooltip").setAttribute("data-promt", "show");
+    document.getElementById("calendar-change-tooltip").setAttribute("data-promt", "active");
 }
 
 function shortcutEdit (e) {
