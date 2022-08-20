@@ -254,6 +254,7 @@ input.is-used:focus~#shortcut-used-tooltop {
 }
 
 #library-download-tooltip {
+    display: none;
     color: var(--bs-gray-900)!important;
     background-color: var(--bs-warning)!important;
 }
