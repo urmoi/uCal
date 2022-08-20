@@ -1,5 +1,5 @@
 @media (max-width: 576px) {
-    form#shortcut-form .input-group .bi {
+    form#shortcut-form .input-group .bi:first-of-type {
         border-top-left-radius: var(--bs-border-radius);
         border-bottom-left-radius: var(--bs-border-radius);
     }

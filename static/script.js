@@ -388,9 +388,15 @@ function shortcutEdit (e) {
 
     if (data["time"] === "all-day") {
         form.elements["toggle-time"].checked = true;
+        form.elements["shortcut-begin"].disabled = true;
+        form.elements["shortcut-begin"].value = "";
+        form.elements["shortcut-end"].disabled = true;
+        form.elements["shortcut-end"].value = "";
     } else {
         form.elements["toggle-time"].checked = false;
+        form.elements["shortcut-begin"].disabled = false;
         form.elements["shortcut-begin"].value = data["time"].split("-")[0];
+        form.elements["shortcut-end"].disabled = false;
         form.elements["shortcut-end"].value = data["time"].split("-")[1];
     };
 
