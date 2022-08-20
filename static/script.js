@@ -381,6 +381,7 @@ function shortcutEdit (e) {
     let data = library[shortcut];
 
     let form = document.getElementById("shortcut-form");
+    form.classList.remove("was-validated");
 
     form.elements["shortcut-shortcut"].value = shortcut;
 
