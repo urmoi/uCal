@@ -300,8 +300,12 @@ function unvalidateFilename (e) {
 function validateShortcut (e) {
     if (data.library.hasOwnProperty(e.currentTarget.value)) {
         e.currentTarget.classList.add("is-used");
+        document.getElementById("shortcut-add").hidden = true;
+        document.getElementById("shortcut-update").hidden = false;
     } else {
         e.currentTarget.classList.remove("is-used");
+        document.getElementById("shortcut-add").hidden = false;
+        document.getElementById("shortcut-update").hidden = true;
     };
 }
 
@@ -382,6 +386,8 @@ function shortcutEdit (e) {
 
     let form = document.getElementById("shortcut-form");
     form.classList.remove("was-validated");
+    document.getElementById("shortcut-add").hidden = true;
+    document.getElementById("shortcut-update").hidden = false;
 
     form.elements["shortcut-shortcut"].value = shortcut;
 
@@ -421,6 +427,8 @@ function checkForm (f) {
 
 function resetLibraryForm(f) {
     document.getElementById("shortcut-shortcut").classList.remove("is-used");
+    document.getElementById("shortcut-add").hidden = false;
+    document.getElementById("shortcut-update").hidden = true;
     document.getElementById("shortcut-begin").disabled = false;
     document.getElementById("shortcut-end").disabled = false;
     f.classList.remove("was-validated");
