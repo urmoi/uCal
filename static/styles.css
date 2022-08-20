@@ -253,6 +253,14 @@ input.is-used:focus~#shortcut-used-tooltop {
     resize: none;
 }
 
+.card-header {
+    background-color: var(--bs-gray-200);
+}
+
+.card:hover {
+    background-color: var(--bs-gray-100);
+}
+
 #library-download-tooltip {
     display: none;
     color: var(--bs-gray-900)!important;
