@@ -33,7 +33,7 @@
 
 <body>
 
-    <nav class="bg-light border navbar navbar-light">
+    <nav class="navbar navbar-dark bg-dark">
 
         <div class="container py-2">
             <span class="navbar-brand h1 brand-span flex-lg-grow-0 flex-grow-1 text-center text-lg-start m-0 mb-3 mb-lg-0">
@@ -45,10 +45,10 @@
                         <button disabled class="col-auto btn btn-nav text-start w-100" type="button" aria-label="toggle to calendar view" id="navinit-toggle-calendar" data-nav="calendar"><i class="bi bi-calendar3-week me-1"></i>Calendar</button>
                     </div>
                     <div class="col-md mt-3 mt-md-0 input-group">
-                        <button class="btn btn-add text-start" type="button" aria-label="toggle to library view" id="navinit-toggle-library" data-nav="library"><i class="bi bi-journal-bookmark-fill me-1"></i>Library</button>
-                        <button class="btn btn-add flex-grow-1" type="button" aria-label="toggle to make new library" id="navinit-toggle-newlibrary" data-nav="library">Create <i class="bi bi-patch-plus"></i></button>
-                        <input hidden class="btn-nav form-control" type="file" accept=".ucal" id="library-file-input" name="library-file-input">
-                        <label class="btn btn-add flex-grow-1 rounded-end" for="library-file-input" id="library-file-upload">Upload<i class="bi bi-upload ms-1"></i></label>
+                        <button class="btn btn-nav text-start text-light" type="button" aria-label="toggle to library view" id="navinit-toggle-library" data-nav="library"><i class="bi bi-journal-bookmark-fill me-1"></i>Library</button>
+                        <button class="btn btn-nav text-light flex-grow-1 border-start-0" type="button" aria-label="toggle to make new library" id="navinit-toggle-newlibrary" data-nav="library">Create <i class="bi bi-patch-plus"></i></button>
+                        <input hidden class="form-control" type="file" accept=".ucal" id="library-file-input" name="library-file-input">
+                        <label class="btn btn-nav text-light flex-grow-1 rounded-end" for="library-file-input" id="library-file-upload">Upload<i class="bi bi-upload ms-1"></i></label>
                     </div>
                 </div>
             </div>
@@ -57,20 +57,20 @@
                      <div class="col" id="nav-toggle-calendar" data-nav="calendar">
                         <form class="input-group justify-content-center needs-validation" id="calendar-filename-form" novalidate>
                             <button class="btn btn-nav text-start" type="button" aria-label="toggle to calendar view" id="calendar-nav"><i class="bi bi-calendar3-week me-1"></i>Calendar</button>
-                            <input class="btn-nav form-control text-center border-end-0" id="calendar-filename-input" name="calendar-filename-input" type="text" autocomplete="off" placeholder="calendar name" required>
+                            <input class="btn-nav form-control text-center" id="calendar-filename-input" name="calendar-filename-input" type="text" autocomplete="off" placeholder="calendar name" required>
                             <div class="invalid-tooltip rounded-end end-0">invalid / missing calendar filename</div>
-                            <i class="btn-nav input-group-text border-start-0 rounded-end bi bi-pencil" id="calendar-edit"></i>
-                            <button class="btn btn-add" type="button" aria-label="save calendar as .ics file" id="calendar-save"><i class="bi bi-download"></i></button>        
+                            <i class="btn-nav input-group-text rounded-end bi bi-pencil" id="calendar-edit"></i>
+                            <button class="btn btn-nav text-light" type="button" aria-label="save calendar as .ics file" id="calendar-save"><i class="bi bi-download"></i></button>        
                         </form>
                     </div>
                     <div class="col-md mt-3 mt-md-0" id="nav-toggle-library" data-nav="library">
                         <form class="input-group justify-content-center needs-validation" id="library-filename-form" novalidate>
                             <button class="btn btn-nav text-start" type="button" aria-label="toggle to library view" id="library-nav"><i class="bi bi-journal-bookmark-fill me-1"></i>Library</button>
-                            <input class="btn-nav form-control text-center border-end-0" id="library-filename-input" name="library-filename-input" type="text" autocomplete="off" placeholder="library name" required>
+                            <input class="btn-nav form-control text-center" id="library-filename-input" name="library-filename-input" type="text" autocomplete="off" placeholder="library name" required>
                             <div class="invalid-tooltip rounded-end end-0">invalid / missing library filename</div>
                             <div class="invalid-tooltip rounded-end end-0" id="library-download-tooltip">don't forget to download when finished <i class="bi bi-hand-index me-1"></i></div>
-                            <i class="btn-nav input-group-text border-start-0 rounded-end bi bi-pencil" id="library-edit"></i>
-                            <button class="btn btn-add" type="button" aria-label="save library as .ucal file" id="library-save"><i class="bi bi-download"></i></button>
+                            <i class="btn-nav input-group-text rounded-end bi bi-pencil" id="library-edit"></i>
+                            <button class="btn btn-nav text-light" type="button" aria-label="save library as .ucal file" id="library-save"><i class="bi bi-download"></i></button>
                         </form>
                     </div>
                 </div>

@@ -35,8 +35,73 @@ form#shortcut-form .input-group label {
     opacity: 25%;
 }
 
+.btn-nav, .btn-add, .btn-click, .btn-toggle, .btn-day {
+    transition: color .15s ease-in-out,
+                background-color .15s ease-in-out,
+                border-color .15s ease-in-out,
+                box-shadow .15s ease-in-out;
+}
+
 .btn-nav,
-.btn-add,
+.btn-add
+{
+    --bs-btn-color: var(--bs-gray-500);
+    --bs-btn-bg: var(--bs-gray-800);
+    --bs-btn-border-color: var(--bs-btn-bg);
+
+    --bs-btn-hover-color: var(--bs-gray-500);
+    --bs-btn-hover-bg: var(--bs-gray-700);
+    --bs-btn-hover-border-color: var(--bs-btn-hover-bg);
+
+    --bs-btn-active-color: var(--bs-gray-100);
+    --bs-btn-active-bg: var(--bs-gray-600);
+    --bs-btn-active-border-color: var(--bs-btn-active-bg);
+
+    --bs-btn-disabled-color: var(--bs-gray-100);
+    --bs-btn-disabled-bg: var(--bs-gray-900);
+    --bs-btn-disabled-border-color: var(--bs-gray-800);
+    --bs-btn-disabled-opacity: 1;
+
+    --bs-btn-focus-box-shadow: var(--bs-btn-box-shadow);
+}
+
+.btn-add {
+    --bs-btn-color: var(--bs-gray-200);
+    --bs-btn-bg: var(--bs-gray-900);
+
+    --bs-btn-hover-color: var(--bs-gray-300);
+    --bs-btn-hover-bg: var(--bs-gray-800);
+}
+
+.btn-nav.form-control {
+    color: var(--bs-btn-disabled-color);
+    -webkit-text-fill-color: var(--bs-btn-disabled-color);
+    background-color: var(--bs-btn-disabled-bg);
+    border-color: var(--bs-btn-disabled-border-color);
+    box-shadow: none;
+}
+
+.btn-nav.form-control:hover,
+.btn-nav.form-control:focus
+ {
+    background-color: var(--bs-btn-bg);
+}
+
+.btn-nav.input-group-text,
+.btn-nav.form-control:disabled
+{
+    cursor: pointer;
+    color: var(--bs-btn-color);
+    -webkit-text-fill-color: var(--bs-btn-color);
+    background-color: var(--bs-btn-bg);
+    border-color: var(--bs-btn-border-color);
+}
+
+.btn-nav.form-control::placeholder {
+    color: var(--bs-btn-hover-bg);
+    -webkit-text-fill-color: var(--bs-btn-hover-bg);
+}
+
 .btn-click,
 .btn-toggle
 {
@@ -56,40 +121,6 @@ form#shortcut-form .input-group label {
     --bs-btn-disabled-bg: var(--bs-gray-100);
     --bs-btn-disabled-border-color: var(--bs-gray-200);
     --bs-btn-disabled-opacity: 1;
-
-    --bs-btn-focus-box-shadow: var(--bs-btn-box-shadow);
-}
-
-.btn-add {
-    --bs-btn-color: var(--bs-gray-200);
-    --bs-btn-bg: var(--bs-gray-800);
-    --bs-btn-border-color: var(--bs-btn-bg);
-
-    --bs-btn-hover-color: var(--bs-gray-400);
-    --bs-btn-hover-bg: var(--bs-gray-900);
-    --bs-btn-hover-border-color: var(--bs-btn-hover-bg);
-
-    --bs-btn-disabled-color: var(--bs-gray-500);
-    --bs-btn-disabled-bg: var(--bs-btn-bg);
-    --bs-btn-disabled-border-color: var(--bs-btn-disabled-bg);
-    --bs-btn-disabled-opacity: 1;
-}
-
-.btn-nav {
-    --bs-btn-color: var(--bs-gray-500);
-    --bs-btn-bg: var(--bs-gray-200);
-
-    --bs-btn-disabled-color: var(--bs-gray-900);
-    --bs-btn-disabled-bg: var(--bs-gray-300);
-    --bs-btn-disabled-border-color: var(--bs-gray-400);
-    --bs-btn-disabled-opacity: 1;
-}
-
-.btn-nav.input-group-text,
-.btn-nav.form-control:disabled,
-.btn-nav.form-control::placeholder
-{
-    color: var(--bs-btn-color);
 }
 
 .btn-toggle {
