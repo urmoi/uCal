@@ -198,7 +198,7 @@ function toggleNav (e) {
     document.getElementById("library-save").hidden = showMode === "library" ? false : true;
     document.getElementById("library-edit").hidden = showMode === "library" ? true : false;
 
-    if (showMode === "library") {
+    if (showMode === "library" && document.getElementById(library).hidden) {
         document.getElementById("shortcut-shortcut").focus();
     }
 }
