@@ -185,10 +185,7 @@ function toggleNavInit (e) {
 
 function toggleNav (e) {
     let showMode = (typeof e) === "string" ? e : e.currentTarget.getAttribute("data-nav");
-
-    if (showMode === "library" && document.getElementById("library").hidden) {
-        document.getElementById("shortcut-shortcut").focus();
-    }
+    let toggledMode = document.getElementById(showMode).hidden;
 
     document.getElementById("calendar").hidden = showMode === "calendar" ? false : true;
     document.getElementById("calendar-nav").disabled = showMode === "calendar" ? true : false;
@@ -201,6 +198,10 @@ function toggleNav (e) {
     document.getElementById("library-filename-input").disabled = showMode === "library" ? false : true;
     document.getElementById("library-save").hidden = showMode === "library" ? false : true;
     document.getElementById("library-edit").hidden = showMode === "library" ? true : false;
+
+    if (showMode === "library" && toggledMode) {
+        document.getElementById("shortcut-shortcut").focus();
+    }
 }
 
 function toggleNavOnInput () {
