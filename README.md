@@ -1,5 +1,5 @@
 # uCal: Calendar from own Shortcuts
-#### Live Demo: (Glitch)[https://ucal.glitch.me]
+#### Live Demo: [Glitch][(https://ucal.glitch.me)
 #### Video Demo:  <URL HERE>
 #### Description:
 The project I choose was built for helping my girlfriend making her roster for work.
