@@ -27,7 +27,7 @@
 
     <script src="/static/script.js"></script>
     
-    <title>uCal: Calendar Events from Shortcuts</title>
+    <title>uCal</title>
 
 </head>
 
@@ -48,7 +48,7 @@
                         <button class="btn btn-nav text-start text-light" type="button" aria-label="toggle to library view" id="navinit-toggle-library" data-nav="library"><i class="bi bi-journal-bookmark-fill me-1"></i>Library</button>
                         <button class="btn btn-nav text-light flex-grow-1 border-start-0" type="button" aria-label="toggle to make new library" id="navinit-toggle-newlibrary" data-nav="library">Create <i class="bi bi-patch-plus"></i></button>
                         <input hidden class="form-control" type="file" accept=".ucal" id="library-file-input" name="library-file-input">
-                        <label class="btn btn-nav text-light flex-grow-1 rounded-end" for="library-file-input" id="library-file-upload">Upload<i class="bi bi-upload ms-1"></i></label>
+                        <label class="btn btn-nav text-light flex-grow-1 rounded-end" for="library-file-input" id="library-file-upload">Upload <i class="bi bi-upload ms-1"></i></label>
                     </div>
                 </div>
             </div>
@@ -57,7 +57,7 @@
                      <div class="col" id="nav-toggle-calendar" data-nav="calendar">
                         <form class="input-group justify-content-center needs-validation" id="calendar-filename-form" novalidate>
                             <button class="btn btn-nav text-start" type="button" aria-label="toggle to calendar view" id="calendar-nav"><i class="bi bi-calendar3-week me-1"></i>Calendar</button>
-                            <input class="btn-nav form-control text-center" id="calendar-filename-input" name="calendar-filename-input" type="text" autocomplete="off" placeholder="calendar name" required>
+                            <input class="btn-nav form-control text-center" id="calendar-filename-input" name="calendar-filename-input" type="text" autocomplete="off" placeholder="calendar.ics" required>
                             <div class="invalid-tooltip rounded-end end-0">invalid / missing calendar filename</div>
                             <div class="invalid-tooltip rounded-end end-0" id="calendar-download-tooltip">not all shortcuts found in library, try again</i></div>
                             <i class="btn-nav input-group-text rounded-end bi bi-pencil" id="calendar-edit"></i>
@@ -67,7 +67,7 @@
                     <div class="col-md mt-3 mt-md-0" id="nav-toggle-library" data-nav="library">
                         <form class="input-group justify-content-center needs-validation" id="library-filename-form" novalidate>
                             <button class="btn btn-nav text-start" type="button" aria-label="toggle to library view" id="library-nav"><i class="bi bi-journal-bookmark-fill me-1"></i>Library</button>
-                            <input class="btn-nav form-control text-center" id="library-filename-input" name="library-filename-input" type="text" autocomplete="off" placeholder="library name" required>
+                            <input class="btn-nav form-control text-center" id="library-filename-input" name="library-filename-input" type="text" autocomplete="off" placeholder="library.ucal" required>
                             <div class="invalid-tooltip rounded-end end-0">invalid / missing library filename</div>
                             <div class="invalid-tooltip rounded-end end-0" id="library-download-tooltip">don't forget to download when finished <i class="bi bi-hand-index me-1"></i></div>
                             <i class="btn-nav input-group-text rounded-end bi bi-pencil" id="library-edit"></i>
@@ -289,6 +289,7 @@
             document.getElementById("toggle-time-time").addEventListener("click", toggleTime);
             document.getElementById("toggle-time-allday").addEventListener("click", toggleTime);
             document.getElementById("shortcut-begin").addEventListener("input", validateTime);
+            document.getElementById("toggle-time-time").addEventListener("keydown", toggleTimeOnKey);
             document.getElementById("shortcut-end").addEventListener("input", validateTime);
         </script>
 

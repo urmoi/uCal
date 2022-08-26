@@ -216,10 +216,18 @@ function toggleShortcut (e) {
 }
 
 function toggleTime (e) {
-    let toggleOn = e.currentTarget.getAttribute("data-toggle") === "allday";
-    e.currentTarget.parentNode.querySelector("input[type=radio]").checked = toggleOn;
-    e.currentTarget.parentNode.querySelectorAll("input[type=text]")[0].disabled = toggleOn;
-    e.currentTarget.parentNode.querySelectorAll("input[type=text]")[1].disabled = toggleOn;
+    let toggleMode = (typeof e) === "string" ? e : e.currentTarget.getAttribute("data-toggle");
+    document.getElementById("toggle-time").checked = toggleMode === "allday" ? true : false;
+    document.getElementById("shortcut-begin").disabled = toggleMode === "allday" ? true : false;
+    document.getElementById("shortcut-end").disabled = toggleMode === "allday" ? true : false;
+}
+
+function toggleTimeOnKey (e) {
+    if (e.code === "KeyA") {
+        toggleTime("allday");
+    } else if (e.code === "KeyT") {
+        toggleTime("time");
+    }
 }
 
 function updateShortcutSelection () {
