@@ -30,7 +30,7 @@ var saveAs=saveAs||function(e){"use strict";if(typeof e==="undefined"||typeof na
 
 function saveCalendar () {
     let filenameInput = document.getElementById("calendar-filename-input");
-    if (!checkForm(filenameInput.form)) { return };
+    if (!checkForm(filenameInput.form)) { return filenameInput.focus() };
     filenameInput.form.classList.remove("was-validated");
     let filename = filenameInput.value;
 
@@ -52,7 +52,7 @@ function saveCalendar () {
         if (shortcuts[0]) {
             for (let j = 0; j < shortcuts.length; j++) {
                 let element = library[shortcuts[j]];
-                if (element === undefined) { return promtDownloadTooltip(document.getElementById("calendar-download-tooltip")) };
+                if (element === undefined) { return promtDownloadTooltip(document.getElementById("calendar-error-tooltip")) };
 
                 let subject = element["subject"];
                 let description = element["description"];
@@ -63,12 +63,15 @@ function saveCalendar () {
             };
         };
     };
-    cal.download(filename);
+    savedCal = cal.download(filename)
+    if (!savedCal) {
+        return promtDownloadTooltip(document.getElementById("calendar-download-tooltip"));
+    }
 }
 
 function saveLibrary () {
     let filenameInput = document.getElementById("library-filename-input");
-    if (!checkForm(filenameInput.form)) { return };
+    if (!checkForm(filenameInput.form)) { return filenameInput.focus() };
     if (Object.keys(library).length === 0) { return };
 
     let filename = filenameInput.value + ".ucal";
@@ -167,7 +170,7 @@ function updateDateInput () {
 
 
 function toggleNavInit (e) {
-    let showMode = e.currentTarget.getAttribute("data-nav");
+    let showMode = (typeof e) === "string" ? e : e.currentTarget.getAttribute("data-nav");
 
     document.getElementById("calendar").hidden = showMode === "calendar" ? false : true;
     document.getElementById("library").hidden = showMode === "library" ? false : true;
@@ -210,9 +213,9 @@ function toggleNavOnInput () {
 }
 
 function toggleShortcut (e) {
-    let toggleOn = e.currentTarget.getAttribute("data-toggle") === "add";
-    e.currentTarget.parentNode.querySelector("input[type=radio]").checked = toggleOn;
-    e.currentTarget.parentNode.querySelector("select").disabled = !toggleOn;
+    let toggleMode = (typeof e) === "string" ? e : e.currentTarget.getAttribute("data-toggle");
+    document.getElementById("toggle-shortcut").checked = toggleMode === "add" ? true : false;
+    document.getElementById("calendar-shortcut-selection").disabled = toggleMode === "add" ? false : true;
 }
 
 function toggleTime (e) {
@@ -220,12 +223,6 @@ function toggleTime (e) {
     document.getElementById("toggle-time").checked = toggleMode === "allday" ? true : false;
     document.getElementById("shortcut-begin").disabled = toggleMode === "allday" ? true : false;
     document.getElementById("shortcut-end").disabled = toggleMode === "allday" ? true : false;
-}
-
-function toggleTimeOnKey (e) {
-    if (e.code === "KeyT" && e.ctrlKey && e.shiftKey) {
-        toggleTime(document.getElementById("toggle-time").checked ? "time" : "allday");
-    }
 }
 
 function updateShortcutSelection () {
@@ -368,10 +365,10 @@ function validateDateInput (e) {
     };
 }
 
-function acceptDateInput (e) {
+function acceptDateInput () {
     let inputDate = getDateFromString();
     let savedDate = new Date(data.date.getFullYear(), data.date.getMonth());
-    if (e.currentTarget.form.checkValidity() && +inputDate !== +savedDate) {
+    if (document.getElementById("calendar-date-input").form.checkValidity() && +inputDate !== +savedDate) {
         data.date = inputDate;
     } else {
         updateDateInput();
@@ -380,7 +377,7 @@ function acceptDateInput (e) {
         }
     };
 
-    e.currentTarget.form.classList.remove("was-validated");
+    document.getElementById("calendar-date-input").form.classList.remove("was-validated");
 }
 
 function dayInput (e) {
@@ -447,6 +444,7 @@ function checkForm (f) {
 
 function resetLibraryForm(f) {
     document.getElementById("shortcut-shortcut").classList.remove("is-used");
+    document.getElementById("shortcut-shortcut").focus();
     document.getElementById("shortcut-add").hidden = false;
     document.getElementById("shortcut-update").hidden = true;
     document.getElementById("shortcut-begin").disabled = false;
@@ -502,4 +500,81 @@ function getTimeString (y, m, d, t) {
 
     if (t === "all-day") { return [day, day] };
     return [day+" "+begin, day.substring(0, day.indexOf('/', 5)+1)+(d+(begin < end ? 0 : 1))+" "+end];
+}
+
+function keyPressed (e) {
+    if (e.ctrlKey && e.shiftKey) {
+        let calendarShown = !document.getElementById("calendar").hidden;
+
+        if (e.code === "KeyS") {
+            if (calendarShown) {
+                return saveCalendar();
+            } else {
+                return saveLibrary();
+            }
+        }
+
+        if (e.code === "KeyU") {
+            if (!document.getElementById("nav-init").hidden) {
+                return document.getElementById("library-file-input").click();
+            }
+        }
+
+        if (e.code === "KeyN") {
+            let showMode = calendarShown ? "library" : "calendar";
+            if (!document.getElementById("nav-init").hidden) { return toggleNavInit(showMode) };
+            return toggleNav(showMode);
+        }
+
+        if (e.code === "KeyA") {
+            if (document.getElementById("shortcut-form") == document.activeElement.form) {
+                return addShortcut();
+            }
+        }
+
+        if (e.code === "KeyT") {
+            if (document.getElementById("shortcut-form") == document.activeElement.form) {
+                let toggleMode = document.getElementById("toggle-time").checked ? "time" : "allday";
+                toggleTime(toggleMode);
+                if (toggleMode === "allday") { document.getElementById("shortcut-location").focus() }
+                else if (toggleMode === "time") { document.getElementById("shortcut-begin").focus() };
+                return;
+            }
+        }
+
+        if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+            if (calendarShown) {
+                if (e.key === "ArrowLeft") {
+                    document.getElementById("calendar-date-before").click();
+                } else if (e.key === "ArrowRight") {
+                    document.getElementById("calendar-date-after").click();
+                }
+                return;
+            }
+        }
+
+        if (e.code === "KeyK") {
+            if (calendarShown) {
+                document.getElementById("calendar-date-input").focus();
+                return;
+            }
+        }
+
+        if (e.code === "KeyA") {
+            if (calendarShown && !document.getElementById("calendar-shortcut").classList.contains("deactivated")) {
+                if (document.getElementById("toggle-shortcut").checked) {
+                    let select = document.getElementById("calendar-shortcut-selection");
+                    select.selectedIndex = (select.selectedIndex % (select.children.length-1)) + 1;
+                }
+                activateNode("calendar-calendar");
+                return toggleShortcut("add");
+            }
+        }
+
+        if (e.code === "KeyC") {
+            if (calendarShown && !document.getElementById("calendar-shortcut").classList.contains("deactivated")) {
+                return toggleShortcut("clear");
+            }
+        }
+    }
 }

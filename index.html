@@ -55,21 +55,22 @@
             <div class="container-md w-700px" id="nav-input" hidden>
                 <div class="row">
                      <div class="col" id="nav-toggle-calendar" data-nav="calendar">
-                        <form class="input-group justify-content-center needs-validation" id="calendar-filename-form" novalidate>
+                        <form class="input-group justify-content-center needs-validation" id="calendar-filename-form" novalidate onsubmit="saveCalendar(); return false;">
                             <button class="btn btn-nav text-start" type="button" aria-label="toggle to calendar view" id="calendar-nav"><i class="bi bi-calendar3-week me-1"></i>Calendar</button>
                             <input class="btn-nav form-control text-center" id="calendar-filename-input" name="calendar-filename-input" type="text" autocomplete="off" placeholder="calendar.ics" required>
                             <div class="invalid-tooltip rounded-end end-0">invalid / missing calendar filename</div>
-                            <div class="invalid-tooltip rounded-end end-0" id="calendar-download-tooltip">not all shortcuts found in library, try again</i></div>
+                            <div class="invalid-tooltip file-tooltip rounded-end end-0" id="calendar-download-tooltip">your calendar has no events, nothing saved</i></div>
+                            <div class="invalid-tooltip file-tooltip rounded-end end-0" id="calendar-error-tooltip">not all shortcuts found in library, try again</i></div>
                             <i class="btn-nav input-group-text rounded-end bi bi-pencil" id="calendar-edit"></i>
                             <button class="btn btn-nav text-light" type="button" aria-label="save calendar as .ics file" id="calendar-save"><i class="bi bi-download"></i></button>        
                         </form>
                     </div>
                     <div class="col-md mt-3 mt-md-0" id="nav-toggle-library" data-nav="library">
-                        <form class="input-group justify-content-center needs-validation" id="library-filename-form" novalidate>
+                        <form class="input-group justify-content-center needs-validation" id="library-filename-form" novalidate onsubmit="saveLibrary(); return false;">
                             <button class="btn btn-nav text-start" type="button" aria-label="toggle to library view" id="library-nav"><i class="bi bi-journal-bookmark-fill me-1"></i>Library</button>
                             <input class="btn-nav form-control text-center" id="library-filename-input" name="library-filename-input" type="text" autocomplete="off" placeholder="library.ucal" required>
                             <div class="invalid-tooltip rounded-end end-0">invalid / missing library filename</div>
-                            <div class="invalid-tooltip rounded-end end-0" id="library-download-tooltip">don't forget to download when finished <i class="bi bi-hand-index me-1"></i></div>
+                            <div class="invalid-tooltip file-tooltip rounded-end end-0" id="library-download-tooltip">don't forget to download when finished <i class="bi bi-hand-index me-1"></i></div>
                             <i class="btn-nav input-group-text rounded-end bi bi-pencil" id="library-edit"></i>
                             <button class="btn btn-nav text-light" type="button" aria-label="save library as .ucal file" id="library-save"><i class="bi bi-download"></i></button>
                         </form>
@@ -100,7 +101,7 @@
 
         <div class="w-700px container-md">
 
-            <form class="needs-validation" novalidate>
+            <form class="needs-validation" novalidate onsubmit="document.getElementById('calendar-date-input').blur(); return false;">
                 <div class="row">
                     <div class="input-group has-validation justify-content-center">
                         <button class="btn btn-click" id="calendar-date-before" type="button" aria-label="show calendar month before" data-direction="-1">
@@ -121,7 +122,7 @@
 
             <hr>
 
-            <form class="needs-validation" id="calendar-form" novalidate>
+            <form class="needs-validation" id="calendar-form" novalidate onsubmit="return false;">
                 <div class="row mb-3 deactivated" id="calendar-shortcut">
                     <input type="radio" class="btn-check" name="toggle-shortcut" id="toggle-shortcut" hidden checked>
                     <div class="col input-group flex-nowrap btn-toggle-on w-100" id="toggle-shortcut-add" data-toggle="add">
@@ -183,7 +184,7 @@
 
     <main class="container py-5 text-center" id="library" hidden>
         <div class="w-700px container-sm">
-            <form class="text-start needs-validation" id="shortcut-form" novalidate>
+            <form class="text-start needs-validation" id="shortcut-form" novalidate onsubmit="return false;">
 
                 <div class="row mb-3">
                     <label class="col-sm-2 col-form-label d-sm-none" for="shortcut-shortcut">Shortcut</label>
@@ -286,7 +287,6 @@
             document.getElementById("shortcut-add").addEventListener("click", addShortcut);
             document.getElementById("shortcut-update").addEventListener("click", addShortcut);
             document.getElementById("shortcut-shortcut").addEventListener("input", validateShortcut);
-            document.getElementById("shortcut-form").addEventListener("keyup", toggleTimeOnKey);
             document.getElementById("toggle-time-time").addEventListener("click", toggleTime);
             document.getElementById("toggle-time-allday").addEventListener("click", toggleTime);
             document.getElementById("shortcut-begin").addEventListener("input", validateTime);
@@ -303,6 +303,10 @@
         <span class="ms-3"><i class="bi bi-code"></i> coded by <a class="text-reset" href="https://github.com/urmoi/">urmoi</a></span>
     
     </footer>
+
+    <script>
+        document.addEventListener("keyup", keyPressed);
+    </script>
 
 </body>
 
