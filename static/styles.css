@@ -262,12 +262,16 @@ input.is-used:focus~#shortcut-used-tooltop {
     background-color: var(--bs-gray-100);
 }
 
-#library-download-tooltip {
+#calendar-download-tooltip,
+#library-download-tooltip
+{
     display: none;
     color: var(--bs-gray-900)!important;
     background-color: var(--bs-warning)!important;
 }
 
-#library-download-tooltip[data-promt="show"] {
+#calendar-download-tooltip[data-promt="show"],
+#library-download-tooltip[data-promt="show"]
+{
     display: block;
 }

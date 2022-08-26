@@ -52,6 +52,7 @@ function saveCalendar () {
         if (shortcuts[0]) {
             for (let j = 0; j < shortcuts.length; j++) {
                 let element = library[shortcuts[j]];
+                if (element === undefined) { return promtDownloadTooltip(document.getElementById("calendar-download-tooltip")) };
 
                 let subject = element["subject"];
                 let description = element["description"];
@@ -113,10 +114,7 @@ function addShortcut () {
     resetLibraryForm(form);
 
     if (!document.getElementById("library-download-tooltip").hasAttribute("data-promt")) {
-        document.getElementById("library-download-tooltip").setAttribute("data-promt", "show");
-        setTimeout(() => {
-            document.getElementById("library-download-tooltip").setAttribute("data-promt", "shown");
-        }, 3000);
+        return promtDownloadTooltip(document.getElementById("library-download-tooltip"));
     }
 }
 
@@ -456,6 +454,14 @@ function correctTime (t) {
     let time = new Date(0, 0, 0, h, m, 0);
     return ("00"+time.getHours()).slice(-2)+":"+("00"+time.getMinutes()).slice(-2);
 }
+
+function promtDownloadTooltip (tooltip) {
+    tooltip.setAttribute("data-promt", "show");
+    setTimeout(() => {
+        tooltip.setAttribute("data-promt", "shown");
+    }, 3000);
+}
+
 
 function updateDateTooltip () {
     document.getElementById("calendar-date-tooltip").innerHTML = getFormattedStringFromDate(getDateFromString());
