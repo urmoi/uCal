@@ -278,3 +278,8 @@ input.is-used:focus~#shortcut-used-tooltop {
 .file-tooltip[data-promt="show"] {
     display: block!important;
 }
+
+#help {
+    z-index: 100;
+    background-color: var(--bs-gray-800);
+}

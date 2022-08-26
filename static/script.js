@@ -520,7 +520,7 @@ function keyPressed (e) {
             }
         }
 
-        if (e.code === "KeyN") {
+        if (e.code === "KeyV") {
             let showMode = calendarShown ? "library" : "calendar";
             if (!document.getElementById("nav-init").hidden) { return toggleNavInit(showMode) };
             return toggleNav(showMode);
@@ -528,6 +528,7 @@ function keyPressed (e) {
 
         if (e.code === "KeyA") {
             if (document.getElementById("shortcut-form") == document.activeElement.form) {
+                e.preventDefault();
                 return addShortcut();
             }
         }
@@ -542,11 +543,11 @@ function keyPressed (e) {
             }
         }
 
-        if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+        if (e.code === "KeyB" || e.code === "KeyN") {
             if (calendarShown) {
-                if (e.key === "ArrowLeft") {
+                if (e.code === "KeyB") {
                     document.getElementById("calendar-date-before").click();
-                } else if (e.key === "ArrowRight") {
+                } else if (e.code === "KeyN") {
                     document.getElementById("calendar-date-after").click();
                 }
                 return;
