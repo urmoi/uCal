@@ -1,4 +1,4 @@
-# uCal: Calendar from own Shortcuts
+# uCal: Calendar Events from Shortcuts
 #### Live Demo: [Glitch](https://ucal.glitch.me)
 #### Video Demo:  <URL HERE>
 #### Description:

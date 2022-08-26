@@ -1,9 +1,16 @@
 {
     "lang": "en",
     "dir": "ltr",
-    "name": "uCal: Calendar from own Shortcuts",
+    "name": "uCal: Calendar Events from Shortcuts",
     "short_name": "uCal",
     "id": "ucal",
+    "scope": "/",
+    "start_url": "/",
+    "display": "minimal-ui",
+    "orientation": "natural",
+    "theme_color": "#212529",
+    "background_color": "#FFFFFF",
+    "prefer_related_applications": false,
     "icons": [{
         "src": "icons/icon512.png",
         "sizes": "512x512",
@@ -24,12 +31,5 @@
         "src": "icons/icon16.png",
         "sizes": "16x16",
         "type": "image/png"
-    }],
-    "scope": "/",
-    "start_url": "/",
-    "display": "minimal-ui",
-    "orientation": "natural",
-    "theme_color": "#212529",
-    "background_color": "#FFFFFF",
-    "prefer_related_applications": false
+    }]
   }
