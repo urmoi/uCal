@@ -324,6 +324,11 @@ function validateShortcut (e) {
 }
 
 function validateTime (e) {
+    var newValue = e.currentTarget.value.replace(/[^0-9\:]/gi, '');
+    if (e.currentTarget.value != newValue) {
+        e.currentTarget.value = newValue;
+    }
+
     if (/^(2[0-3]|[01]?[0-9]):?([0-5][0-9])?( )?(AM|am|PM|pm)?$/.test(e.currentTarget.value)) {
         e.currentTarget.setCustomValidity("");
     } else {
