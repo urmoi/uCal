@@ -223,7 +223,7 @@ function toggleTime (e) {
 }
 
 function toggleTimeOnKey (e) {
-    if (e.code === "KeyT" && e.ctrlKey) {
+    if (e.code === "KeyT" && e.ctrlKey && e.shiftKey) {
         toggleTime(document.getElementById("toggle-time").checked ? "time" : "allday");
     }
 }
