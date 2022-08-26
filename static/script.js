@@ -577,5 +577,10 @@ function keyPressed (e) {
                 return toggleShortcut("clear");
             }
         }
+
+        if (e.code === "KeyH") {
+            let help = document.getElementById("help");
+            return help.hidden = !help.hidden;
+        }
     }
 }
