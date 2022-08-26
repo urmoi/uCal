@@ -77,7 +77,7 @@
                     </div>
                 </div>
             </div>
-            <span class="h1 brand-span flex-lg-grow-0 flex-grow-1 text-center text-lg-start m-0 mb-3 mb-lg-0 row"><button class="btn btn-nav d-none d-lg-inline bg-transparent border-0" id="help-show-nav"><i class="bi bi-question-circle"></i></button></span>
+            <span class="row h1 brand-span flex-lg-grow-0 flex-grow-1 text-center text-lg-start m-0"><button class="btn btn-nav d-none d-lg-inline bg-transparent border-0" id="help-show-nav"><i class="bi bi-question-circle"></i></button></span>
         </div>
 
         <script>
@@ -300,8 +300,10 @@
     <footer class="container small text-center text-muted">
         <div class="w-700px container-md my-3">
             <button class="btn btn-sm btn-click w-100 mb-3 d-lg-none border-0" type="button" id="help-show-footer">Help <i class="bi bi-question-circle"></i></button>
-            <span class="me-3"><i class="bi bi-chevron-expand"></i> challenged by <a class="text-reset" href="https://cs50.harvard.edu/x/2022/">cs50</a></span>
-            <span class="ms-3"><i class="bi bi-code"></i> coded by <a class="text-reset" href="https://github.com/urmoi/">urmoi</a></span>
+            <div class="row justify-content-evenly">
+                <span class="col"><i class="bi bi-chevron-expand"></i> challenged by <a class="text-reset" href="https://cs50.harvard.edu/x/2022/">cs50</a></span>
+                <span class="col"><i class="bi bi-code"></i> coded by <a class="text-reset" href="https://github.com/urmoi/">urmoi</a></span>
+            </div>
         </div>
     </footer>
 
@@ -311,7 +313,10 @@
             <button type="button" class="btn-close btn-close-white" aria-label="Close" id="help-close"></button>
         </div>
         <div class="p-3 h-75">
-            <h5><i class="bi bi-keyboard"></i> Shortcuts</h5>
+            <div class="h5 row justify-content-between">
+                <div class="col"><i class="bi bi-keyboard"></i> Shortcuts</div>
+                <a class="col text-decoration-none text-light w-100 text-end" href="https://github.com/urmoi/uCal"><i class="bi bi-box-arrow-in-up-right"></i>Github <i class="bi bi-github"></i></a>
+            </div>
             <hr>
             <p><i class="bi bi-chevron-up"> ctrl</i> <i class="bi bi-plus"></i> <i class="bi bi-shift"> shift</i> <i class="bi bi-plus"></i> <i class="bi bi-three-dots"></i></p>
             <hr>
