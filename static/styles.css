@@ -199,17 +199,6 @@ input.is-used:focus~#shortcut-used-tooltop {
     padding-right: calc(var(--bs-gutter-x) * .5);
 }
 
-#calendar-change-tooltip {
-    display: none;
-    top: -100%;
-    color: var(--bs-gray-900)!important;
-    background-color: var(--bs-warning)!important;
-}
-
-#calendar-change-tooltip[data-promt="show"] {
-    display: block;
-}
-
 #calendar-input {
     padding: var(--bs-border-width);
     border-radius: calc(var(--bs-border-radius) + 2 * var(--bs-border-width));
