@@ -285,4 +285,4 @@ input.is-used:focus~#shortcut-used-tooltop {
     background-color: var(--bs-gray-800);
 }
 
-button { touch-action: manipulation; }
+body { touch-action: manipulation; }
