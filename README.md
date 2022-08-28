@@ -1,6 +1,6 @@
 # uCal: Calendar Events from Shortcuts
 #### Live Demo: [Glitch](https://ucal.glitch.me)
-#### Video Demo:  <URL HERE>
+#### Video Demo:  [YouTube](https://youtu.be/lhMX5t_f2tA)
 #### Description:
 The project I choose was built for helping my girlfriend making her roster for work.
 She normally just gets a monthly table with an abbreviation per day for the different shifts.
