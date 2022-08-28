@@ -255,7 +255,7 @@ function updateShortcutSelection () {
 }
 
 function updateMonthsData () {
-    let inputs = document.getElementById("calendar-input").getElementsByTagName("textarea");
+    let inputs = document.getElementById("calendar-input").querySelectorAll("textarea[id]");
     let key = inputs[0].id.split("-")[1]+"-"+inputs[0].id.split("-")[2];
 
     let shortcutCount = 0;
@@ -265,6 +265,8 @@ function updateMonthsData () {
 
     if (shortcutCount === 0) { delete data_months[key] }
     else { data_months[key] = shortcutCount };
+
+    console.log(data_months);
 }
 
 function updateMonthsList () {
@@ -296,7 +298,6 @@ function updateMonthsList () {
         document.getElementById("calendar-date-current").classList.remove("pe-none");
         document.getElementById("calendar-date-current").firstElementChild.classList.remove("bi-dot");
     }    
-    // document.getElementById("calendar-date-current").disabled = shownMonth === currentMonth;
 
     document.getElementById("calendar-date-listbadge").innerHTML = new_container.children.length;
     document.getElementById("calendar-date-listbadge").hidden = !new_container.children.length;
