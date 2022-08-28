@@ -189,7 +189,7 @@
             document.getElementById("calendar-date-before").addEventListener("click", changeCalendarDate);
             document.getElementById("calendar-date-after").addEventListener("click", changeCalendarDate);
             document.getElementById("calendar-date-months").addEventListener("click", toggleMonths, true);
-            document.getElementById("calendar-shortcut-selection").addEventListener("change", () => activateNode("calendar-calendar"));
+            document.getElementById("calendar-shortcut-selection").addEventListener("change", activateCalendar);
             document.getElementById("toggle-shortcut-add").addEventListener("click", toggleShortcut);
             document.getElementById("toggle-shortcut-clear").addEventListener("click", toggleShortcut);
         </script>
