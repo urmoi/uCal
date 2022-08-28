@@ -26,6 +26,18 @@ form#shortcut-form .input-group label {
     width: 90px!important;
 }
 
+.list-group {
+    z-index: 10;
+}
+
+.list-group-item {
+    --bs-list-group-color: var(--bs-gray-900);
+    --bs-list-group-bg: var(--bs-gray-200);
+    --bs-list-group-action-color: var(--bs-gray-800);
+    --bs-list-group-action-hover-color: var(--bs-gray-900);
+    --bs-list-group-action-hover-bg: var(--bs-gray-300);
+}
+
 .brand-span {
     width: 100px;
 }

@@ -1,36 +1,32 @@
 let data = {};
 
-let date = new Date();
-Object.defineProperty(data, "date", {
+let data_date = new Date();
+Object.defineProperty(data, "data_date", {
     set(newDate) {
-        date = newDate;
+        data_date = newDate;
+        updateMonthsData();
         updateCalendar();
     },
-    get() { return date; }
+    get() { return data_date; }
 });
 
-let library = {};
-Object.defineProperty(data, "library", {
+let data_library = {};
+Object.defineProperty(data, "data_library", {
     set(newLibrary) {
-        if (Object.keys(library).length === 0) {
+        if (Object.keys(data_library).length === 0) {
             toggleNavOnInput();
             activateNode("calendar-shortcut");
         };
-        library = newLibrary;
+        data_library = newLibrary;
         updateShortcutSelection();
         updateShortcutCards();
         updateLocationList();
     },
-    get() { return library; }
+    get() { return data_library; }
 });
 
-let events = {};
-Object.defineProperty(data, "events", {
-    set(newEvents) {
-        events = newEvents;
-    },
-    get() { return events; }
-});
+let data_events = {};
+let data_months = {};
 
 /* https://github.com/nwcell/FileSaver.js */
 /*! @source http://purl.eligrey.com/github/FileSaver.js/blob/master/FileSaver.js */
@@ -48,11 +44,10 @@ function saveCalendar () {
 
     var cal = ics();
     
-    for (let key in data.events) {
-        let shortcuts = data.events[key];
-
+    for (let key in data_events) {
+        let shortcuts = data_events[key];
         shortcuts.forEach((shortcut) => {
-            let element = library[shortcut];
+            let element = data_library[shortcut];
             if (element === undefined) { return promtDownloadTooltip(document.getElementById("calendar-error-tooltip")) };
 
             let [year, month, day] = key.split("-");
@@ -65,6 +60,7 @@ function saveCalendar () {
             cal.addEvent(subject, description, location, begin, end);
         });
     };
+
     savedCal = cal.download(filename)
     if (!savedCal) {
         return promtDownloadTooltip(document.getElementById("calendar-download-tooltip"));
@@ -74,11 +70,10 @@ function saveCalendar () {
 function saveLibrary () {
     let filenameInput = document.getElementById("library-filename-input");
     if (!checkForm(filenameInput.form)) { return filenameInput.focus() };
-    if (Object.keys(library).length === 0) { return };
+    if (Object.keys(data_library).length === 0) { return promtDownloadTooltip(document.getElementById("library-download-tooltip")); };
 
     let filename = filenameInput.value + ".ucal";
-
-    var blob = new Blob([JSON.stringify(data.library)], {type: "text/plain;charset=utf-8"});
+    var blob = new Blob([JSON.stringify(data_library)], {type: "text/plain;charset=utf-8"});
     saveAs(blob, filename);
 }
 
@@ -89,7 +84,7 @@ function loadLibrary () {
     const reader = new FileReader();
     reader.addEventListener('load', (event) => {
         document.getElementById("library-filename-input").value = libraryFilename;
-        data.library = JSON.parse(event.target.result);
+        data.data_library = JSON.parse(event.target.result);
     });
     reader.readAsText(libraryFile);
 }
@@ -112,21 +107,21 @@ function addShortcut () {
 
     formData["description"] = form.elements["shortcut-description"].value;
 
-    copyLibrary = { ...library };
-    copyLibrary[form.elements["shortcut-shortcut"].value] = formData;
-    data.library = copyLibrary;
+    data_library[form.elements["shortcut-shortcut"].value] = formData;
+    data.data_library = data_library;
 
     resetLibraryForm(form);
 
-    if (!document.getElementById("library-download-tooltip").hasAttribute("data-promt")) {
-        return promtDownloadTooltip(document.getElementById("library-download-tooltip"));
+    if (!document.getElementById("library-hint-tooltip").hasAttribute("data-promt")) {
+        return promtDownloadTooltip(document.getElementById("library-hint-tooltip"));
     }
 }
 
 function updateCalendar () {
     updateDateInput();
+    updateMonthsList();
 
-    let [month, year] = [data.date.getMonth(), data.date.getFullYear()];
+    let [month, year] = [data_date.getMonth(), data_date.getFullYear()];
 
     var dayTemp = document.querySelector("template#template-calendar-day");
 
@@ -174,7 +169,7 @@ function updateCalendar () {
 }
 
 function updateDateInput () {
-    document.getElementById("calendar-date-input").value = getFormattedStringFromDate(data.date);
+    document.getElementById("calendar-date-input").value = getFormattedStringFromDate(data_date);
 }
 
 
@@ -209,16 +204,29 @@ function toggleNav (e) {
     document.getElementById("library-save").hidden = showMode === "library" ? false : true;
     document.getElementById("library-edit").hidden = showMode === "library" ? true : false;
 
-    if (showMode === "library" && toggledMode) {
-        document.getElementById("shortcut-shortcut").focus();
-    }
+    if (showMode === "library" && toggledMode) { document.getElementById("shortcut-shortcut").focus() };
 }
 
 function toggleNavOnInput () {
     document.getElementById("nav-init").hidden = true;
     document.getElementById("nav-input").hidden = false;
-
     toggleNav(document.getElementById("calendar").hidden ? "library" : "calendar");
+}
+
+function toggleHelp (e) {
+    let hide = !document.getElementById("help").hidden;
+    if (e.currentTarget == document.getElementById("help-close")) { hide = true }
+    if (!document.getElementById("help").hidden && !document.getElementById("help").contains(e.target)) { hide = true };
+    document.getElementById("help").hidden = hide;
+
+    if (!document.getElementById("help").hidden) { window.addEventListener("click", toggleHelp, true) }
+    else { window.removeEventListener("click", toggleHelp, true) };
+}
+
+function toggleDatelist () {
+    document.getElementById("calendar-date-list").hidden = !document.getElementById("calendar-date-list").hidden;
+    if (!document.getElementById("calendar-date-list").hidden) { window.addEventListener("click", toggleDatelist, true) }
+    else { window.removeEventListener("click", toggleDatelist, true) };
 }
 
 function toggleShortcut (e) {
@@ -241,12 +249,58 @@ function updateShortcutSelection () {
     while (options.length > 1) { select.removeChild(options[1]) };
     select.selectedIndex = 0;
 
-    for (let shortcut in library) {
+    for (let shortcut in data_library) {
         var option = document.createElement("option");
         option.value = shortcut;
-        option.innerHTML = shortcut+" - "+library[shortcut]["subject"];
+        option.innerHTML = shortcut+" - "+data_library[shortcut]["subject"];
         select.appendChild(option);
     };
+}
+
+function updateMonthsData () {
+    let inputs = document.getElementById("calendar-input").getElementsByTagName("textarea");
+    let key = inputs[0].id.split("-")[1]+"-"+inputs[0].id.split("-")[2];
+
+    let shortcutCount = 0;
+    for (let i = 0; i < inputs.length; i++) {
+        if (inputs[i].value) { shortcutCount++ };
+    };
+
+    if (shortcutCount === 0) { delete data_months[key] }
+    else { data_months[key] = shortcutCount };
+}
+
+function updateMonthsList () {
+    var container = document.getElementById("calendar-date-list");
+    var new_container = document.createElement("div");
+
+    let currentMonth = data_date.getFullYear()+"-"+(data_date.getMonth()+1);
+
+    let button = document.createElement("button");
+    button.classList.add("list-group-item", "list-group-item-action", "text-end");
+    button.type = "button";
+
+    for (let month in data_months) {
+        if (month === currentMonth) { continue };
+
+        let node = button.cloneNode();
+        node.setAttribute("data-month", "month-"+month);
+        node.innerHTML = getFormattedStringFromDate(new Date(month.split("-")[0], month.split("-")[1]-1));
+        node.innerHTML += " (<span class='font-monospace'>"+("00"+data_months[month]).slice(-2)+"</span>)";
+        node.addEventListener("click", changeCalendarDate);
+        new_container.appendChild(node);
+    };
+
+    document.getElementById("calendar-date-badge").innerHTML = new_container.children.length;
+    document.getElementById("calendar-date-badge").hidden = !new_container.children.length;
+
+    if (new_container.children.length === 0) {
+        let node = button.cloneNode();
+        node.disabled = true;
+        node.innerHTML = "no other months with shortcuts";
+        new_container.appendChild(node);
+    };
+    container.replaceChildren(...new_container.childNodes);
 }
 
 function updateLocationList () {
@@ -255,8 +309,8 @@ function updateLocationList () {
 
     let locations = new Set();
 
-    for (let shortcut in library) {
-        locations.add(library[shortcut]["location"]);
+    for (let shortcut in data_library) {
+        locations.add(data_library[shortcut]["location"]);
     };
 
     locations.forEach((value) => {
@@ -276,8 +330,8 @@ function updateShortcutCards() {
 
     var new_container = document.createElement("div");
 
-    for (let shortcut in library) {
-        let data = library[shortcut];
+    for (let shortcut in data_library) {
+        let data = data_library[shortcut];
 
         let node = document.importNode(cardTemp.content, true);
 
@@ -316,7 +370,7 @@ function unvalidateFilename (e) {
 }
 
 function validateShortcut (e) {
-    if (data.library.hasOwnProperty(e.currentTarget.value)) {
+    if (data_library.hasOwnProperty(e.currentTarget.value)) {
         e.currentTarget.classList.add("is-used");
         document.getElementById("shortcut-add").hidden = true;
         document.getElementById("shortcut-update").hidden = false;
@@ -342,11 +396,11 @@ function validateTime (e) {
 
 function changeCalendarDate (e) {
 
-    let direction = parseInt(e.currentTarget.getAttribute("data-direction"));
+    let month = e.currentTarget.getAttribute("data-month");
 
-    let dateCopy = new Date(data.date.getTime());
-    dateCopy.setMonth(dateCopy.getMonth() + direction);
-    data.date = dateCopy;
+    if (month === "month-current") { return data.data_date = new Date() };
+    if (!parseInt(month)) { return data.data_date = new Date(month.split("-")[1], month.split("-")[2]-1)};
+    data.data_date = new Date(data_date.getFullYear(), data_date.getMonth()+parseInt(month));
 }
 
 function editDateInput (e) {
@@ -368,9 +422,9 @@ function validateDateInput (e) {
 
 function acceptDateInput () {
     let inputDate = getDateFromString();
-    let savedDate = new Date(data.date.getFullYear(), data.date.getMonth());
+    let savedDate = new Date(data_date.getFullYear(), data_date.getMonth());
     if (document.getElementById("calendar-date-input").form.checkValidity() && +inputDate !== +savedDate) {
-        data.date = inputDate;
+        data_date = inputDate;
     } else {
         updateDateInput();
     };
@@ -380,44 +434,35 @@ function acceptDateInput () {
 
 function dayInput (e) {
     let textarea = e.currentTarget.querySelector("textarea");
-    let key = textarea.id.substring(textarea.id.indexOf('-')+1);
+    let key = textarea.id.substring(textarea.id.indexOf("-")+1);
 
     if (document.getElementById("toggle-shortcut").checked) {
         let shortcut = document.getElementById("calendar-shortcut-selection").value;
-
         if (!shortcut) { return };
-        copyEvents = { ...data.events };
-        if (!(key in data.events)) {
-            copyEvents[key] = new Set();
-        };
 
-        copyEvents[key].add(shortcut);
-        data.events = copyEvents;
+        if (!(key in data_events)) { data_events[key] = new Set() };
+        data_events[key].add(shortcut);
     } else {
-        if (!(key in data.events)) { return };
-
-        copyEvents = { ...data.events };
-        delete copyEvents[key];
-        data.events = copyEvents;
+        if (!(key in data_events)) { return };
+        delete data_events[key];
     };
-
     textarea.value = textareaInput(key);
 }
 
 function textareaInput (key) {
     let text = "";
 
-    if (key in data.events) {
-        data.events[key].forEach((value) => {
+    if (key in data_events) {
+        for (value of data_events[key]) {
             text += value + "\n";
-        });
+        };
     };
     return text;
 }
 
 function shortcutEdit (e) {
     let shortcut = e.currentTarget.parentNode.parentNode.getAttribute("data-card-shortcut");
-    let data = library[shortcut];
+    let shortcut_data = data_library[shortcut];
 
     let form = document.getElementById("shortcut-form");
     form.classList.remove("was-validated");
@@ -426,33 +471,24 @@ function shortcutEdit (e) {
 
     form.elements["shortcut-shortcut"].value = shortcut;
 
-    form.elements["shortcut-subject"].value = data["subject"];
+    form.elements["shortcut-subject"].value = shortcut_data["subject"];
 
-    if (data["time"] === "all-day") {
-        form.elements["toggle-time"].checked = true;
-        form.elements["shortcut-begin"].disabled = true;
-        form.elements["shortcut-begin"].value = "";
-        form.elements["shortcut-end"].disabled = true;
-        form.elements["shortcut-end"].value = "";
-    } else {
-        form.elements["toggle-time"].checked = false;
-        form.elements["shortcut-begin"].disabled = false;
-        form.elements["shortcut-begin"].value = data["time"].split("-")[0];
-        form.elements["shortcut-end"].disabled = false;
-        form.elements["shortcut-end"].value = data["time"].split("-")[1];
-    };
+    form.elements["toggle-time"].checked = shortcut_data["time"] === "all-day" ? true : false;
+    form.elements["shortcut-begin"].disabled = shortcut_data["time"] === "all-day" ? true : false;
+    form.elements["shortcut-begin"].value = shortcut_data["time"] === "all-day" ? "" : shortcut_data["time"].split("-")[0];
+    form.elements["shortcut-end"].disabled = shortcut_data["time"] === "all-day" ? true : false;
+    form.elements["shortcut-end"].value = shortcut_data["time"] === "all-day" ? "" : shortcut_data["time"].split("-")[1];
 
-    form.elements["shortcut-location"].value = data["location"];
+    form.elements["shortcut-location"].value = shortcut_data["location"];
 
-    form.elements["shortcut-description"].value = data["description"];
+    form.elements["shortcut-description"].value = shortcut_data["description"];
 }
 
 function shortcutDelete (e) {
     let shortcut = e.currentTarget.parentNode.parentNode.getAttribute("data-card-shortcut");
 
-    copyLibrary = { ...library };
-    delete copyLibrary[shortcut];
-    data.library = copyLibrary;
+    delete data_library[shortcut];
+    data.data_library = data_library;
 }
 
 function checkForm (f) {
@@ -502,7 +538,7 @@ function getDateFromString () {
 }
 
 function getStringFromDate () {
-    return ("00"+(date.getMonth()+1)).slice(-2)+" / "+date.getFullYear();
+    return ("00"+(data_date.getMonth()+1)).slice(-2)+" / "+data_date.getFullYear();
 }
 
 function getFormattedStringFromDate (date) {
@@ -514,7 +550,7 @@ function getTimeString (y, m, d, t) {
     y = parseInt(y); m = parseInt(m); d = parseInt(d);
 
     let [begin, end] = t.split("-");
-    let day = y+"/"+(m+1)+"/"+d;
+    let day = y+"/"+m+"/"+d;
 
     if (t === "all-day") { return [day, day] };
     return [day+" "+begin, day.substring(0, day.indexOf('/', 5)+1)+(d+(begin < end ? 0 : 1))+" "+end];
@@ -561,21 +597,21 @@ function keyPressed (e) {
             }
         }
 
-        if (e.code === "KeyB" || e.code === "KeyN") {
+        if (e.code === "KeyB" || e.code === "KeyN" || e.code === "KeyM" || e.code === "KeyK") {
             if (calendarShown) {
-                if (e.code === "KeyB") {
-                    document.getElementById("calendar-date-before").click();
-                } else if (e.code === "KeyN") {
-                    document.getElementById("calendar-date-after").click();
+                if (e.code === "KeyK") {
+                    return document.getElementById("calendar-date-input").focus();
                 }
-                return;
-            }
-        }
-
-        if (e.code === "KeyK") {
-            if (calendarShown) {
-                document.getElementById("calendar-date-input").focus();
-                return;
+                document.getElementById("calendar-date-input").blur();
+                if (e.code === "KeyB") {
+                    return document.getElementById("calendar-date-before").click();
+                }
+                if (e.code === "KeyN") {
+                    return document.getElementById("calendar-date-after").click();
+                }
+                if (e.code === "KeyM") {
+                    return document.getElementById("calendar-date-current").click();
+                }
             }
         }
 
@@ -597,8 +633,7 @@ function keyPressed (e) {
         }
 
         if (e.code === "KeyH") {
-            let help = document.getElementById("help");
-            return help.hidden = !help.hidden;
+            return toggleHelp(e);
         }
     }
 }

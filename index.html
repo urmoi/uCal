@@ -26,6 +26,9 @@
     <link href="/static/styles.css" rel="stylesheet">
 
     <script src="/static/script.js"></script>
+    <script>
+        document.addEventListener("keyup", keyPressed);
+    </script>
     
     <title>uCal</title>
 
@@ -70,14 +73,15 @@
                             <button class="btn btn-nav text-start" type="button" aria-label="toggle to library view" id="library-nav"><i class="bi bi-journal-bookmark-fill me-1"></i>Library</button>
                             <input class="btn-nav form-control text-center" id="library-filename-input" name="library-filename-input" type="text" autocomplete="off" placeholder="library.ucal" required>
                             <div class="invalid-tooltip rounded-end end-0">invalid / missing library filename</div>
-                            <div class="invalid-tooltip file-tooltip rounded-end end-0" id="library-download-tooltip">don't forget to download when finished <i class="bi bi-hand-index me-1"></i></div>
+                            <div class="invalid-tooltip file-tooltip rounded-end end-0" id="library-download-tooltip">your library has no events, nothing saved</i></div>
+                            <div class="invalid-tooltip file-tooltip rounded-end end-0" id="library-hint-tooltip">don't forget to download when finished <i class="bi bi-hand-index me-1"></i></div>
                             <i class="btn-nav input-group-text rounded-end bi bi-pencil" id="library-edit"></i>
                             <button class="btn btn-nav text-light" type="button" aria-label="save library as .ucal file" id="library-save"><i class="bi bi-download"></i></button>
                         </form>
                     </div>
                 </div>
             </div>
-            <span class="row h1 brand-span flex-lg-grow-0 flex-grow-1 text-center text-lg-start m-0"><button class="btn btn-nav d-none d-lg-inline bg-transparent border-0" id="help-show-nav"><i class="bi bi-question-circle"></i></button></span>
+            <span class="row h1 brand-span flex-lg-grow-0 flex-grow-1 text-center text-lg-start m-0"><button class="btn btn-nav d-none d-lg-inline bg-transparent border-0" id="help-show-nav" data-toggle="show"><i class="bi bi-question-circle"></i></button></span>
         </div>
 
         <script>
@@ -93,6 +97,7 @@
             document.getElementById("calendar-filename-input").addEventListener("focusout", unvalidateFilename);
             document.getElementById("library-filename-input").addEventListener("input", validateFilename);
             document.getElementById("library-filename-input").addEventListener("focusout", unvalidateFilename);
+            document.getElementById("help-show-nav").addEventListener("click", toggleHelp);
         </script>
 
     </nav>
@@ -101,21 +106,29 @@
 
         <div class="w-700px container-md">
 
-            <form class="needs-validation" novalidate onsubmit="document.getElementById('calendar-date-input').blur(); return false;">
-                <div class="row">
-                    <div class="input-group has-validation justify-content-center">
-                        <button class="btn btn-click" id="calendar-date-before" type="button" aria-label="show calendar month before" data-direction="-1">
+            <form class="needs-validation position-relative" novalidate onsubmit="document.getElementById('calendar-date-input').blur(); return false;">
+                <div class="row mx-auto">
+                    <button class="col-auto btn btn-click" id="calendar-date-current" type="button" aria-label="show current month" data-month="month-current">
+                        <i class="bi bi-calendar3-event"></i>
+                    </button>
+                    <div class="col input-group has-validation justify-content-center">
+                        <button class="btn btn-click" id="calendar-date-before" type="button" aria-label="show calendar month before" data-month="-1">
                             <i class="bi bi-caret-left-fill"></i>
                         </button>
                         <input class="form-control text-center" id="calendar-date-input" value="" type="text">
                         <label class="visually-hidden" for="calendar-date-input">input for calendar month</label>
                         <div class="valid-tooltip rounded" id="calendar-date-tooltip">Looks good!</div>
                         <div class="invalid-tooltip rounded">invalid [MM / YYYY]</div>
-                        <button class="btn btn-click" id="calendar-date-after" type="button" aria-label="show calendar month after" data-direction="+1">
+                        <button class="btn btn-click" id="calendar-date-after" type="button" aria-label="show calendar month after" data-month="+1">
                             <i class="bi bi-caret-right-fill"></i>
                         </button>
                     </div>
+                    <button class="col-auto btn btn-click" id="calendar-date-events" type="button" aria-label="show list of calendars with shortcuts">
+                        <i class="bi bi-list"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-dark bg-opacity-50" id="calendar-date-badge" hidden></span>
+                    </button>
                 </div>
+                <div class="position-absolute list-group rounded align-items-end end-0 mt-1 shadow" id="calendar-date-list" hidden></div>
 
             </form>
 
@@ -172,8 +185,10 @@
             document.getElementById("calendar-date-input").addEventListener("focus", editDateInput);
             document.getElementById("calendar-date-input").addEventListener("input", validateDateInput);
             document.getElementById("calendar-date-input").addEventListener("focusout", acceptDateInput);
+            document.getElementById("calendar-date-current").addEventListener("click", changeCalendarDate);
             document.getElementById("calendar-date-before").addEventListener("click", changeCalendarDate);
             document.getElementById("calendar-date-after").addEventListener("click", changeCalendarDate);
+            document.getElementById("calendar-date-events").addEventListener("click", toggleDatelist);
             document.getElementById("calendar-shortcut-selection").addEventListener("change", () => activateNode("calendar-calendar"));
             document.getElementById("toggle-shortcut-add").addEventListener("click", toggleShortcut);
             document.getElementById("toggle-shortcut-clear").addEventListener("click", toggleShortcut);
@@ -298,23 +313,28 @@
 
     <footer class="container small text-center text-muted">
         <div class="w-700px container-md my-3">
-            <button class="btn btn-sm btn-click w-100 mb-3 d-lg-none border-0" type="button" id="help-show-footer">Help <i class="bi bi-question-circle"></i></button>
+            <button class="btn btn-sm btn-click w-100 mb-3 d-lg-none border-0" type="button" id="help-show-footer" data-toggle="show">Help <i class="bi bi-question-circle"></i></button>
             <div class="row justify-content-evenly">
                 <span class="col"><i class="bi bi-chevron-expand"></i> challenged by <a class="text-reset" href="https://cs50.harvard.edu/x/2022/">cs50</a></span>
                 <span class="col"><i class="bi bi-code"></i> coded by <a class="text-reset" href="https://github.com/urmoi/">urmoi</a></span>
             </div>
         </div>
+
+        <script>
+            document.getElementById("help-show-footer").addEventListener("click", toggleHelp);
+        </script>
+
     </footer>
 
     <div class="position-absolute position-fixed top-50 start-50 translate-middle w-75 h-75 text-light p-3 pt-2 border-5 bg-opacity-100 rounded shadow" id="help" hidden>
         <div class="modal-header">
             <h4>Help <i class="bi bi-question-circle"></i></h4>
-            <button type="button" class="btn-close btn-close-white" aria-label="Close" id="help-close"></button>
+            <button type="button" class="btn-close btn-close-white" aria-label="Close" id="help-close" data-toggle="close"></button>
         </div>
         <div class="p-3 h-75">
             <div class="h6 row justify-content-between px-0">
-                <div class="col-auto"><i class="bi bi-keyboard"></i> Shortcuts</div>
-                <a class="col text-decoration-none text-light w-100 text-end text-nowrap" href="https://github.com/urmoi/uCal">README <i class="bi bi-github"></i> <i class="bi bi-box-arrow-in-up-right"></i></a>
+                <div class="col"><i class="bi bi-keyboard"></i> Shortcuts</div>
+                <a class="col-auto text-decoration-none text-light text-end text-nowrap" href="https://github.com/urmoi/uCal">README <i class="bi bi-github"></i> <i class="bi bi-box-arrow-in-up-right"></i></a>
             </div>
             <hr>
             <p><i class="bi bi-chevron-up"> ctrl</i> <i class="bi bi-plus"></i> <i class="bi bi-shift"> shift</i> <i class="bi bi-plus"></i> <i class="bi bi-three-dots"></i></p>
@@ -327,21 +347,18 @@
                 <p><i class="bi bi-three-dots"></i> <u class="font-monospace">C</u> <i class="bi bi-caret-right-fill"></i> clear from day</p>
                 <p><i class="bi bi-three-dots"></i> <u class="font-monospace">T</u> <i class="bi bi-caret-right-fill"></i> toggle time | all-day</p>
                 <p><i class="bi bi-three-dots"></i> <u class="font-monospace">K</u> <i class="bi bi-caret-right-fill"></i> modify calendar month</p>
-                <p><i class="bi bi-three-dots"></i> <u class="font-monospace">B</u> <i class="bi bi-caret-right-fill"></i> show month before</p>
-                <p><i class="bi bi-three-dots"></i> <u class="font-monospace">N</u> <i class="bi bi-caret-right-fill"></i> show month after</p>
+                <p><i class="bi bi-three-dots"></i> <u class="font-monospace">B</u> <i class="bi bi-caret-right-fill"></i> show previous month</p>
+                <p><i class="bi bi-three-dots"></i> <u class="font-monospace">M</u> <i class="bi bi-caret-right-fill"></i> show current month</p>
+                <p><i class="bi bi-three-dots"></i> <u class="font-monospace">N</u> <i class="bi bi-caret-right-fill"></i> show next month</p>
                 <p><i class="bi bi-three-dots"></i> <u class="font-monospace">H</u> <i class="bi bi-caret-right-fill"></i> get help</p>
             </div>
         </div>
-        <script>
-            document.getElementById("help-close").addEventListener("click", () => document.getElementById("help").hidden = true);
-            document.getElementById("help-show-nav").addEventListener("click", () => document.getElementById("help").hidden = false);
-            document.getElementById("help-show-footer").addEventListener("click", () => document.getElementById("help").hidden = false);
-        </script>
-    </div>
 
-    <script>
-        document.addEventListener("keyup", keyPressed);
-    </script>
+        <script>
+            document.getElementById("help-close").addEventListener("click", toggleHelp);
+        </script>
+
+    </div>
 
 </body>
 
