@@ -220,10 +220,16 @@ function toggleHelp (e) {
     else { window.removeEventListener("click", toggleHelp, true) };
 }
 
-function toggleDatelist () {
-    document.getElementById("calendar-date-list").hidden = !document.getElementById("calendar-date-list").hidden;
-    if (!document.getElementById("calendar-date-list").hidden) { window.addEventListener("click", toggleDatelist, true) }
-    else { window.removeEventListener("click", toggleDatelist, true) };
+function toggleMonths () {
+    document.getElementById("calendar-date-list").hidden = !document.getElementById("calendar-date-list").hidden
+
+    if (!document.getElementById("calendar-date-list").hidden) { window.addEventListener("click", hideMonths, true) }
+    else { window.removeEventListener("click", hideMonths, false) };
+}
+
+function hideMonths (e) {
+    if (document.getElementById("calendar-date-months").contains(e.target)) { return };
+    document.getElementById("calendar-date-list").hidden = true;
 }
 
 function toggleShortcut (e) {

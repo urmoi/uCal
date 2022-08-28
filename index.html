@@ -123,7 +123,7 @@
                             <i class="bi bi-caret-right-fill"></i>
                         </button>
                     </div>
-                    <button class="col-auto btn btn-click" id="calendar-date-events" type="button" aria-label="show list of calendars with shortcuts">
+                    <button class="col-auto btn btn-click" id="calendar-date-months" type="button" aria-label="show list of calendars with shortcuts">
                         <i class="bi bi-list"></i>
                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-dark bg-opacity-50" id="calendar-date-listbadge" hidden></span>
                     </button>
@@ -188,7 +188,7 @@
             document.getElementById("calendar-date-current").addEventListener("click", changeCalendarDate);
             document.getElementById("calendar-date-before").addEventListener("click", changeCalendarDate);
             document.getElementById("calendar-date-after").addEventListener("click", changeCalendarDate);
-            document.getElementById("calendar-date-events").addEventListener("click", toggleDatelist);
+            document.getElementById("calendar-date-months").addEventListener("click", toggleMonths, true);
             document.getElementById("calendar-shortcut-selection").addEventListener("change", () => activateNode("calendar-calendar"));
             document.getElementById("toggle-shortcut-add").addEventListener("click", toggleShortcut);
             document.getElementById("toggle-shortcut-clear").addEventListener("click", toggleShortcut);
