@@ -211,25 +211,28 @@ function toggleNav (e) {
 }
 
 function toggleHelp (e) {
-    let hide = !document.getElementById("help").hidden;
-    if (e.currentTarget == document.getElementById("help-close")) { hide = true }
-    if (!document.getElementById("help").hidden && !document.getElementById("help").contains(e.target)) { hide = true };
-    document.getElementById("help").hidden = hide;
+    document.getElementById("help").hidden = !document.getElementById("help").hidden
+    if (!document.getElementById("help").hidden) { window.addEventListener("click", hideHelp, true) }
+    else { window.removeEventListener("click", hideHelp, true) };
+}
 
-    if (!document.getElementById("help").hidden) { window.addEventListener("click", toggleHelp, true) }
-    else { window.removeEventListener("click", toggleHelp, true) };
+function hideHelp (e) {
+    if (e.target !== document.getElementById("help-close") && document.getElementById("help").contains(e.target)) { return };
+    if (document.getElementById("help-show-footer").contains(e.target) || document.getElementById("help-show-nav").contains(e.target)) { return };
+    document.getElementById("help").hidden = true;
+    window.removeEventListener("click", hideHelp, true);
 }
 
 function toggleMonths () {
-    document.getElementById("calendar-date-list").hidden = !document.getElementById("calendar-date-list").hidden
-
+    document.getElementById("calendar-date-list").hidden = !document.getElementById("calendar-date-list").hidden;
     if (!document.getElementById("calendar-date-list").hidden) { window.addEventListener("click", hideMonths, true) }
-    else { window.removeEventListener("click", hideMonths, false) };
+    else { window.removeEventListener("click", hideMonths, true) };
 }
 
 function hideMonths (e) {
     if (document.getElementById("calendar-date-months").contains(e.target)) { return };
     document.getElementById("calendar-date-list").hidden = true;
+    window.removeEventListener("click", hideMonths, true);
 }
 
 function toggleShortcut (e) {
