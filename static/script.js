@@ -62,9 +62,7 @@ function saveCalendar () {
     };
 
     savedCal = cal.download(filename)
-    if (!savedCal) {
-        return promtDownloadTooltip(document.getElementById("calendar-download-tooltip"));
-    }
+    if (!savedCal) { return promtDownloadTooltip(document.getElementById("calendar-download-tooltip")) };
 }
 
 function saveLibrary () {
@@ -136,7 +134,7 @@ function updateCalendar () {
 
     for (let i = 0; i < weeksInMonth; i++) {
         let week = document.createElement("div");
-        week.classList.add("row", "mx-auto", "row-cols-7");
+        week.classList.add("row", "mx-auto", "row-cols-"+daysInWeek);
 
         for (let j = 1; j <= daysInWeek; j++) {
             let numberDay = i * daysInWeek + j;
@@ -147,19 +145,18 @@ function updateCalendar () {
                 let label = (calendarDay) + "." + (month+1) + ".";
                 let key = year+"-"+(month+1)+"-"+calendarDay;
                 let id = "calendarDay-"+key;
+
                 node.querySelector("button").addEventListener("click", dayInput);
 
-                let labelNode = node.querySelector("label");
-                labelNode.setAttribute("for", id);
-                labelNode.innerHTML = label;
+                node.querySelector("label").setAttribute("for", id);
+                node.querySelector("label").innerHTML = label;
 
-                let textareaNode = node.querySelector("textarea")
-                textareaNode.id = id;
-                textareaNode.value = textareaInput(key);
+                node.querySelector("textarea").id = id;
+                node.querySelector("textarea").value = textareaInput(key);
 
             } else {
-                node.children[0].disabled = true;
-                node.children[0].innerHTML = "";
+                node.querySelector("button").disabled = true;
+                node.querySelector("label").innerHTML = "";
             };
             week.appendChild(node);
         };
@@ -190,7 +187,7 @@ function toggleNavInit (e) {
 
 function toggleNav (e) {
     let showMode = (typeof e) === "string" ? e : e.currentTarget.getAttribute("data-nav");
-    let toggledMode = document.getElementById(showMode).hidden;
+    let switchedMode = document.getElementById(showMode).hidden;
 
     document.getElementById("calendar").hidden = showMode === "calendar" ? false : true;
     document.getElementById("calendar-nav").disabled = showMode === "calendar" ? true : false;
@@ -204,7 +201,7 @@ function toggleNav (e) {
     document.getElementById("library-save").hidden = showMode === "library" ? false : true;
     document.getElementById("library-edit").hidden = showMode === "library" ? true : false;
 
-    if (showMode === "library" && toggledMode) { document.getElementById("shortcut-shortcut").focus() };
+    if (showMode === "library" && switchedMode) { document.getElementById("shortcut-shortcut").focus() };
 }
 
 function toggleNavOnInput () {
@@ -274,14 +271,15 @@ function updateMonthsList () {
     var container = document.getElementById("calendar-date-list");
     var new_container = document.createElement("div");
 
-    let currentMonth = data_date.getFullYear()+"-"+(data_date.getMonth()+1);
+    let currentMonth = new Date().getFullYear()+"-"+(new Date().getMonth()+1);
+    let shownMonth = data_date.getFullYear()+"-"+(data_date.getMonth()+1);
 
     let button = document.createElement("button");
     button.classList.add("list-group-item", "list-group-item-action", "text-end");
     button.type = "button";
 
     for (let month in data_months) {
-        if (month === currentMonth) { continue };
+        if (month === shownMonth) { continue };
 
         let node = button.cloneNode();
         node.setAttribute("data-month", "month-"+month);
@@ -291,8 +289,17 @@ function updateMonthsList () {
         new_container.appendChild(node);
     };
 
-    document.getElementById("calendar-date-badge").innerHTML = new_container.children.length;
-    document.getElementById("calendar-date-badge").hidden = !new_container.children.length;
+    if (shownMonth === currentMonth) {
+        document.getElementById("calendar-date-current").classList.add("pe-none");
+        document.getElementById("calendar-date-current").firstElementChild.classList.add("bi-dot");
+    } else {
+        document.getElementById("calendar-date-current").classList.remove("pe-none");
+        document.getElementById("calendar-date-current").firstElementChild.classList.remove("bi-dot");
+    }    
+    // document.getElementById("calendar-date-current").disabled = shownMonth === currentMonth;
+
+    document.getElementById("calendar-date-listbadge").innerHTML = new_container.children.length;
+    document.getElementById("calendar-date-listbadge").hidden = !new_container.children.length;
 
     if (new_container.children.length === 0) {
         let node = button.cloneNode();
@@ -424,7 +431,7 @@ function acceptDateInput () {
     let inputDate = getDateFromString();
     let savedDate = new Date(data_date.getFullYear(), data_date.getMonth());
     if (document.getElementById("calendar-date-input").form.checkValidity() && +inputDate !== +savedDate) {
-        data_date = inputDate;
+        data.data_date = inputDate;
     } else {
         updateDateInput();
     };
