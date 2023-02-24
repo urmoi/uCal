@@ -21,7 +21,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
     
     <!-- https://icons.getbootstrap.com/ -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 
     <link href="/static/styles.css" rel="stylesheet">
 
@@ -62,18 +62,29 @@
                             <button class="btn btn-nav text-start" type="button" aria-label="toggle to calendar view" id="calendar-nav"><i class="bi bi-calendar3-week me-1"></i>Calendar</button>
                             <input class="btn-nav form-control text-center" id="calendar-filename-input" name="calendar-filename-input" type="text" autocomplete="off" placeholder="calendar.ics" required>
                             <div class="invalid-tooltip rounded-end end-0">invalid / missing calendar filename</div>
-                            <div class="invalid-tooltip file-tooltip rounded-end end-0" id="calendar-download-tooltip">your calendar has no events, nothing saved</i></div>
-                            <div class="invalid-tooltip file-tooltip rounded-end end-0" id="calendar-error-tooltip">not all shortcuts found in library, try again</i></div>
+                            <div class="invalid-tooltip file-tooltip rounded-end end-0" id="calendar-download-tooltip">your calendar has no events, nothing saved</div>
+                            <div class="invalid-tooltip file-tooltip rounded-end end-0" id="calendar-error-tooltip">not all shortcuts found in library, try again</div>
+                            <button class="col-auto btn btn-nav text-light" id="calendar-merge-btn" type="button" aria-label="merge .ics files with this calendar">
+                                <input hidden class="form-control" type="file" accept=".ics" id="merge-file-input" name="merge-file-input">
+                                <i class="bi bi-calendar-plus"></i>
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-dark bg-opacity-50" id="calendar-merge-listbadge" hidden></span>
+                            </button>
+                            <div class="position-absolute w-auto list-group rounded overflow-hidden align-items-end end-0 top-100 mt-1 shadow" id="calendar-merge-list" hidden>
+                                <div class="list-group-item list-group-item-action p-1 text-end" hidden><button class="btn btn-sm end-0 ms-1" onclick="return false;"><i class="bi bi-trash"></i></button></div>
+                                <label class="btn btn-nav text-end text-light rounded-0 rounded-top" role="button" style="cursor: pointer;" for="merge-file-input" id="calendar-merge-upload" aria-label="merge a .ics file with this calendar">add .ics file to merge <i class="ps-2 bi bi-calendar-plus"></i></label>
+                            </div>
+                            <i class="btn-nav input-group-text bi bi-calendar-plus" id="calendar-merge"></i>
                             <i class="btn-nav input-group-text rounded-end bi bi-pencil" id="calendar-edit"></i>
                             <button class="btn btn-nav text-light" type="button" aria-label="save calendar as .ics file" id="calendar-save"><i class="bi bi-download"></i></button>        
                         </form>
+                        
                     </div>
                     <div class="col-md mt-3 mt-md-0" id="nav-toggle-library" data-nav="library">
                         <form class="input-group justify-content-center needs-validation" id="library-filename-form" novalidate onsubmit="saveLibrary(); return false;">
                             <button class="btn btn-nav text-start" type="button" aria-label="toggle to library view" id="library-nav"><i class="bi bi-journal-bookmark-fill me-1"></i>Library</button>
                             <input class="btn-nav form-control text-center" id="library-filename-input" name="library-filename-input" type="text" autocomplete="off" placeholder="library.ucal" required>
                             <div class="invalid-tooltip rounded-end end-0">invalid / missing library filename</div>
-                            <div class="invalid-tooltip file-tooltip rounded-end end-0" id="library-download-tooltip">your library has no events, nothing saved</i></div>
+                            <div class="invalid-tooltip file-tooltip rounded-end end-0" id="library-download-tooltip">your library has no events, nothing saved</div>
                             <div class="invalid-tooltip file-tooltip rounded-end end-0" id="library-hint-tooltip">don't forget to download when finished <i class="bi bi-hand-index me-1"></i></div>
                             <i class="btn-nav input-group-text rounded-end bi bi-pencil" id="library-edit"></i>
                             <button class="btn btn-nav text-light" type="button" aria-label="save library as .ucal file" id="library-save"><i class="bi bi-download"></i></button>
@@ -91,6 +102,8 @@
             document.getElementById("navinit-toggle-calendar").addEventListener("click", toggleNavInit);
             document.getElementById("navinit-toggle-library").addEventListener("click", toggleNavInit);
             document.getElementById("navinit-toggle-newlibrary").addEventListener("click", toggleNavInit);
+            document.getElementById("calendar-merge-btn").addEventListener("click", toggleMerge, true);
+            document.getElementById("merge-file-input").addEventListener("input", addMerge);
             document.getElementById("calendar-save").addEventListener("click", saveCalendar);
             document.getElementById("library-save").addEventListener("click", saveLibrary);
             document.getElementById("calendar-filename-input").addEventListener("input", validateFilename);
@@ -128,7 +141,9 @@
                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-dark bg-opacity-50" id="calendar-date-listbadge" hidden></span>
                     </button>
                 </div>
-                <div class="position-absolute list-group rounded align-items-end end-0 mt-1 shadow" id="calendar-date-list" hidden></div>
+                <div class="position-absolute list-group rounded align-items-end end-0 mt-1 shadow" id="calendar-date-list" hidden>
+                    <button class="list-group-item list-group-item-action text-end" type="button"><span class="font-monospace" hidden></span></button>
+                </div>
 
             </form>
 
@@ -174,7 +189,7 @@
 
         <template id="template-calendar-day">
             <button class="col-sm col-1 btn btn-day flex-fill p-0" type="button" aria-label="calendar day">
-                <label class="w-100" role="button"></label>
+                <label class="position-relative w-100" role="button"></label>
                 <textarea class="text-center w-100 bg-transparent border-0" role="button" disabled autocomplete="off"></textarea>
             </button>
         </template>
