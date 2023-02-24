@@ -1,4 +1,4 @@
-vvar data = {
+var data = {
     MONTH: new Date(),
     LIBRARY: {},
     MERGE: {"events": {}},
