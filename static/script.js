@@ -232,9 +232,9 @@ function updateCalendar () {
                 node.querySelector("button").addEventListener("click", dayInput);
 
                 node.querySelector("label").setAttribute("for", id);
-                node.querySelector("label").innerHTML = label;
+                node.querySelector("label").innerHTML += label;
                 if (checkMerge.has(key)) {
-                    node.querySelector("label").innerHTML += '<i class="position-absolute end-0 pe-1 bi bi-calendar2-check"></i>';
+                    node.querySelector("label").querySelector("i").hidden = false;
                 }
 
                 node.querySelector("textarea").id = id;
