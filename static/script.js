@@ -31,7 +31,7 @@ Object.defineProperty(data, "library", {
 Object.defineProperty(data, "merge", {
     set(newMerge) {
         this.MERGE = newMerge;
-        updateMergeBtn(Object.keys(this.MERGE).length-1);
+        updateMergeBtn(Object.keys(this.MERGE).length > 1);
         updateMergeList();
         updateCalendar();
     },
@@ -100,7 +100,7 @@ function saveCalendar () {
     filenameInput.form.classList.remove("was-validated");
     let filename = filenameInput.value;
 
-    if (Object.keys(data.events).length === 0 && Object.keys(data.merge).length === 1) { return promtDownloadTooltip(document.getElementById("calendar-download-tooltip")) };
+    if (Object.keys(data.events).length === 0 && Object.keys(data.merge).length <= 2) { return promtDownloadTooltip(document.getElementById("calendar-download-tooltip")) };
 
     /* https://github.com/nwcell/ics.js */
     /*! ics.js Wed Aug 20 2014 17:23:02 */
@@ -385,11 +385,11 @@ function updateMergeList () {
     container.replaceChildren(...new_container.childNodes);
 }
 
-function updateMergeBtn (count) {
+function updateMergeBtn (activate) {
     let btn = document.getElementById("calendar-merge-btn");
     let icon = document.getElementById("calendar-merge");
 
-    if (count > 0) {
+    if (activate) {
         btn.classList.add("bg-dark");
         btn.querySelector("i").classList.remove("bi-calendar-plus");
         btn.querySelector("i").classList.add("bi-calendar-check");
